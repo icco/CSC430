@@ -7,15 +7,17 @@
 (* Part 1 *)
 fun number_of v [] = 0
   | number_of v (h::l) = 
-  if h = v then
-    1 + number_of v l
-  else
-    0 + number_of v l 
+   if h = v then
+     1 + number_of v l
+   else
+     0 + number_of v l 
 ;
 
 (* Part 2 *)
-fun pair_swap [] = ()
-  | pair_swap ((x, y)::xs) = 
-  [(y, x)]::pair_swap(xs)
+fun pair_swap [()] = [()]
+  | pair_swap z =
+   val (x, y) = hd z
+   val k = (y, x);
+   k::zs
 ;
 
