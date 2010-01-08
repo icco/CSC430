@@ -4,6 +4,7 @@
  * @author Nathaniel "Nat" Welch
  *)
 
+(* Part 1 *)
 fun number_of v [] = 0
   | number_of v (h::l) = 
   if h = v then
@@ -11,3 +12,10 @@ fun number_of v [] = 0
   else
     0 + number_of v l 
 ;
+
+(* Part 2 *)
+fun pair_swap [] = ()
+  | pair_swap ((x, y)::xs) = 
+  [(y, x)]::pair_swap(xs)
+;
+
