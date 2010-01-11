@@ -13,6 +13,7 @@ fun number_of v [] = 0
      0 + number_of v l 
 ;
 
+(*
 (* Part 2 *)
 fun pair_swap [()] = [()]
   | pair_swap z =
@@ -20,4 +21,21 @@ fun pair_swap [()] = [()]
    val k = (y, x);
    k::zs
 ;
+*)
+
+(*
+(* Part 3 *)
+fun weave ([] []) = []
+  | weave ((x::xs) (y::ys)) =
+   []
+;
+*)
+
+(* Part 4 *)
+(* Part 5 *)
+(* Part 6 *)
+(* Part 7 *)
+(* Part 8 *)
+(* Part 9 *)
+(* Part 10 *)
 
