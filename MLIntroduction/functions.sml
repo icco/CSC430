@@ -13,15 +13,11 @@ fun number_of v [] = 0
      0 + number_of v l 
 ;
 
-(*
 (* Part 2 *)
-fun pair_swap [()] = [()]
-  | pair_swap z =
-   val (x, y) = hd z
-   val k = (y, x);
-   k::zs
+fun pair_swap [] = []
+  | pair_swap ((x, y)::zs):('a * 'a) list =
+   (y, x)::zs
 ;
-*)
 
 (*
 (* Part 3 *)
