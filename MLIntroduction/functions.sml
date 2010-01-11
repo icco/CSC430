@@ -19,13 +19,14 @@ fun pair_swap [] = []
    (y, x)::zs
 ;
 
-(*
 (* Part 3 *)
-fun weave ([] []) = []
-  | weave ((x::xs) (y::ys)) =
-   []
+exception ImbalancedWeaving;
+fun weave [] [] = []
+  | weave x [] = 
+   raise ImbalancedWeaving
+  | weave (x::xs) (y::ys) =
+   x::y::weave xs ys
 ;
-*)
 
 (* Part 4 *)
 (* Part 5 *)
