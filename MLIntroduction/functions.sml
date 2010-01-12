@@ -29,6 +29,11 @@ fun weave [] [] = []
 ;
 
 (* Part 4 *)
+fun file_subst file_name [] [] = []
+  | file_subst file_name (x::xs) (y::ys) =
+   []
+;
+
 (* Part 5 *)
 (* Part 6 *)
 (* Part 7 *)
