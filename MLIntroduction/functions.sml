@@ -29,12 +29,27 @@ fun weave [] [] = []
 ;
 
 (* Part 4 *)
+open TextIO;
+fun which_char x y z = if x = y then z else x;
+
+fun filept_subst fstr [] [] = []
+  | filept_subst fstr (x::xs) (y::ys) =
+     (which_char (valOf (input1 fstr)) x y)::(filept_subst fstr xs ys)
+;
+
 fun file_subst file_name [] [] = []
   | file_subst file_name (x::xs) (y::ys) =
-   []
+   filept_subst (openIn file_name)
 ;
 
 (* Part 5 *)
+datatype ’a ThingCollection =
+     OneThing of (’a * ’a ThingCollection)
+   | TwoThings of (’a * ’a * ’a ThingCollection)
+   | ManyThings of (’a list * ’a ThingCollection)
+   | Nothing
+;
+
 (* Part 6 *)
 (* Part 7 *)
 (* Part 8 *)
