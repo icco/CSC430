@@ -22,6 +22,10 @@ fun pair_swap [] = []
 (* Part 3 *)
 exception ImbalancedWeaving;
 fun weave [] [] = []
+  | weave (x::[]) [] =
+   x::[]
+  | weave [] y = 
+   raise ImbalancedWeaving
   | weave x [] = 
    raise ImbalancedWeaving
   | weave (x::xs) (y::ys) =
@@ -55,6 +59,8 @@ fun file_subst file_name [] = []
    print_array (filept_subst (openIn file_name) l)
 ;
 *)
+
+(*
 (* Part 5 *)
 datatype 'a ThingCollection =
      OneThing of ('a * 'a ThingCollection)
@@ -71,6 +77,7 @@ fun number_of_things Nothing = 0
   | number_of_things ManyThings(l,c) = 
    (length l) + number_of_things c
 ;
+*)
    
 (* Part 6 *)
 (* Part 7 *)
