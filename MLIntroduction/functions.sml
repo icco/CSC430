@@ -60,7 +60,7 @@ fun file_subst file_name [] = []
 ;
 *)
 
-(* Part 5 *)
+(* needed for parts 5 - 10 *)
 datatype 'a ThingCollection =
      OneThing of ('a * 'a ThingCollection)
    | TwoThings of ('a * 'a * 'a ThingCollection)
@@ -68,6 +68,7 @@ datatype 'a ThingCollection =
    | Nothing
 ;
 
+(* Part 5 *)
 fun number_of_things (Nothing) = 0
   | number_of_things (OneThing x) = 
    1 + number_of_things (#2 x)
@@ -78,6 +79,34 @@ fun number_of_things (Nothing) = 0
 ;
    
 (* Part 6 *)
+(*
+fun oneThingList [] = 0
+  | oneThingList (x::xs) =
+   (number_of_OneThing x) + (oneThingList xs)
+;
+*)
+fun map g l =
+  foldr (fn (head, res) => (g head)::res) [] l
+;
+
+fun sum [] = 0
+  | sum (x::xs) =
+  x + sum xs
+;
+
+fun isOneThing (OneThing x) = 1
+  | isOneThing x = 0
+;
+
+fun number_of_OneThing (Nothing) = 0
+  | number_of_OneThing (OneThing x) = 
+   1 + number_of_OneThing (#2 x)
+  | number_of_OneThing (TwoThings x) = 
+   0 + number_of_OneThing (#3 x)
+  | number_of_OneThing (ManyThings x) = 
+   (sum (map isOneThing (#1 x))) + number_of_things (#2 x)
+;
+
 (* Part 7 *)
 (* Part 8 *)
 (* Part 9 *)
