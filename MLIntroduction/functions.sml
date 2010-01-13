@@ -104,7 +104,7 @@ fun number_of_OneThing (Nothing) = 0
   | number_of_OneThing (TwoThings x) = 
    0 + number_of_OneThing (#3 x)
   | number_of_OneThing (ManyThings x) = 
-   (sum (map isOneThing (#1 x))) + number_of_things (#2 x)
+   0 + number_of_OneThing (#2 x)
 ;
 
 (* Part 7 *)
