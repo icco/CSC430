@@ -4,6 +4,7 @@
 
 use "functions.sml";
 
+(*
 " -- Number_of: Empty list Test";
 number_of 1 [];
 
@@ -26,11 +27,9 @@ weave [1,2,3] [4,5,6];
 
 " -- Weave: different length lists";
 weave [1,2] [3];
-
 " -- Weave: Imbalanced exception errors";
 (weave [1,2,3] [3]) handle ImbalancedWeaving = [];
 (weave [1] [2,3]) handle ImbalancedWeaving = [];
-
 " -- file_subst: No replacements";
 file_subst "file.txt" [] [];
 
@@ -39,4 +38,10 @@ file_subst "file.txt" ["t"] ["x"];
 
 " -- file_subst: no file";
 file_subst "" [] [];
+*)
 
+open TextIO;
+val fstr = openIn("file.txt");
+fun readList infile =
+   if endOfStream infile then []
+   else (inputN(infile,1))::(readList infile);
