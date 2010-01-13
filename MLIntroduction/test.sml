@@ -53,3 +53,11 @@ number_of_OneThing Nothing;
 number_of_OneThing (OneThing (7, Nothing));
 number_of_OneThing (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, Nothing))));
 number_of_OneThing (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, OneThing (99, Nothing)))));
+
+" -- number_of_XThing 0, 1, 1, 2";
+number_of_XThing (fn (OneThing _) => true | _ => false) Nothing;
+number_of_XThing (fn (OneThing _) => true | _ => false) (OneThing (7, Nothing));
+number_of_XThing (fn (OneThing _) => true | _ => false) (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, Nothing))));
+number_of_XThing (fn (OneThing _) => true | _ => false) (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, OneThing (99, Nothing)))));
+
+

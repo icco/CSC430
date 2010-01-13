@@ -79,25 +79,6 @@ fun number_of_things (Nothing) = 0
 ;
    
 (* Part 6 *)
-(*
-fun oneThingList [] = 0
-  | oneThingList (x::xs) =
-   (number_of_OneThing x) + (oneThingList xs)
-;
-*)
-fun map g l =
-  foldr (fn (head, res) => (g head)::res) [] l
-;
-
-fun sum [] = 0
-  | sum (x::xs) =
-  x + sum xs
-;
-
-fun isOneThing (OneThing x) = 1
-  | isOneThing x = 0
-;
-
 fun number_of_OneThing (Nothing) = 0
   | number_of_OneThing (OneThing x) = 
    1 + number_of_OneThing (#2 x)
@@ -108,6 +89,24 @@ fun number_of_OneThing (Nothing) = 0
 ;
 
 (* Part 7 *)
+fun number_of_XThing f (Nothing) = 0 
+  | number_of_XThing f (OneThing x) = 
+   if f x then
+     1 + number_of_XThing f (#2 x)
+   else
+     0 + number_of_XThing f (#2 x)
+  | number_of_XThing f (TwoThings x) = 
+   if f x then
+     1 + number_of_XThing f (#3 x)
+   else
+     0 + number_of_XThing f (#3 x)
+  | number_of_XThing f (ManyThings x) = 
+   if f x then
+     1 + number_of_XThing f (#2 x)
+   else
+     0 + number_of_XThing f (#2 x)
+;
+
 (* Part 8 *)
 (* Part 9 *)
 (* Part 10 *)

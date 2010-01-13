@@ -11,3 +11,17 @@ val fstr = openIn("file.txt");
 fun readList infile =
    if endOfStream infile then []
    else (inputN(infile,1))::(readList infile);
+
+fun map g l =
+  foldr (fn (head, res) => (g head)::res) [] l
+;
+
+fun sum [] = 0
+  | sum (x::xs) =
+  x + sum xs
+;
+
+fun isOneThing (OneThing x) = 1
+  | isOneThing x = 0
+;
+
