@@ -60,7 +60,6 @@ fun file_subst file_name [] = []
 ;
 *)
 
-(*
 (* Part 5 *)
 datatype 'a ThingCollection =
      OneThing of ('a * 'a ThingCollection)
@@ -69,15 +68,14 @@ datatype 'a ThingCollection =
    | Nothing
 ;
 
-fun number_of_things Nothing = 0
-  | number_of_things OneThing(x,c) = 
-   1 + number_of_things c
-  | number_of_things TwoThings(x,y,c) = 
-   2 + number_of_things c
-  | number_of_things ManyThings(l,c) = 
-   (length l) + number_of_things c
+fun number_of_things (Nothing) = 0
+  | number_of_things (OneThing x) = 
+   1 + number_of_things (#2 x)
+  | number_of_things (TwoThings x) = 
+   2 + number_of_things (#3 x)
+  | number_of_things (ManyThings x) = 
+   (length (#1 x)) + number_of_things (#2 x)
 ;
-*)
    
 (* Part 6 *)
 (* Part 7 *)
