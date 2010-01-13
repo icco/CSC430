@@ -40,12 +40,18 @@ fun which_char x [] = x
 
 fun filept_subst infile l =
    if endOfStream infile then []
-   else (which_char inputN(infile,1) l)::(filept_subst infile l)
+   else (which_char(inputN(infile,1) l)::(filept_subst infile l)
+;
+
+fun print_array [] = nil
+  | print_array (x::xs) =
+   print x
+   print_array xs
 ;
 
 fun file_subst file_name [] = []
   | file_subst file_name l =
-   filept_subst (openIn file_name) l
+   print_array (filept_subst (openIn file_name) l)
 ;
 
 (* Part 5 *)
