@@ -28,6 +28,7 @@ fun weave [] [] = []
    x::y::weave xs ys
 ;
 
+(*
 (* Part 4 *)
 open TextIO;
 fun which_char x [] = x
@@ -53,7 +54,7 @@ fun file_subst file_name [] = []
   | file_subst file_name l =
    print_array (filept_subst (openIn file_name) l)
 ;
-
+*)
 (* Part 5 *)
 datatype 'a ThingCollection =
      OneThing of ('a * 'a ThingCollection)
@@ -62,6 +63,15 @@ datatype 'a ThingCollection =
    | Nothing
 ;
 
+fun number_of_things Nothing = 0
+  | number_of_things OneThing(x,c) = 
+   1 + number_of_things c
+  | number_of_things TwoThings(x,y,c) = 
+   2 + number_of_things c
+  | number_of_things ManyThings(l,c) = 
+   (length l) + number_of_things c
+;
+   
 (* Part 6 *)
 (* Part 7 *)
 (* Part 8 *)

@@ -40,3 +40,8 @@ file_subst "file.txt" ["t"] ["x"];
 file_subst "" [] [];
 *)
 
+" -- number_of_OneThing 0, 1, 1, 2";
+number_of_OneThing Nothing;
+number_of_OneThing (OneThing (7, Nothing));
+number_of_OneThing (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, Nothing))));
+number_of_OneThing (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, OneThing (99, Nothing)))));
