@@ -40,8 +40,3 @@ file_subst "file.txt" ["t"] ["x"];
 file_subst "" [] [];
 *)
 
-open TextIO;
-val fstr = openIn("file.txt");
-fun readList infile =
-   if endOfStream infile then []
-   else (inputN(infile,1))::(readList infile);

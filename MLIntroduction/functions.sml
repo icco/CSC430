@@ -28,21 +28,26 @@ fun weave [] [] = []
    x::y::weave xs ys
 ;
 
-(*
 (* Part 4 *)
 open TextIO;
-fun which_char x y z = if x = y then z else x;
-
-fun filept_subst fstr [] [] = []
-  | filept_subst fstr (x::xs) (y::ys) =
-  (which_char (valOf (input1 fstr)) x y)::(filept_subst fstr xs ys)
+fun which_char x [] = x
+  | which_char x ((y,z)::xs) = 
+  if x = y then 
+    which_char z xs 
+  else 
+    which_char x xs
 ;
 
-fun file_subst file_name [] [] = []
-  | file_subst file_name (x::xs) (y::ys) =
-   filept_subst (openIn file_name)
+fun filept_subst infile l =
+   if endOfStream infile then []
+   else (which_char inputN(infile,1) l)::(filept_subst infile l)
 ;
-*)
+
+fun file_subst file_name [] = []
+  | file_subst file_name l =
+   filept_subst (openIn file_name) l
+;
+
 (* Part 5 *)
 datatype 'a ThingCollection =
      OneThing of ('a * 'a ThingCollection)
