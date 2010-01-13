@@ -1,4 +1,9 @@
 # Simple SML Makefile
 
-all: functions.sml test.sml
+all: test
+
+verify: functions.sml
+	echo 'use "functions.sml";' | sml
+
+test: functions.sml test.sml
 	echo 'use "test.sml";' | sml
