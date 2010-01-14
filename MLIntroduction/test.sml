@@ -75,3 +75,7 @@ map_thing_collection (fn x => x * x) C;
 (* "OneThing (false, ManyThings ([false,false],TwoThings (true,true,OneThing (true,Nothing))))"; *)
 map_thing_collection (fn x => x > 7) C; 
 
+" -- flatten collection";
+flatten_collection (OneThing (7, ManyThings ([4, 3], TwoThings (10, 8, OneThing (99, Nothing)))));
+"ManyThings ([7,4,3,10,8,99],Nothing)";
+
