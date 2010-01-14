@@ -51,30 +51,12 @@ fun filept_subst infile l =
    if endOfStream infile then 
      []
    else 
-     (which_char (valOf(input1(infile))) l )::(filept_subst infile l)
+     (which_char (valOf(input1(infile))) l)::(filept_subst infile l)
 ;
 
 fun file_subst file_name l =
-  foldr (fn (head, res) => (output1(stdOut, head))) () (filept_subst (openIn file_name) l)
+  foldl (fn (head, res) => (output1(stdOut, head))) () (filept_subst (openIn file_name) l)
 ;
-
-(*
-   if (endOfStream infile) then 
-     output1(stdOut, #".") 
-   else 
-     (output1(stdOut, valOf(input1(infile))))
-     output1(stdOut, ((which_char valOf(input1(infile))) l))
-fun filept_subst infile l =
-   if endOfStream infile then []
-   else (which_char(inputN(infile,1) l)::(filept_subst infile l)
-;
-
-fun print_array [] = ()
-  | print_array (x::xs) =
-   print (print_array xs)
-;
-
-*)
 
 (* needed for parts 5 - 10 *)
 datatype 'a ThingCollection =
