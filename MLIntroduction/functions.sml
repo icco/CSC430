@@ -4,6 +4,11 @@
  * @author Nathaniel "Nat" Welch
  *)
 
+(* helper functions *)
+fun map g l =
+  foldr (fn (head, res) => (g head)::res) [] l
+;
+
 (* Part 1 *)
 fun number_of v [] = 0
   | number_of v (h::l) = 
@@ -32,7 +37,6 @@ fun weave [] [] = []
    x::y::weave xs ys
 ;
 
-(*
 (* Part 4 *)
 open TextIO;
 fun which_char x [] = x
@@ -44,20 +48,32 @@ fun which_char x [] = x
 ;
 
 fun filept_subst infile l =
+   if endOfStream infile then 
+     []
+   else 
+     (which_char (valOf(input1(infile))) l )::(filept_subst infile l)
+;
+
+fun file_subst file_name l =
+   (filept_subst (openIn file_name) l)
+;
+
+(*
+   if (endOfStream infile) then 
+     output1(stdOut, #".") 
+   else 
+     (output1(stdOut, valOf(input1(infile))))
+     output1(stdOut, ((which_char valOf(input1(infile))) l))
+fun filept_subst infile l =
    if endOfStream infile then []
    else (which_char(inputN(infile,1) l)::(filept_subst infile l)
 ;
 
-fun print_array [] = nil
+fun print_array [] = ()
   | print_array (x::xs) =
-   print x
-   print_array xs
+   print (print_array xs)
 ;
 
-fun file_subst file_name [] = []
-  | file_subst file_name l =
-   print_array (filept_subst (openIn file_name) l)
-;
 *)
 
 (* needed for parts 5 - 10 *)
@@ -108,10 +124,6 @@ fun number_of_XThing fu x =
 fun number_of_TwoThings things = number_of_XThing (fn (TwoThings _) => true | _ => false) things;
 
 (* Part 9 *)
-fun map g l =
-  foldr (fn (head, res) => (g head)::res) [] l
-;
-
 fun map_thing_collection fu (Nothing) = Nothing
   | map_thing_collection fu (OneThing x) =
    (OneThing((fu (#1 x)), (map_thing_collection fu (#2 x))))
