@@ -4,7 +4,6 @@
 
 use "functions.sml";
 
-(*
 " -- Number_of: Empty list Test";
 number_of 1 [];
 " -- Number_of: One element in list Test";
@@ -26,17 +25,12 @@ weave [1,2] [3];
 " -- Weave: Imbalanced exception errors";
 (weave [1,2,3] [3]) handle ImbalancedWeaving => [];
 (weave [1] [2,3]) handle ImbalancedWeaving => [];
-*)
 
 " -- file_subst: No replacements";
 file_subst "file.txt" [];
 " -- file_subst: replacements";
 file_subst "file.txt" [(#"t", #"b"), (#"b", #"z")];
-(*
-" -- file_subst: no file";
-file_subst "" [];
-*)
-(*
+
 " -- number_of_things 0,1,5";
 number_of_things Nothing;
 number_of_things (OneThing (7, Nothing));
@@ -72,5 +66,4 @@ map_thing_collection (fn x => x > 7) C;
 " -- flatten collection";
 flatten_collection (OneThing (7, ManyThings ([4, 3], TwoThings (10, 8, OneThing (99, Nothing)))));
 "ManyThings ([7,4,3,10,8,99],Nothing)";
-*)
 
