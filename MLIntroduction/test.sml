@@ -29,7 +29,7 @@ weave [1,2] [3];
 " -- file_subst: No replacements";
 file_subst "file.txt" [];
 " -- file_subst: replacements";
-file_subst "file.txt" [(#"t", #"b"), (#"b", #"z")];
+file_subst "file.txt" [(#"t", #"b"), (#"e", #"z")];
 
 " -- number_of_things 0,1,5";
 number_of_things Nothing;
