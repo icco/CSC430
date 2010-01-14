@@ -108,21 +108,25 @@ fun number_of_XThing fu (Nothing) = 0
      (0 + (number_of_XThing fu (#2 x)))
   | number_of_XThing fu x = 0
 ;
-
-fun bool2int f x = if (f x) then 1 else 0;
-fun number_of_XThing fu x =  
-  case x of 
-       Nothing           => 0 
-     | OneThing(z,c)     => (bool2int fu z) + (number_of_XThing fu c) 
-     | TwoThings(h,j,c)  => ((bool2int fu h)) + (bool2int fu j) + (number_of_XThing fu c)
-     | ManyThings(l,c)   => ((bool2int fu (l))) + ((number_of_XThing fu c)) 
-;
 *)
+
+fun number_of_XThing fu x =  
+  if (fu x) then
+    case x of 
+         Nothing           => 1 
+       | OneThing(_,c)     => 1 + (number_of_XThing fu c) 
+       | TwoThings(_,_,c)  => 1 + (number_of_XThing fu c)
+       | ManyThings(_,c)   => 1 + ((number_of_XThing fu c)) 
+  else
+    case x of 
+         Nothing           => 0 
+       | OneThing(_,c)     => 0 + (number_of_XThing fu c) 
+       | TwoThings(_,_,c)  => 0 + (number_of_XThing fu c)
+       | ManyThings(_,c)   => 0 + ((number_of_XThing fu c)) 
+;
 
 (* Part 8 *)
-(*
 fun number_of_TwoThings things = number_of_XThing (fn (TwoThings _) => true | _ => false) things;
-*)
 
 (* Part 9 *)
 (*
