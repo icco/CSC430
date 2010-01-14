@@ -55,7 +55,7 @@ fun filept_subst infile l =
 ;
 
 fun file_subst file_name l =
-   (filept_subst (openIn file_name) l)
+  foldr (fn (head, res) => (output1(stdOut, head))) () (filept_subst (openIn file_name) l)
 ;
 
 (*
