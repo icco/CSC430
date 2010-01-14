@@ -89,25 +89,61 @@ fun number_of_OneThing (Nothing) = 0
 ;
 
 (* Part 7 *)
-fun number_of_XThing f (Nothing) = 0 
-  | number_of_XThing f (OneThing x) = 
-   if f x then
-     1 + number_of_XThing f (#2 x)
+(*
+fun number_of_XThing fu (Nothing) = 0 
+  | number_of_XThing fu (OneThing x) = 
+   if (fu (#1 x)) then
+     (1 + (number_of_XThing fu (#2 x)))
    else
-     0 + number_of_XThing f (#2 x)
-  | number_of_XThing f (TwoThings x) = 
-   if f x then
-     1 + number_of_XThing f (#3 x)
+     (0 + (number_of_XThing fu (#2 x)))
+  | number_of_XThing fu (TwoThings x) = 
+   if (fu (#1 x)) then
+     (1 + (number_of_XThing fu (#3 x)))
    else
-     0 + number_of_XThing f (#3 x)
-  | number_of_XThing f (ManyThings x) = 
-   if f x then
-     1 + number_of_XThing f (#2 x)
+     (0 + (number_of_XThing fu (#3 x)))
+  | number_of_XThing fu (ManyThings x) = 
+   if (fu (#1 x)) then
+     (1 + (number_of_XThing fu (#2 x)))
    else
-     0 + number_of_XThing f (#2 x)
+     (0 + (number_of_XThing fu (#2 x)))
+  | number_of_XThing fu x = 0
 ;
 
+fun bool2int f x = if (f x) then 1 else 0;
+fun number_of_XThing fu x =  
+  case x of 
+       Nothing           => 0 
+     | OneThing(z,c)     => (bool2int fu z) + (number_of_XThing fu c) 
+     | TwoThings(h,j,c)  => ((bool2int fu h)) + (bool2int fu j) + (number_of_XThing fu c)
+     | ManyThings(l,c)   => ((bool2int fu (l))) + ((number_of_XThing fu c)) 
+;
+*)
+
 (* Part 8 *)
+(*
+fun number_of_TwoThings things = number_of_XThing (fn (TwoThings _) => true | _ => false) things;
+*)
+
 (* Part 9 *)
+(*
+fun map_thing_collection fu (Nothing) = Nothing
+  | map_thing_collection fu (OneThing x) =
+   (OneThing((fu (#1 x)), (map_thing_collection fu (#2 x))))
+  | map_thing_collection fu (TwoThings(h,j,c)) =
+   (TwoThings((fu h), (fu j), (map_thing_collection fu c)))
+  | map_thing_collection fu (ManyThings(l,c)) =
+   (ManyThings((fu l), (map_thing_collection fu c)))
+;
+*)
+
 (* Part 10 *)
+(*
+fun flatten_collection Nothing = Nothing
+  | flatten_collection x =
+   case x of 
+        OneThing(z,c)    => ManyThings(z::[], (flatten_collection c))
+      | TwoThings(h,j,c) => ManyThings(h::j::[], (flatten_collection c))
+      | ManyThings(l,c)  => ManyThings(l@[], (flatten_collection c))
+;
+*)
 
