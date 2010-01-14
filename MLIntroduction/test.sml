@@ -16,19 +16,15 @@ pair_swap [(1,2)];
 pair_swap [(1,2), (3,4), (5,6)];
 pair_swap [];
 
-(*
 " -- Weave: empty list";
 1::(weave [] []); (* 1 cons'd in to prevent type warning *)
-
 " -- Weave: equal length lists";
 weave [1,2,3] [4,5,6];
-
 " -- Weave: different length lists";
 weave [1,2] [3];
 " -- Weave: Imbalanced exception errors";
 (weave [1,2,3] [3]) handle ImbalancedWeaving => [];
 (weave [1] [2,3]) handle ImbalancedWeaving => [];
-*)
 
 (*
 " -- file_subst: No replacements";
