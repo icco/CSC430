@@ -66,14 +66,12 @@ number_of_TwoThings (OneThing (7, Nothing));
 number_of_TwoThings (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, Nothing))));
 number_of_TwoThings (OneThing (7, ManyThings ([1, 2], TwoThings (1, 2, OneThing (99, Nothing)))));
 
-
-(*
 " -- map_thing ";
 val C = (OneThing (7, ManyThings ([4, 3], TwoThings (10, 8, OneThing (99, Nothing)))));
+(* "OneThing (8,ManyThings ([5,4],TwoThings (11,9,OneThing (100,Nothing))))"; *)
 map_thing_collection (fn x => x + 1) C; 
-"OneThing (8,ManyThings ([5,4],TwoThings (11,9,OneThing (100,Nothing))))";
+(* "OneThing (49,ManyThings ([16,9],TwoThings (100,64,OneThing (9801,Nothing))))"; *)
 map_thing_collection (fn x => x * x) C; 
-"OneThing (49,ManyThings ([16,9],TwoThings (100,64,OneThing (9801,Nothing))))";
+(* "OneThing (false, ManyThings ([false,false],TwoThings (true,true,OneThing (true,Nothing))))"; *)
 map_thing_collection (fn x => x > 7) C; 
-"OneThing (false, ManyThings ([false,false],TwoThings (true,true,OneThing (true,Nothing))))";
-*)
+

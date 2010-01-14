@@ -89,56 +89,37 @@ fun number_of_OneThing (Nothing) = 0
 ;
 
 (* Part 7 *)
-(*
-fun number_of_XThing fu (Nothing) = 0 
-  | number_of_XThing fu (OneThing x) = 
-   if (fu (#1 x)) then
-     (1 + (number_of_XThing fu (#2 x)))
-   else
-     (0 + (number_of_XThing fu (#2 x)))
-  | number_of_XThing fu (TwoThings x) = 
-   if (fu (#1 x)) then
-     (1 + (number_of_XThing fu (#3 x)))
-   else
-     (0 + (number_of_XThing fu (#3 x)))
-  | number_of_XThing fu (ManyThings x) = 
-   if (fu (#1 x)) then
-     (1 + (number_of_XThing fu (#2 x)))
-   else
-     (0 + (number_of_XThing fu (#2 x)))
-  | number_of_XThing fu x = 0
-;
-*)
-
 fun number_of_XThing fu x =  
   if (fu x) then
     case x of 
-         Nothing           => 1 
-       | OneThing(_,c)     => 1 + (number_of_XThing fu c) 
-       | TwoThings(_,_,c)  => 1 + (number_of_XThing fu c)
-       | ManyThings(_,c)   => 1 + ((number_of_XThing fu c)) 
+         Nothing          => 1 
+       | OneThing(_,c)    => 1 + (number_of_XThing fu c) 
+       | TwoThings(_,_,c) => 1 + (number_of_XThing fu c)
+       | ManyThings(_,c)  => 1 + ((number_of_XThing fu c)) 
   else
     case x of 
-         Nothing           => 0 
-       | OneThing(_,c)     => 0 + (number_of_XThing fu c) 
-       | TwoThings(_,_,c)  => 0 + (number_of_XThing fu c)
-       | ManyThings(_,c)   => 0 + ((number_of_XThing fu c)) 
+         Nothing          => 0 
+       | OneThing(_,c)    => 0 + (number_of_XThing fu c) 
+       | TwoThings(_,_,c) => 0 + (number_of_XThing fu c)
+       | ManyThings(_,c)  => 0 + ((number_of_XThing fu c)) 
 ;
 
 (* Part 8 *)
 fun number_of_TwoThings things = number_of_XThing (fn (TwoThings _) => true | _ => false) things;
 
 (* Part 9 *)
-(*
+fun map g l =
+  foldr (fn (head, res) => (g head)::res) [] l
+;
+
 fun map_thing_collection fu (Nothing) = Nothing
   | map_thing_collection fu (OneThing x) =
    (OneThing((fu (#1 x)), (map_thing_collection fu (#2 x))))
   | map_thing_collection fu (TwoThings(h,j,c)) =
    (TwoThings((fu h), (fu j), (map_thing_collection fu c)))
   | map_thing_collection fu (ManyThings(l,c)) =
-   (ManyThings((fu l), (map_thing_collection fu c)))
+   (ManyThings((map fu l), (map_thing_collection fu c)))
 ;
-*)
 
 (* Part 10 *)
 (*
