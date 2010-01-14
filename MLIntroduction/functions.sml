@@ -122,16 +122,6 @@ fun map_thing_collection fu (Nothing) = Nothing
 ;
 
 (* Part 10 *)
-(*
-fun flatten_collection x =
-    case x of 
-         Nothing => Nothing
-       | OneThing(z,c)    => ManyThings(z::[], (flatten_collection c))
-       | TwoThings(h,j,c) => ManyThings(h::j::[], (flatten_collection c))
-       | ManyThings(l,c)  => ManyThings(l@[], (flatten_collection c))
-;
-*)
-
 fun flatten_things (Nothing) = []
   | flatten_things (OneThing(x,c)) = 
     x::(flatten_things c) 
@@ -142,3 +132,4 @@ fun flatten_things (Nothing) = []
 ;
 
 fun flatten_collection x = ManyThings((flatten_things x), Nothing);
+
