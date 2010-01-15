@@ -55,7 +55,7 @@ fun filept_subst infile l =
 ;
 
 fun file_subst file_name l =
-  foldl (fn (head, res) => (output1(stdOut, head))) () (filept_subst (openIn file_name) l)
+  foldl (fn (head, res) => (output1(stdOut, head))) () ((filept_subst (openIn file_name) l))
 ;
 
 (* needed for parts 5 - 10 *)
@@ -93,13 +93,13 @@ fun number_of_XThing fu x =
          Nothing          => 1 
        | OneThing(_,c)    => 1 + (number_of_XThing fu c) 
        | TwoThings(_,_,c) => 1 + (number_of_XThing fu c)
-       | ManyThings(_,c)  => 1 + ((number_of_XThing fu c)) 
+       | ManyThings(_,c)  => 1 + (number_of_XThing fu c) 
   else
     case x of 
          Nothing          => 0 
        | OneThing(_,c)    => 0 + (number_of_XThing fu c) 
        | TwoThings(_,_,c) => 0 + (number_of_XThing fu c)
-       | ManyThings(_,c)  => 0 + ((number_of_XThing fu c)) 
+       | ManyThings(_,c)  => 0 + (number_of_XThing fu c) 
 ;
 
 (* Part 8 *)
