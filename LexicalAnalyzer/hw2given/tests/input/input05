@@ -1,0 +1,5 @@
+var int i;
+var bool l;
+{
+i := 1;
+}

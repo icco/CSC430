@@ -1,0 +1,4 @@
+var int i;
+{
+writeline true & false;
+}

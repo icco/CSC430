@@ -1,0 +1,10 @@
+keyword: var
+keyword: int
+identifier: i
+symbol: ;
+symbol: {
+keyword: write
+identifier: i
+symbol: ;
+symbol: }
+end-of-file

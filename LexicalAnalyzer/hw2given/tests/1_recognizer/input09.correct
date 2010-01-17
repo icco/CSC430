@@ -1,0 +1,12 @@
+keyword: var
+keyword: int
+identifier: i
+symbol: ;
+symbol: {
+keyword: writeline
+keyword: true
+symbol: &
+keyword: false
+symbol: ;
+symbol: }
+end-of-file

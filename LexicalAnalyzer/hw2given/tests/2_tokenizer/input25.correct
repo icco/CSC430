@@ -1,0 +1,18 @@
+val devnull = FD {fd=3} : ?.POSIX_FileSys.file_desc
+val sout = FD {fd=4} : ?.POSIX_IO.file_desc
+val it = () : unit
+val it = TK_NUM 123 : token
+val it = TK_ID "abc456" : token
+val it = TK_INT : token
+val it = TK_BOOL : token
+val it = TK_WRITE : token
+val it = TK_ID "print" : token
+val it = TK_WRITELINE : token
+val it = TK_ID "fun" : token
+val it = TK_FN : token
+val it = TK_ID "println" : token
+val it = TK_TRUE : token
+val it = TK_FALSE : token
+val it = TK_RETURN : token
+val it = TK_VAR : token
+val it = TK_UNIT : token

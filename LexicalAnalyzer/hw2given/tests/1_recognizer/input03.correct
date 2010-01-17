@@ -1,0 +1,11 @@
+keyword: var
+keyword: int
+identifier: i
+symbol: ,
+identifier: j
+symbol: ,
+identifier: k
+symbol: ;
+symbol: {
+symbol: }
+end-of-file

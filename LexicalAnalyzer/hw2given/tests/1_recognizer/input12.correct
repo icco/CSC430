@@ -1,0 +1,20 @@
+symbol: {
+keyword: if
+symbol: (
+number: 1
+symbol: <
+number: 2
+symbol: )
+symbol: {
+keyword: writeline
+keyword: true
+symbol: ;
+symbol: }
+keyword: else
+symbol: {
+keyword: writeline
+keyword: false
+symbol: ;
+symbol: }
+symbol: }
+end-of-file

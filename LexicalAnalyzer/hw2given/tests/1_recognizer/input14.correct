@@ -1,0 +1,14 @@
+symbol: {
+keyword: while
+symbol: (
+identifier: i
+symbol: !=
+number: 2
+symbol: )
+symbol: {
+keyword: write
+number: 3
+symbol: ;
+symbol: }
+symbol: }
+end-of-file

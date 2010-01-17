@@ -1,0 +1,6 @@
+var bool i;
+var bool b;
+{
+i := a;
+b := b;
+}

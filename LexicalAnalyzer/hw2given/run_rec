@@ -1,0 +1,24 @@
+#!/bin/csh -f
+# test one and do diff
+
+set b = `basename ${2} .df`
+set dir = `dirname ${2}`
+set outdir = ${3}
+
+sml >&! ${outdir}/${b}.tmp << END
+val devnull = Posix.FileSys.openf ("/dev/null", Posix.FileSys.O_WRONLY, Posix.FileSys.O.trunc);
+val sout = Posix.IO.dup(Posix.FileSys.stdout);
+Posix.IO.dup2 {old=devnull, new=Posix.FileSys.stdout};
+use "${1}";
+Posix.IO.dup2 {old=sout, new=Posix.FileSys.stdout};
+fun untilEOF f fstr = 
+   if TextIO.endOfStream fstr
+   then ()
+   else (f fstr; untilEOF f fstr);
+untilEOF recognizeToken (TextIO.openIn "${dir}/${b}");
+END
+grep -v "GC #" ${outdir}/${b}.tmp | grep -v "Standard ML" | grep -v "autoloading" | grep -v "val " | grep -v "basis" | grep -v '^- $' >&! ${outdir}/${b}.output
+rm ${outdir}/${b}.tmp
+diff ${outdir}/${b}.correct ${outdir}/${b}.output
+rm ${outdir}/${b}.output
+

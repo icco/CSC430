@@ -1,0 +1,18 @@
+val devnull = FD {fd=3} : ?.POSIX_FileSys.file_desc
+val sout = FD {fd=4} : ?.POSIX_IO.file_desc
+val it = () : unit
+val it = TK_LBRACE : token
+val it = TK_RBRACE : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token
+val it = TK_EOF : token

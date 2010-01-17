@@ -1,0 +1,19 @@
+keyword: var
+keyword: bool
+identifier: i
+symbol: ;
+keyword: var
+keyword: bool
+identifier: b
+symbol: ;
+symbol: {
+identifier: i
+symbol: :=
+identifier: a
+symbol: ;
+identifier: b
+symbol: :=
+identifier: b
+symbol: ;
+symbol: }
+end-of-file

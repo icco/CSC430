@@ -1,0 +1,5 @@
+   var int i, j;
+   fn f(int i, int k) {}
+   fn g(int j, bool b) {}
+{}
+

@@ -1,0 +1,15 @@
+keyword: fn
+identifier: f
+symbol: (
+symbol: )
+symbol: {
+symbol: }
+keyword: fn
+identifier: g
+symbol: (
+symbol: )
+symbol: {
+symbol: }
+symbol: {
+symbol: }
+end-of-file

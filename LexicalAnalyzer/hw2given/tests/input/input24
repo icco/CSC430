@@ -1,0 +1,18 @@
+   var int i, j;
+   var int b;
+   fn int foo(int i, bool b)
+      var int c;
+   {
+      if (i > 0)
+      {
+         foo(i - 1, b);
+      }
+      else
+      {
+      }
+      println 3;
+      return 2;
+   }
+{
+   foo(1 + 3 * 4, b);
+}

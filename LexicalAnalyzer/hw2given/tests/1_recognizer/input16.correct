@@ -1,0 +1,9 @@
+symbol: {
+keyword: while
+symbol: (
+keyword: true
+symbol: )
+symbol: {
+symbol: }
+symbol: }
+end-of-file

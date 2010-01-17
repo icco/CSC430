@@ -1,0 +1,8 @@
+symbol: {
+keyword: writeline
+number: 1
+symbol: <
+number: 2
+symbol: ;
+symbol: }
+end-of-file

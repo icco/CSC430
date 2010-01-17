@@ -1,0 +1,24 @@
+keyword: var
+keyword: int
+identifier: i
+symbol: ;
+symbol: {
+keyword: while
+symbol: (
+identifier: j
+symbol: !=
+number: 0
+symbol: )
+symbol: {
+keyword: write
+identifier: j
+symbol: ;
+identifier: j
+symbol: :=
+identifier: j
+symbol: -
+number: 1
+symbol: ;
+symbol: }
+symbol: }
+end-of-file

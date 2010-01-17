@@ -1,0 +1,15 @@
+keyword: var
+keyword: int
+identifier: i
+symbol: ;
+keyword: var
+keyword: bool
+identifier: l
+symbol: ;
+symbol: {
+identifier: i
+symbol: :=
+number: 1
+symbol: ;
+symbol: }
+end-of-file

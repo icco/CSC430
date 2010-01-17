@@ -1,0 +1,17 @@
+   var int i, j;
+   var bool b;
+   fn foo(int i, bool b)
+   var int j, k;
+   var int f, g;
+   {
+      if (i > 0)
+      {
+         foo(i - 1, b);
+      }
+      else
+      {
+      }
+   }
+{
+   foo(1, b);
+}
