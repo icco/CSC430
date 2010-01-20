@@ -1,0 +1,147 @@
+
+
+
+
+
+
+CPS 106					    Robert A. Wagner
+
+
+		  Standard ML Introduction
+
+Standard ML, also called Standard Meta Language, and SML, is
+at  base  a language with many of the semantic functionality
+of Scheme, but with a much nicer syntax, and many additional
+useful	features.  Its "pure" form has not assignment state-
+ment, and uses recursion rather	than iteration,	just as	Pure
+Scheme	does.  However,	SML allows statements that LOOK	like
+assignments,  even  using  arithmetic  expressions  on	 the
+right-hand-side.   (These  statements  actually	 declare and
+initialize new variables.  In principle, the "old" values of
+redeclared variables is	accessible.)
+
+SML is a strongly typed	language with  no  need	 to  declare
+most  variables.   SML deduces the types of most expressions
+and variables by the way they are  used.   Its	typechecking
+mechanism  comes into play when	its "conditional expression"
+attempts to return different types  in	its  "then"  vs	 its
+"else"	branch,	 and  when  function  definitions attempt to
+return different  types	 in  different	cases.	 SML  has  a
+"matching"  system,  which allows different cases of a func-
+tion to	be defined in much the way prolog predicates can  be
+defined,  using	 different  rules,  depending  on which	rule
+"matches" the function arguments.  SML also has	the  ability
+to  return structures from functions (and even expressions),
+and to perform simultaneous "assignments" in one statement.
+
+SML provides for functional programming, allowing definition
+of  functions  which accept functions as arguments, and	com-
+pute functions as results.
+
+Advanced SML introduces	arrays,	and "datatypes"	(which	have
+similarities  to the classes of	C++).  Mechanisms for making
+parts of user-defined datatypes	private	are also available.
+
+Examples:  1+2*3;
+	val it = 7:int
+
+Here, the first	line is	input, the second is SML's response.
+The  "7"  is  the value	of the expression.  What follows the
+":" is SML's deduced TYPE for the expression, here "int".
+
+Constants can have int,	 real,	boolean	 and  string  types.
+Strings	 use  C	 escapes,  booleans  are  "true" and "false"
+(without the quotes).
+
+A list of elements, all	of which have the same type, is	con-
+structed  by  enclosing	 the  elements	in  "["	and "]", and
+separating the elements	with ",":
+[1,2,3];
+	val it = [1,2,3]: int list
+
+(The type deduced is "int list"	-- a list of integers.
+
+In arithmetic expressions, "~" is used	for  "unary  minus".
+"-"  is	 a  binary subtraction operator, with relatively low
+precedence.  "/" is used for division of  reals,  "div"	 for
+division  of integers (rounding	down toward minus infinity),
+and "mod" for integer remainder.  Note:	 SML is	case  sensi-
+tive, so DIV is	NOT the	same as	div.
+
+String concatenation: "^" operator.
+
+Comparisons: =,	<, >, <=, >=, <> as in Pascal.	 Operate  on
+reals, integers, and strings.
+
+For booleans, SML uses:	not, andalso, orelse.  The last	 two
+only  evaluate	their  right operand if	the value is needed.
+(Like C's && and ||, resp.).
+
+Conditional  expression:   if  TEST  then  expresion1	else
+expression2 There is not conditional STATEMENT in SML -- the
+conditional expression is PART of and EXPRESSION.
+
+"val" declaration (like	an assignment):
+
+val NAME = EXPRESSION;
+Pushes down any	previous declaration of	"NAME",	and  puts  a
+new declaration	of NAME	on the environment stack.  When	NAME
+later appears in an expression,	its most-current value	will
+be used	in its place.
+
+Tuples and Lists:
+A tuple	 is  a	record-like  structure,	 formed	 by  listing
+expression  elements  separated	by commas, and surrounded by
+"(" and	")".  A	tuple allows each of its components to be of
+different type,	unlike a list.	Also, the operator #i (where
+"i" must be an integer constant) can be	used to	 access	 the
+i-th element of	a tuple:
+#2(1,"two",true);
+	val it = "two":	string
+
+(1, "two", true);
+	val it = (1, "two", true) : int	* string * bool
+
+Tuples can be constructed by pattern matching, but cannot be
+concatenated  together,	 or  decomposed,  except  by  the #i
+operator.
+
+Lists, however,	have no	fixed length, and can be constructed
+using  the operator "::".  If E	is an element of type t, and
+L has type "t list", then E::L builds a	new t list M, with E
+as  first  element,  and the elements of L, in order, as the
+rest of	M.  In the proper context, :: can decompose a  list,
+as  the	 "|"  operator	of  Prolog does.  You can also write
+"hd(L)"	to obtain the first element of L, and "tl(L)" to get
+the  rest  of  L.  The list [] (nil) can be of any type, and
+you may	have to	add a type declarator, to  help	 SML  deduce
+what  type  it	is.  You can also use "@" to concatenate two
+lists.
+
+You can	convert	a string S to a	list of	its characters (each
+becoming a one-character string) by using explode(S):
+
+explode("abc");
+	val it = ["a", "b", "c"] : string list
+
+implode(L) reverses the	explode	operation.
+
+You can	convert	a one-character	string to an integer,  using
+the  function  ord(STRING).   The function chr(INTEGER)	rev-
+erses this operation.
+
+Comments:  (* .. *)
+
+Function definition:
+
+fun NAME(PARAMETER LIST) = EXPRESSION;
+	The names in the parameter  list  are  declared  and
+	initialized to the values of the corresponding argument
+	expressions when the function is  called.  The function's
+	value  is  then the value of its EXPRESSION, with these
+	argument  values  substituted  for  any occurrence of PARAMETER
+	names that appear in EXPRESSION.
+
+
+fun upper(c) = chr(ord(c)-32);
+	val upper = fn:	string -> string
