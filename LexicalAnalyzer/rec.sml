@@ -23,41 +23,85 @@ datatype 'a Token =
     | NONE
 ;
 
-fun isTok ""            = false
-  | isTok "int"         = true
-  | isTok "bool"        = true
-  | isTok "fn"          = true
-  | isTok "write"       = true
-  | isTok "writeline"   = true
-  | isTok "if"          = true
-  | isTok "else"        = true
-  | isTok "while"       = true
-  | isTok "true"        = true
-  | isTok "false"       = true
-  | isTok "return"      = true
-  | isTok "var"         = true
-  | isTok "unit"        = true
-  | isTok ":="          = true
-  | isTok "{"           = true
-  | isTok "}"           = true
-  | isTok "("           = true
-  | isTok ")"           = true
-  | isTok ","           = true
-  | isTok ";"           = true
-  | isTok "->"          = true
-  | isTok "&"           = true
-  | isTok "|"           = true
-  | isTok "="           = true
-  | isTok ">"           = true
-  | isTok "<"           = true
-  | isTok "<="          = true
-  | isTok ">="          = true
-  | isTok "+"           = true
-  | isTok "-"           = true
-  | isTok "*"           = true
-  | isTok "/"           = true
-  | isTok "!"           = true
-  | isTok str           = false
+fun isTok ""          = false
+  | isTok "int"       = true
+  | isTok "bool"      = true
+  | isTok "fn"        = true
+  | isTok "write"     = true
+  | isTok "writeline" = true
+  | isTok "if"        = true
+  | isTok "else"      = true
+  | isTok "while"     = true
+  | isTok "true"      = true
+  | isTok "false"     = true
+  | isTok "return"    = true
+  | isTok "var"       = true
+  | isTok "unit"      = true
+  | isTok ":="        = true
+  | isTok "{"         = true
+  | isTok "}"         = true
+  | isTok "("         = true
+  | isTok ")"         = true
+  | isTok ","         = true
+  | isTok ";"         = true
+  | isTok "->"        = true
+  | isTok "&"         = true
+  | isTok "|"         = true
+  | isTok "="         = true
+  | isTok ">"         = true
+  | isTok "<"         = true
+  | isTok "<="        = true
+  | isTok ">="        = true
+  | isTok "+"         = true
+  | isTok "-"         = true
+  | isTok "*"         = true
+  | isTok "/"         = true
+  | isTok "!"         = true
+  | isTok str         = false
+;
+      
+fun toTok ""          = false
+  | toTok "int"       = true
+  | toTok "bool"      = true
+  | toTok "fn"        = true
+  | toTok "write"     = true
+  | toTok "writeline" = true
+  | toTok "if"        = true
+  | toTok "else"      = true
+  | toTok "while"     = true
+  | toTok "true"      = true
+  | toTok "false"     = true
+  | toTok "return"    = true
+  | toTok "var"       = true
+  | toTok "unit"      = true
+  | toTok ":="        = true
+  | toTok "{"         = true
+  | toTok "}"         = true
+  | toTok "("         = true
+  | toTok ")"         = true
+  | toTok ","         = true
+  | toTok ";"         = true
+  | toTok "->"        = true
+  | toTok "&"         = true
+  | toTok "|"         = true
+  | toTok "="         = true
+  | toTok ">"         = true
+  | toTok "<"         = true
+  | toTok "<="        = true
+  | toTok ">="        = true
+  | toTok "+"         = true
+  | toTok "-"         = true
+  | toTok "*"         = true
+  | toTok "/"         = true
+  | toTok "!"         = true
+  | toTok str         = false
+;
+
+fun read_token instr str = 
+    case (toTok str) of
+         (NONE) => read_token instr (str ^ inputN (instr, 1))
+       | x => x
+   ;
 ;
       
 
