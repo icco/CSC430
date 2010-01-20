@@ -23,43 +23,6 @@ datatype 'a Token =
     | NONE
 ;
 
-fun isTok ""          = false
-  | isTok "int"       = true
-  | isTok "bool"      = true
-  | isTok "fn"        = true
-  | isTok "write"     = true
-  | isTok "writeline" = true
-  | isTok "if"        = true
-  | isTok "else"      = true
-  | isTok "while"     = true
-  | isTok "true"      = true
-  | isTok "false"     = true
-  | isTok "return"    = true
-  | isTok "var"       = true
-  | isTok "unit"      = true
-  | isTok ":="        = true
-  | isTok "{"         = true
-  | isTok "}"         = true
-  | isTok "("         = true
-  | isTok ")"         = true
-  | isTok ","         = true
-  | isTok ";"         = true
-  | isTok "->"        = true
-  | isTok "&"         = true
-  | isTok "|"         = true
-  | isTok "="         = true
-  | isTok ">"         = true
-  | isTok "<"         = true
-  | isTok "<="        = true
-  | isTok ">="        = true
-  | isTok "+"         = true
-  | isTok "-"         = true
-  | isTok "*"         = true
-  | isTok "/"         = true
-  | isTok "!"         = true
-  | isTok str         = false
-;
-      
 fun toTok ""          = false
   | toTok "int"       = true
   | toTok "bool"      = true
@@ -97,21 +60,32 @@ fun toTok ""          = false
   | toTok str         = false
 ;
 
-fun read_token instr str = 
-    case (toTok str) of
-         (NONE) => read_token instr (str ^ inputN (instr, 1))
-       | x => x
-   ;
+fun read_token instr = 
+  let
+    val x = lookahead instr;
+  in
+    if Char.isSpace x then
+      NONE
+    else
+      if Char.isAlpha x then
+        read_alpha instr
+      else
+        if Char.isDigit x then
+          read_digit instr
+        else
+          read_symbol instr
+        ;
+      ;
+    ;
+  end
 ;
       
-
-(*
 fun recognizeToken nil = ()
   | recognizeToken instr =
     if TextIO.endOfStream instr then 
       print "End Of File"
     else
-      case (read_token (inputN (instr, 1)) of
+      case (read_token instr) of
            (Keywords x) => print x
          | (Assignment x) => print x
          | (Punctuation x) => print x
@@ -124,5 +98,4 @@ fun recognizeToken nil = ()
          | (NONE) => ()
       ;
 ;
-*)
 
