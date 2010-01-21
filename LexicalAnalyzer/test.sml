@@ -1,3 +1,6 @@
 use "rec.sml";
-val file = openIn "hw2given/tests/input/input05";
+val file = TextIO.openIn "hw2given/tests/input/input05";
+(*
 recognizeToken file;
+*)
+read_token file;
