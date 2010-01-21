@@ -11,75 +11,111 @@
 *)
 
 datatype 'a Token =
-    Keywords of 'a
+    Keyword of 'a
     | Assignment of 'a
     | Punctuation of 'a
     | Logical of 'a
     | Relational of 'a
     | ArithmeticBinary of 'a
     | Unary of 'a
-    | Numbers of 'a
-    | Identifiers of 'a
+    | Number of 'a
+    | Identifier of 'a
     | NONE
 ;
 
-fun toTok ""          = false
-  | toTok "int"       = true
-  | toTok "bool"      = true
-  | toTok "fn"        = true
-  | toTok "write"     = true
-  | toTok "writeline" = true
-  | toTok "if"        = true
-  | toTok "else"      = true
-  | toTok "while"     = true
-  | toTok "true"      = true
-  | toTok "false"     = true
-  | toTok "return"    = true
-  | toTok "var"       = true
-  | toTok "unit"      = true
-  | toTok ":="        = true
-  | toTok "{"         = true
-  | toTok "}"         = true
-  | toTok "("         = true
-  | toTok ")"         = true
-  | toTok ","         = true
-  | toTok ";"         = true
-  | toTok "->"        = true
-  | toTok "&"         = true
-  | toTok "|"         = true
-  | toTok "="         = true
-  | toTok ">"         = true
-  | toTok "<"         = true
-  | toTok "<="        = true
-  | toTok ">="        = true
-  | toTok "+"         = true
-  | toTok "-"         = true
-  | toTok "*"         = true
-  | toTok "/"         = true
-  | toTok "!"         = true
-  | toTok str         = false
+fun build_token ""          = NONE
+  | build_token "int"       = Keyword "int"       
+  | build_token "bool"      = Keyword "bool"      
+  | build_token "fn"        = Keyword "fn"        
+  | build_token "write"     = Keyword "write"     
+  | build_token "writeline" = Keyword "writeline" 
+  | build_token "if"        = Keyword "if"        
+  | build_token "else"      = Keyword "else"      
+  | build_token "while"     = Keyword "while"     
+  | build_token "true"      = Keyword "true"      
+  | build_token "false"     = Keyword "false"     
+  | build_token "return"    = Keyword "return"    
+  | build_token "var"       = Keyword "var"       
+  | build_token "unit"      = Keyword "unit"      
+  | build_token ":="        = Assignment ":="
+  | build_token "{"         = Punctuation "{" 
+  | build_token "}"         = Punctuation "}" 
+  | build_token "("         = Punctuation "(" 
+  | build_token ")"         = Punctuation ")" 
+  | build_token ","         = Punctuation "," 
+  | build_token ";"         = Punctuation ";" 
+  | build_token "->"        = Punctuation "->" 
+  | build_token "&"         = Logical "&" 
+  | build_token "|"         = Logical "|" 
+  | build_token "="         = Relational "="  
+  | build_token ">"         = Relational ">"  
+  | build_token "<"         = Relational "<"  
+  | build_token "<="        = Relational "<=" 
+  | build_token ">="        = Relational ">=" 
+  | build_token "+"         = ArithmeticBinary "+"
+  | build_token "-"         = ArithmeticBinary "-"
+  | build_token "*"         = ArithmeticBinary "*"
+  | build_token "/"         = ArithmeticBinary "/"
+  | build_token "!"         = Unary "!" 
+  | build_token " "         = NONE
+  | build_token str         = NONE
+;
+
+fun read_alpha instr str =
+  let
+    val x = (valOf (TextIO.lookahead instr));
+  in
+    if ((Char.isAlpha x) orelse (Char.isDigit x)) then
+      read_alpha instr (TextIO.inputN (instr, 1) ^ str)
+    else
+      build_token str
+  end
+;
+
+fun read_digit instr str =
+  let
+    val x = (valOf (TextIO.lookahead instr));
+  in
+    if (Char.isDigit x) then
+      read_digit instr (TextIO.inputN (instr, 1) ^ str)
+    else
+      build_token str
+  end
+;
+
+fun read_symbol instr str =
+  let
+    val x = (valOf (TextIO.lookahead instr));
+  in
+    if ((Char.isAlpha x) orelse (Char.isDigit x)) then
+      read_symbol instr (TextIO.inputN (instr, 1) ^ str)
+    else
+      build_token str
+  end
 ;
 
 fun read_token instr = 
   let
-    val x = lookahead instr;
+    val x = (valOf (TextIO.lookahead instr));
   in
     if Char.isSpace x then
-      NONE
+      build_token (TextIO.inputN (instr, 1))
     else
+      (
       if Char.isAlpha x then
-        read_alpha instr
+        read_alpha instr ""
       else
+        (
         if Char.isDigit x then
-          read_digit instr
+          read_digit instr ""
         else
-          read_symbol instr
-        ;
-      ;
-    ;
+          read_symbol instr ""
+         )
+      )
   end
 ;
       
+(*
 fun recognizeToken nil = ()
   | recognizeToken instr =
     if TextIO.endOfStream instr then 
@@ -98,4 +134,4 @@ fun recognizeToken nil = ()
          | (NONE) => ()
       ;
 ;
-
+*)
