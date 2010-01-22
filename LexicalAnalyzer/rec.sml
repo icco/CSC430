@@ -101,6 +101,12 @@ fun read_symbol instr str =
       build_token str
     else
       read_symbol instr (str ^ (TextIO.inputN (instr, 1)))
+      (*
+      if ((Char.toString x) = "=") orelse ((Char.toString x) = ">") then 
+        read_symbol instr (str ^ (TextIO.inputN (instr, 1)))
+      else
+        build_token str
+      *)
   end
 ;
 
@@ -126,9 +132,7 @@ fun read_token instr =
 ;
       
 fun recognizeToken instr =
-    if TextIO.endOfStream instr then 
-      print "end-of-file\n"
-    else
+    if (not (TextIO.endOfStream instr)) then 
       case (read_token instr) of
            (Keyword x) => print ("keyword: " ^ x ^ "\n")
          | (Assignment x) => print ("symbol: " ^ x ^ "\n")
@@ -140,6 +144,8 @@ fun recognizeToken instr =
          | (Number x) =>  print ("number: " ^ x ^ "\n")
          | (Identifier x) => print ("identifier: " ^ x ^ "\n")
          | (Other x) => print ("OTHER: " ^ x ^ "\n")
-         | (NONE) => print ""
-      ;
+         | (NONE) => ()
+    else
+      print "end-of-file\n"
+    ;
 ;
