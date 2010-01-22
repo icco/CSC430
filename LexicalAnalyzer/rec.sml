@@ -24,7 +24,7 @@ datatype 'a Token =
     | NONE
 ;
 
-fun build_token ""          = Other "empty..."
+fun build_token ""          = NONE
   | build_token "int"       = Keyword "int"       
   | build_token "bool"      = Keyword "bool"      
   | build_token "fn"        = Keyword "fn"        
@@ -99,34 +99,20 @@ fun can_combine "-" ">" = true
   | can_combine ">" "=" = true
   | can_combine ":" "=" = true
   | can_combine "!" "=" = true
-  | can_combine "{" ""  = true
-  | can_combine "}" ""  = true
-  | can_combine "(" ""  = true
-  | can_combine ")" ""  = true
-  | can_combine "," ""  = true
-  | can_combine ";" ""  = true
-  | can_combine "&" ""  = true
-  | can_combine "|" ""  = true
   | can_combine "=" ""  = true
   | can_combine ">" ""  = true
   | can_combine "<" ""  = true
-  | can_combine "+" ""  = true
   | can_combine "-" ""  = true
-  | can_combine "*" ""  = true
-  | can_combine "/" ""  = true
-  | can_combine "!" ""  = true 
+  | can_combine ":" ""  = true
+  | can_combine "!" add = false 
+  | can_combine "=" add = false
+  | can_combine ">" add = false
+  | can_combine "<" add = false
+  | can_combine "-" add = false
+  | can_combine ":" add = false
+  | can_combine beg add = false
   | can_combine beg add = false
 ;
-
-(*
-fun can_combine "-" = true
-  | can_combine "<" = true
-  | can_combine ">" = true
-  | can_combine ":" = true
-  | can_combine "!" = true
-  | can_combine el  = false
-;
-*)
 
 fun consume_white instr str = 
   if (Char.isSpace (valOf (TextIO.lookahead instr))) then
@@ -139,11 +125,13 @@ fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
+    (*
     print ("sym DBG:" ^ (str ^ (Char.toString x) ^ "\n"));
+    *)
     if (can_combine (Char.toString x) str) then 
       read_symbol instr (TextIO.inputN (instr, 1) ^ str)
     else
-      build_token (TextIO.inputN (instr, 1))
+      build_token (str ^ TextIO.inputN (instr, 1))
   end
 ;
 
