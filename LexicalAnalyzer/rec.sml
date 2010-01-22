@@ -58,9 +58,9 @@ fun build_token ""          = Other "empty..."
   | build_token "*"         = ArithmeticBinary "*"
   | build_token "/"         = ArithmeticBinary "/"
   | build_token "!"         = Unary "!" 
-  | build_token " "         = NONE 
-  | build_token "\n"        = NONE 
-  | build_token "\t"        = NONE 
+  | build_token " "         = Other "space"
+  | build_token "\n"        = Other "newline"
+  | build_token "\t"        = Other "tab"
   | build_token str         = 
    let
      val x = (Int.fromString str)
@@ -99,7 +99,7 @@ fun can_combine "-" ">" = true
   | can_combine ">" "=" = true
   | can_combine ":" "=" = true
   | can_combine "!" "=" = true
-(*  | can_combine "{" ""  = true
+  | can_combine "{" ""  = true
   | can_combine "}" ""  = true
   | can_combine "(" ""  = true
   | can_combine ")" ""  = true
@@ -114,9 +114,19 @@ fun can_combine "-" ">" = true
   | can_combine "-" ""  = true
   | can_combine "*" ""  = true
   | can_combine "/" ""  = true
-  | can_combine "!" ""  = true *)
+  | can_combine "!" ""  = true 
   | can_combine beg add = false
 ;
+
+(*
+fun can_combine "-" = true
+  | can_combine "<" = true
+  | can_combine ">" = true
+  | can_combine ":" = true
+  | can_combine "!" = true
+  | can_combine el  = false
+;
+*)
 
 fun consume_white instr str = 
   if (Char.isSpace (valOf (TextIO.lookahead instr))) then
@@ -129,9 +139,9 @@ fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
-    print ("SYM DBG: " ^ (str ^ (Char.toString x) ^ "\n"));
+    print ("sym DBG:" ^ (str ^ (Char.toString x) ^ "\n"));
     if (can_combine (Char.toString x) str) then 
-      build_token (TextIO.inputN (instr, 1) ^ str)
+      read_symbol instr (TextIO.inputN (instr, 1) ^ str)
     else
       build_token (TextIO.inputN (instr, 1))
   end
