@@ -3,7 +3,7 @@
   Assignment: :=
   Punctuation: { } ( ) , ; ->
   Logical Operators: & |
-  Relational Operators: = < > ! = <= >=
+  Relational Operators: = < > != <= >=
   Arithmetic Binary Operators: + - * /
   Unary Operators: !
   Numbers: (0 ∪ ... ∪ 9)+
@@ -24,7 +24,7 @@ datatype 'a Token =
     | NONE
 ;
 
-fun build_token ""          = NONE
+fun build_token ""          = Other "empty..."
   | build_token "int"       = Keyword "int"       
   | build_token "bool"      = Keyword "bool"      
   | build_token "fn"        = Keyword "fn"        
@@ -60,6 +60,7 @@ fun build_token ""          = NONE
   | build_token "!"         = Unary "!" 
   | build_token " "         = NONE 
   | build_token "\n"        = NONE 
+  | build_token "\t"        = NONE 
   | build_token str         = 
    let
      val x = (Int.fromString str)
@@ -93,20 +94,46 @@ fun read_digit instr str =
   end
 ;
 
+fun can_combine "-" ">" = true
+  | can_combine "<" "=" = true
+  | can_combine ">" "=" = true
+  | can_combine ":" "=" = true
+  | can_combine "!" "=" = true
+(*  | can_combine "{" ""  = true
+  | can_combine "}" ""  = true
+  | can_combine "(" ""  = true
+  | can_combine ")" ""  = true
+  | can_combine "," ""  = true
+  | can_combine ";" ""  = true
+  | can_combine "&" ""  = true
+  | can_combine "|" ""  = true
+  | can_combine "=" ""  = true
+  | can_combine ">" ""  = true
+  | can_combine "<" ""  = true
+  | can_combine "+" ""  = true
+  | can_combine "-" ""  = true
+  | can_combine "*" ""  = true
+  | can_combine "/" ""  = true
+  | can_combine "!" ""  = true *)
+  | can_combine beg add = false
+;
+
+fun consume_white instr str = 
+  if (Char.isSpace (valOf (TextIO.lookahead instr))) then
+    consume_white instr (TextIO.inputN (instr, 1))
+  else
+    ""
+;
+
 fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
-    if ((Char.isAlpha x) orelse (Char.isDigit x) orelse (Char.isSpace x)) then
-      build_token str
+    print ("SYM DBG: " ^ (str ^ (Char.toString x) ^ "\n"));
+    if (can_combine (Char.toString x) str) then 
+      build_token (TextIO.inputN (instr, 1) ^ str)
     else
-      read_symbol instr (str ^ (TextIO.inputN (instr, 1)))
-      (*
-      if ((Char.toString x) = "=") orelse ((Char.toString x) = ">") then 
-        read_symbol instr (str ^ (TextIO.inputN (instr, 1)))
-      else
-        build_token str
-      *)
+      build_token (TextIO.inputN (instr, 1))
   end
 ;
 
@@ -115,7 +142,7 @@ fun read_token instr =
     val x = (valOf (TextIO.lookahead instr));
   in
     if Char.isSpace x then
-      build_token (TextIO.inputN (instr, 1))
+      build_token (consume_white instr "")
     else
       (
       if Char.isAlpha x then
@@ -126,7 +153,7 @@ fun read_token instr =
           read_digit instr ""
         else
           read_symbol instr ""
-         )
+        )
       )
   end
 ;
