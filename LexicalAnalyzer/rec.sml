@@ -20,6 +20,7 @@ datatype 'a Token =
     | Unary of 'a
     | Number of 'a
     | Identifier of 'a
+    | Other of 'a
     | NONE
 ;
 
@@ -57,8 +58,9 @@ fun build_token ""          = NONE
   | build_token "*"         = ArithmeticBinary "*"
   | build_token "/"         = ArithmeticBinary "/"
   | build_token "!"         = Unary "!" 
-  | build_token " "         = NONE
-  | build_token str         = NONE
+  | build_token " "         = NONE 
+  | build_token "\n"        = NONE 
+  | build_token str         = Other str
 ;
 
 fun read_alpha instr str =
@@ -66,7 +68,7 @@ fun read_alpha instr str =
     val x = (valOf (TextIO.lookahead instr));
   in
     if ((Char.isAlpha x) orelse (Char.isDigit x)) then
-      read_alpha instr (TextIO.inputN (instr, 1) ^ str)
+      read_alpha instr (str ^ (TextIO.inputN (instr, 1)))
     else
       build_token str
   end
@@ -77,7 +79,7 @@ fun read_digit instr str =
     val x = (valOf (TextIO.lookahead instr));
   in
     if (Char.isDigit x) then
-      read_digit instr (TextIO.inputN (instr, 1) ^ str)
+      read_digit instr (str ^ (TextIO.inputN (instr, 1)))
     else
       build_token str
   end
@@ -87,10 +89,10 @@ fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
-    if ((Char.isAlpha x) orelse (Char.isDigit x)) then
-      read_symbol instr (TextIO.inputN (instr, 1) ^ str)
-    else
+    if ((Char.isAlpha x) orelse (Char.isDigit x) orelse (Char.isSpace x)) then
       build_token str
+    else
+      read_symbol instr (str ^ (TextIO.inputN (instr, 1)))
   end
 ;
 
@@ -115,23 +117,21 @@ fun read_token instr =
   end
 ;
       
-(*
-fun recognizeToken nil = ()
-  | recognizeToken instr =
+fun recognizeToken instr =
     if TextIO.endOfStream instr then 
       print "End Of File"
     else
       case (read_token instr) of
-           (Keywords x) => print x
-         | (Assignment x) => print x
-         | (Punctuation x) => print x
-         | (Logical x) => print x
-         | (Relational x) => print x
-         | (ArithmeticBinary x) => print x
-         | (Unary x) => print x
-         | (Numbers x) => print x
-         | (Identifiers x) => print x
-         | (NONE) => ()
+           (Keyword x) => print ("keyword: " ^ x ^ "\n")
+         | (Assignment x) => print ("symbol: " ^ x ^ "\n")
+         | (Punctuation x) => print ("symbol: " ^ x ^ "\n")
+         | (Logical x) => print ("symbol: " ^ x ^ "\n")
+         | (Relational x) => print ("symbol: " ^ x ^ "\n")
+         | (ArithmeticBinary x) => print ("symbol: " ^ x ^ "\n")
+         | (Unary x) => print ("symbol: " ^ x ^ "\n")
+         | (Number x) =>  print ("number: " ^ x ^ "\n")
+         | (Identifier x) => print ("identifier: " ^ x ^ "\n")
+         | (Other x) => print ("OTHER: " ^ x ^ "\n")
+         | (NONE) => print ""
       ;
 ;
-*)
