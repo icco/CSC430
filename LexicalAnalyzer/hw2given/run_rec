@@ -19,6 +19,6 @@ untilEOF recognizeToken (TextIO.openIn "${dir}/${b}");
 END
 grep -v "GC #" ${outdir}/${b}.tmp | grep -v "Standard ML" | grep -v "autoloading" | grep -v "val " | grep -v "basis" | grep -v '^- $' >&! ${outdir}/${b}.output
 rm ${outdir}/${b}.tmp
-diff ${outdir}/${b}.correct ${outdir}/${b}.output
+diff -u ${outdir}/${b}.correct ${outdir}/${b}.output
 rm ${outdir}/${b}.output
 
