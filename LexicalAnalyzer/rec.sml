@@ -102,13 +102,13 @@ fun consume_white instr str =
     ""
 ;
 
-fun isSinglton ")" = true
-  | isSinglton "(" = true
-  | isSinglton "}" = true
-  | isSinglton "{" = true
-  | isSinglton ";" = true
-  | isSinglton "," = true
-  | isSinglton x   = false
+fun isNotSinglton "-" = true
+  | isNotSinglton "!" = true
+  | isNotSinglton ">" = true
+  | isNotSinglton "<" = true
+  | isNotSinglton ":" = true
+  | isNotSinglton "=" = true
+  | isNotSinglton x   = false
 ;
 
 fun read_symbol instr str =
@@ -122,10 +122,10 @@ fun read_symbol instr str =
       build_token str
     else 
       (
-      if isSinglton (Char.toString x) then
-        build_token (TextIO.inputN (instr, 1))
-      else
+      if (isNotSinglton (Char.toString x)) then
         read_symbol instr (str ^ TextIO.inputN (instr, 1))
+      else
+        build_token (TextIO.inputN (instr, 1))
       )
   end
 ;
