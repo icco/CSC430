@@ -127,7 +127,7 @@ fun read_token instr =
       
 fun recognizeToken instr =
     if TextIO.endOfStream instr then 
-      print "End Of File"
+      print "end-of-file\n"
     else
       case (read_token instr) of
            (Keyword x) => print ("keyword: " ^ x ^ "\n")
