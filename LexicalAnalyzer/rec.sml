@@ -60,7 +60,15 @@ fun build_token ""          = NONE
   | build_token "!"         = Unary "!" 
   | build_token " "         = NONE 
   | build_token "\n"        = NONE 
-  | build_token str         = Other str
+  | build_token str         = 
+   let
+     val x = (Int.fromString str)
+   in
+     if isSome x then
+       Number (Int.toString (valOf x))
+     else
+       Identifier str
+   end
 ;
 
 fun read_alpha instr str =
