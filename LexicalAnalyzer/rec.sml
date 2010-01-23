@@ -3,7 +3,7 @@
   Assignment: :=
   Punctuation: { } ( ) , ; ->
   Logical Operators: & |
-  Relational Operators: = < > ! = <= >=
+  Relational Operators: = < > != <= >=
   Arithmetic Binary Operators: + - * /
   Unary Operators: !
   Numbers: (0 ∪ ... ∪ 9)+
@@ -50,6 +50,7 @@ fun build_token ""          = EOF
   | build_token "&"         = Logical "&" 
   | build_token "|"         = Logical "|" 
   | build_token "="         = Relational "="  
+  | build_token "!="        = Relational "!="  
   | build_token ">"         = Relational ">"  
   | build_token "<"         = Relational "<"  
   | build_token "<="        = Relational "<=" 
@@ -59,8 +60,9 @@ fun build_token ""          = EOF
   | build_token "*"         = ArithmeticBinary "*"
   | build_token "/"         = ArithmeticBinary "/"
   | build_token "!"         = Unary "!" 
-  | build_token " "         = NONE 
-  | build_token "\n"        = NONE 
+  | build_token " "         = Other "space"
+  | build_token "\n"        = Other "newline"
+  | build_token "\t"        = Other "tab"
   | build_token str         = 
    let
      val x = (Int.fromString str)
@@ -94,20 +96,38 @@ fun read_digit instr str =
   end
 ;
 
+fun consume_white instr str = 
+  if (Char.isSpace (valOf (TextIO.lookahead instr))) then
+    consume_white instr (TextIO.inputN (instr, 1))
+  else
+    ""
+;
+
+fun isNotSinglton "-" = true
+  | isNotSinglton "!" = true
+  | isNotSinglton ">" = true
+  | isNotSinglton "<" = true
+  | isNotSinglton ":" = true
+  | isNotSinglton "=" = true
+  | isNotSinglton x   = false
+;
+
 fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
+    (*
+    print ("sym DBG:" ^ (str ^ (Char.toString x) ^ "\n"));
+    *)
     if ((Char.isAlpha x) orelse (Char.isDigit x) orelse (Char.isSpace x)) then
       build_token str
-    else
-      read_symbol instr (str ^ (TextIO.inputN (instr, 1)))
-      (*
-      if ((Char.toString x) = "=") orelse ((Char.toString x) = ">") then 
-        read_symbol instr (str ^ (TextIO.inputN (instr, 1)))
+    else 
+      (
+      if (isNotSinglton (Char.toString x)) then
+        read_symbol instr (str ^ TextIO.inputN (instr, 1))
       else
-        build_token str
-      *)
+        build_token (TextIO.inputN (instr, 1))
+      )
   end
 ;
 
@@ -116,7 +136,7 @@ fun read_token instr =
     val x = (valOf (TextIO.lookahead instr));
   in
     if Char.isSpace x then
-      build_token (TextIO.inputN (instr, 1))
+      build_token (consume_white instr "")
     else
       (
       if Char.isAlpha x then
@@ -127,7 +147,7 @@ fun read_token instr =
           read_digit instr ""
         else
           read_symbol instr ""
-         )
+        )
       )
   end
 ;
