@@ -21,11 +21,10 @@ datatype 'a Token =
     | Number of 'a
     | Identifier of 'a
     | Other of 'a
-    | EOF
     | NONE
 ;
 
-fun build_token ""          = EOF
+fun build_token ""          = NONE
   | build_token "int"       = Keyword "int"       
   | build_token "bool"      = Keyword "bool"      
   | build_token "fn"        = Keyword "fn"        
@@ -68,7 +67,7 @@ fun build_token ""          = EOF
      val x = (Int.fromString str)
    in
      if isSome x then
-       Number (Int.toString (valOf x))
+       Number str
      else
        Identifier str
    end
@@ -165,7 +164,6 @@ fun recognizeToken instr =
          | (Number x) =>  print ("number: " ^ x ^ "\n")
          | (Identifier x) => print ("identifier: " ^ x ^ "\n")
          | (Other x) => print ("OTHER: " ^ x ^ "\n")
-         | (EOF) => print "end-of-file\n"
          | (NONE) => ()
     else
       print "end-of-file\n"
