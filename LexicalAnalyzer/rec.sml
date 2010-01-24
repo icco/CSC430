@@ -112,26 +112,13 @@ fun isNotSinglton "-" = true
 ;
 
 fun isValidSym  ":=" = true 
-  | isValidSym  "{"  = true
-  | isValidSym  "}"  = true
-  | isValidSym  "("  = true
-  | isValidSym  ")"  = true
-  | isValidSym  ","  = true
-  | isValidSym  ";"  = true
   | isValidSym  "->" = true 
-  | isValidSym  "&"  = true
-  | isValidSym  "|"  = true
-  | isValidSym  "="  = true
   | isValidSym  "!=" = true 
-  | isValidSym  ">"  = true
-  | isValidSym  "<"  = true
   | isValidSym  "<=" = true
   | isValidSym  ">=" = true
-  | isValidSym  "+"  = true 
-  | isValidSym  "-"  = true 
-  | isValidSym  "*"  = true 
-  | isValidSym  "/"  = true 
-  | isValidSym  "!"  = true
+  | isValidSym  "=" = true
+  | isValidSym  "<" = true
+  | isValidSym  ">" = true
   | isValidSym  str  = false
 ;
 
@@ -139,19 +126,20 @@ fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
-    (*
-    print ("sym DBG:" ^ (str ^ (Char.toString x) ^ "\n"));
-    *)
     if ((Char.isAlpha x) 
      orelse (Char.isDigit x) 
-     orelse (Char.isSpace x) 
-     orelse (not (isValidSym (str ^ (Char.toString x)))))
+     orelse (Char.isSpace x)) 
     then
        build_token str
     else 
       (
       if (isNotSinglton (Char.toString x)) then
-        read_symbol instr (str ^ TextIO.inputN (instr, 1))
+        (
+        if (isValidSym (str)) then 
+          (build_token str) 
+        else 
+          read_symbol instr (str ^ TextIO.inputN (instr, 1))
+        )
       else
         build_token (TextIO.inputN (instr, 1))
       )
