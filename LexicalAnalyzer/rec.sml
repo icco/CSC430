@@ -111,15 +111,17 @@ fun isNotSinglton "-" = true
   | isNotSinglton x   = false
 ;
 
-fun isValidSym  ":=" = true 
-  | isValidSym  "->" = true 
-  | isValidSym  "!=" = true 
-  | isValidSym  "<=" = true
-  | isValidSym  ">=" = true
-  | isValidSym  "=" = true
-  | isValidSym  "<" = true
-  | isValidSym  ">" = true
-  | isValidSym  str  = false
+fun isValidSym ":=" = true 
+  | isValidSym "->" = true 
+  | isValidSym "!=" = true 
+  | isValidSym "<=" = true
+  | isValidSym ">=" = true
+ (* | isValidSym "=" = true
+  | isValidSym "-" = true
+  | isValidSym ">" = true
+  | isValidSym "<" = true
+  | isValidSym "!" = true *)
+  | isValidSym str  = false
 ;
 
 fun read_symbol instr str =
@@ -128,18 +130,14 @@ fun read_symbol instr str =
   in
     if ((Char.isAlpha x) 
      orelse (Char.isDigit x) 
-     orelse (Char.isSpace x)) 
+     orelse (Char.isSpace x)
+     orelse (isValidSym str)) 
     then
        build_token str
     else 
       (
       if (isNotSinglton (Char.toString x)) then
-        (
-        if (isValidSym (str)) then 
-          (build_token str) 
-        else 
-          read_symbol instr (str ^ TextIO.inputN (instr, 1))
-        )
+        read_symbol instr (str ^ TextIO.inputN (instr, 1))
       else
         build_token (TextIO.inputN (instr, 1))
       )
@@ -150,8 +148,9 @@ fun read_token instr =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
+    consume_white instr "";
     if Char.isSpace x then
-      build_token (consume_white instr "")
+      read_token instr
     else
       (
       if Char.isAlpha x then
