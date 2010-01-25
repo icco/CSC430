@@ -1,0 +1,17 @@
+#!/bin/csh -f
+# a simple way to test everything
+
+if (${1} == "") then
+echo "must provide source file"; exit 1
+endif
+
+foreach i ( tests/1_parser/*.df )
+	echo ==== $i ====
+	./run1 ${1} $i
+end
+
+foreach i ( tests/2_3_ast_echo/*.df )
+	echo ==== $i ====
+	./run1AST ${1} $i
+end
+

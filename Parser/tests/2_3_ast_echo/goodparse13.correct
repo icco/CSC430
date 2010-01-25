@@ -1,0 +1,17 @@
+{
+if ((1 < 2))
+{
+if ((2 < 3))
+{
+write true;
+}
+else
+{
+}
+write true;
+}
+else
+{
+write false;
+}
+}

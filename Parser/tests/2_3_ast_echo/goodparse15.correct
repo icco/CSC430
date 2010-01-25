@@ -1,0 +1,8 @@
+var i;
+{
+while ((j != 0))
+{
+write j;
+j := (j - 1);
+}
+}

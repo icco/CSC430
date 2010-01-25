@@ -1,0 +1,18 @@
+   var i, j;
+   var b;
+   fn foo(i, b)
+   var j, k;
+   var f, g;
+   {
+      if (i > 0)
+      {
+         f := foo(i - 1, b);
+      }
+      else
+      {
+      }
+      return unit;
+   }
+{
+   j := foo(1, b);
+}

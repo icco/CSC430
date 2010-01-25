@@ -1,0 +1,7 @@
+{
+if (x > y)
+   write x;
+   write y;
+else
+   {write y; {write x;}}
+}

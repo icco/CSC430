@@ -1,0 +1,7 @@
+   fn p(i)
+      var j,k;
+   {
+      return;
+   }
+{
+}

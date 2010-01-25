@@ -1,0 +1,16 @@
+var i;
+var j;
+{
+i := 5;
+j := 5;
+while ((!(i <= 0)))
+{
+while ((j > 0))
+{
+writeline (j + i);
+j := (j - 1);
+}
+writeline (j + i);
+i := (i - 1);
+}
+}

@@ -1,0 +1,10 @@
+{
+if ((1 < 2))
+{
+writeline true;
+}
+else
+{
+writeline false;
+}
+}

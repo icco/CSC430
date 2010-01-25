@@ -1,0 +1,8 @@
+   fn p(i)
+      var j,k;
+   {
+      return unit;
+   }
+{
+   p(2);
+}
