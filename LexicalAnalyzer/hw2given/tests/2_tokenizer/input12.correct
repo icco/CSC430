@@ -1,18 +1,15 @@
-val devnull = FD {fd=3} : ?.POSIX_FileSys.file_desc
-val sout = FD {fd=4} : ?.POSIX_IO.file_desc
-val it = () : unit
-val it = TK_LBRACE : token
-val it = TK_IF : token
-val it = TK_LPAREN : token
-val it = TK_NUM 1 : token
-val it = TK_LT : token
-val it = TK_NUM 2 : token
-val it = TK_RPAREN : token
-val it = TK_LBRACE : token
-val it = TK_WRITELINE : token
-val it = TK_TRUE : token
-val it = TK_SEMI : token
-val it = TK_RBRACE : token
-val it = TK_ELSE : token
-val it = TK_LBRACE : token
-val it = TK_WRITELINE : token
+TK_LBRACE
+TK_IF
+TK_LPAREN
+TK_NUM 1
+TK_LT
+TK_NUM 2
+TK_RPAREN
+TK_LBRACE
+TK_WRITELINE
+TK_TRUE
+TK_SEMI
+TK_RBRACE
+TK_ELSE
+TK_LBRACE
+TK_WRITELINE

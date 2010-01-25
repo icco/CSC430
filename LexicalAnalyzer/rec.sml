@@ -15,7 +15,7 @@
   Identifiers: (a ∪ ... ∪ z ∪ A ∪ ... ∪ Z) (a ∪ ... ∪ z ∪ A ∪ ... ∪ Z ∪ 0 ∪ ... ∪ 9)∗
 *)
 
-datatype 'a Token =
+datatype 'a NatToken =
     Keyword of 'a
     | Assignment of 'a
     | Punctuation of 'a
@@ -27,7 +27,7 @@ datatype 'a Token =
     | Identifier of 'a
     | Other of 'a
     | EOF
-    | NONE
+    | None
 ;
 
 fun build_token "int"       = Keyword "int"       
@@ -232,6 +232,6 @@ fun recognizeToken instr =
      (*  | (Other x) => print ("OTHER: " ^ x ^ "\n") *)
          | (Other x) => ()
          | (EOF) => print ("end-of-file\n")
-         | (NONE) => ()
+         | (None) => ()
     ;
 ;
