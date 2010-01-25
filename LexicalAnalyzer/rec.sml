@@ -1,3 +1,8 @@
+(**
+ * Token Recognizer for HW2
+ * @author Nathaniel "Nat" Welch
+ *)
+
 (*
   Keywords: int bool fn write writeline if else while true false return var unit
   Assignment: :=
@@ -102,47 +107,99 @@ fun consume_white instr str =
     ""
 ;
 
-fun isNotSinglton "-" = true
-  | isNotSinglton "!" = true
-  | isNotSinglton ">" = true
-  | isNotSinglton "<" = true
-  | isNotSinglton ":" = true
-  | isNotSinglton "=" = true
-  | isNotSinglton x   = false
+fun equals_parse instr "=" str =
+   case str of
+        ":" => build_token (str ^ "=")
+      | ">" => build_token (str ^ "=")
+      | "<" => build_token (str ^ "=")
+      | "!" => build_token (str ^ "=")
+      | ""  => build_token (str ^ "=")
+      | abc => build_token (str)
 ;
 
-fun isValidSym ":=" = true 
-  | isValidSym "->" = true 
-  | isValidSym "!=" = true 
-  | isValidSym "<=" = true
-  | isValidSym ">=" = true
- (* | isValidSym "=" = true
-  | isValidSym "-" = true
-  | isValidSym ">" = true
-  | isValidSym "<" = true
-  | isValidSym "!" = true *)
-  | isValidSym str  = false
+fun dash_parse instr str =
+   let
+     val x = (valOf (TextIO.lookahead instr));
+   in
+     if str = "-" andalso x = #">" then 
+       build_token (str ^ TextIO.inputN (instr, 1))
+     else
+       build_token str
+   end
 ;
 
+fun bang_parse instr str =
+   let
+     val x = (valOf (TextIO.lookahead instr));
+   in
+     if str = "!" andalso x = #"=" then 
+       build_token (str ^ TextIO.inputN (instr, 1))
+     else
+       build_token str
+   end
+;
+
+fun left_arrow_parse instr str =
+   let
+     val x = (valOf (TextIO.lookahead instr));
+   in
+     if str = "<" andalso x = #"=" then 
+       build_token (str ^ TextIO.inputN (instr, 1))
+     else
+       build_token str
+   end
+;
+
+fun right_arrow_parse instr str =
+   let
+     val x = (valOf (TextIO.lookahead instr));
+   in
+     if str = ">" andalso x = #"=" then 
+       build_token (str ^ TextIO.inputN (instr, 1))
+     else
+       build_token str
+   end
+;
+
+(*
+if (isNotSinglton (Char.toString x)) then
+  read_symbol instr (str ^ TextIO.inputN (instr, 1))
+else
+  build_token (TextIO.inputN (instr, 1))
+*)
 fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
-    if ((Char.isAlpha x) 
-     orelse (Char.isDigit x) 
-     orelse (Char.isSpace x)
-     orelse (isValidSym str)) 
-    then
-       build_token str
+    (*
+    print ("symDBG: " ^ (Char.toString x) ^ "\n");
+    *)
+    if ((Char.isAlpha x) orelse (Char.isDigit x) orelse (Char.isSpace x)) then
+      build_token str
     else 
       (
-      if (isNotSinglton (Char.toString x)) then
-        read_symbol instr (str ^ TextIO.inputN (instr, 1))
-      else
-        build_token (TextIO.inputN (instr, 1))
-      )
+      case x of
+           #":" => read_symbol instr (str ^ TextIO.inputN (instr, 1))
+         | #"{" => build_token (TextIO.inputN (instr, 1))
+         | #"}" => build_token (TextIO.inputN (instr, 1))
+         | #"(" => build_token (TextIO.inputN (instr, 1))
+         | #")" => build_token (TextIO.inputN (instr, 1))
+         | #"," => build_token (TextIO.inputN (instr, 1))
+         | #";" => build_token (TextIO.inputN (instr, 1))
+         | #"&" => build_token (TextIO.inputN (instr, 1))
+         | #"|" => build_token (TextIO.inputN (instr, 1))
+         | #"+" => build_token (TextIO.inputN (instr, 1))
+         | #"*" => build_token (TextIO.inputN (instr, 1))
+         | #"/" => build_token (TextIO.inputN (instr, 1))
+         | #"-" => dash_parse instr ((TextIO.inputN (instr, 1)) ^ str)
+         | #">" => right_arrow_parse instr ((TextIO.inputN (instr, 1)) ^ str)
+         | #"!" => bang_parse instr ((TextIO.inputN (instr, 1)) ^ str)
+         | #"<" => left_arrow_parse instr ((TextIO.inputN (instr, 1)) ^ str)
+         | #"=" => equals_parse instr (TextIO.inputN (instr, 1)) str
+         | strb => build_token (TextIO.inputN (instr, 1))
+       )
   end
-;
+  ;
 
 fun read_token instr = 
   let
