@@ -1,4 +1,4 @@
-use "../rec.sml";
+use "rec.sml";
 
 datatype token =
   TK_AND
