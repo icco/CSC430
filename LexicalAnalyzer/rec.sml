@@ -100,13 +100,6 @@ fun read_digit instr str =
   end
 ;
 
-fun consume_white instr str = 
-  if (Char.isSpace (valOf (TextIO.lookahead instr))) then
-    consume_white instr (TextIO.inputN (instr, 1))
-  else
-    ""
-;
-
 fun equals_parse instr "=" str =
    case str of
         ":" => build_token (str ^ "=")
@@ -201,7 +194,11 @@ fun read_token instr =
       val x = (valOf (TextIO.lookahead instr));
     in
       if Char.isSpace x then
-        build_token (TextIO.inputN (instr, 1))
+        (
+        (* Eat the white. *)
+        TextIO.inputN (instr, 1);
+        read_token instr
+        )
       else
         (
         if Char.isAlpha x then
