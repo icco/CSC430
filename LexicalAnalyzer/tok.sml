@@ -1,4 +1,4 @@
-use "rec.sml";
+use "../rec.sml";
 
 datatype token =
   TK_AND
@@ -8,7 +8,10 @@ datatype token =
   | TK_COMMA
   | TK_EOF
   | TK_ELSE
+  | TK_EQUALS
   | TK_FALSE
+  | TK_GT
+  | TK_GTE
   | TK_FN
   | TK_ID of string
   | TK_IF
@@ -16,8 +19,10 @@ datatype token =
   | TK_LBRACE
   | TK_LPAREN
   | TK_LT
+  | TK_LTE
   | TK_NE
   | TK_NUM of int
+  | TK_NOT
   | TK_PLUS
   | TK_RBRACE
   | TK_RETURN
@@ -54,14 +59,28 @@ fun nextToken instr =
      | Keyword "var" => TK_VAR
      | Keyword x => TK_OTHER x
      | Assignment x => TK_ASSIGN
+     | Punctuation ")" => TK_RPAREN
+     | Punctuation "(" => TK_LPAREN
+     | Punctuation "}" => TK_RBRACE
+     | Punctuation "{" => TK_LBRACE
+     | Punctuation "," => TK_COMMA
+     | Punctuation ";" => TK_SEMI
+     | Punctuation "->" => TK_ARROW
      | Punctuation x => TK_OTHER x
      | Logical "&" => TK_AND
      | Logical "|" => TK_OTHER "|"
      | Logical x => TK_OTHER x
+     | Relational "!=" => TK_NE
+     | Relational ">=" => TK_GTE
+     | Relational "<=" => TK_LTE
+     | Relational "=" => TK_EQUALS
+     | Relational ">" => TK_GT
+     | Relational "<" => TK_LT
      | Relational x => TK_OTHER x
      | ArithmeticBinary "+" => TK_PLUS
      | ArithmeticBinary "*" => TK_TIMES
      | ArithmeticBinary x => TK_OTHER x
+     | Unary "!" => TK_NOT
      | Unary x => TK_OTHER x
      | Number x => TK_NUM (valOf (Int.fromString x))
      | Identifier x => TK_ID x
