@@ -6,6 +6,7 @@ datatype token =
   | TK_ASSIGN
   | TK_BOOL
   | TK_COMMA
+  | TK_DIVIDE
   | TK_EOF
   | TK_ELSE
   | TK_EQUALS
@@ -20,9 +21,11 @@ datatype token =
   | TK_LPAREN
   | TK_LT
   | TK_LTE
+  | TK_MINUS
   | TK_NE
   | TK_NUM of int
   | TK_NOT
+  | TK_OR
   | TK_PLUS
   | TK_RBRACE
   | TK_RETURN
@@ -58,7 +61,8 @@ fun nextToken instr =
      | Keyword "unit" => TK_UNIT
      | Keyword "var" => TK_VAR
      | Keyword x => TK_OTHER x
-     | Assignment x => TK_ASSIGN
+     | Assignment ":=" => TK_ASSIGN
+     | Assignment x => TK_OTHER x
      | Punctuation ")" => TK_RPAREN
      | Punctuation "(" => TK_LPAREN
      | Punctuation "}" => TK_RBRACE
@@ -68,7 +72,7 @@ fun nextToken instr =
      | Punctuation "->" => TK_ARROW
      | Punctuation x => TK_OTHER x
      | Logical "&" => TK_AND
-     | Logical "|" => TK_OTHER "|"
+     | Logical "|" => TK_OR
      | Logical x => TK_OTHER x
      | Relational "!=" => TK_NE
      | Relational ">=" => TK_GTE
@@ -79,6 +83,8 @@ fun nextToken instr =
      | Relational x => TK_OTHER x
      | ArithmeticBinary "+" => TK_PLUS
      | ArithmeticBinary "*" => TK_TIMES
+     | ArithmeticBinary "-" => TK_MINUS
+     | ArithmeticBinary "/" => TK_DIVIDE
      | ArithmeticBinary x => TK_OTHER x
      | Unary "!" => TK_NOT
      | Unary x => TK_OTHER x
