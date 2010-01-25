@@ -30,8 +30,7 @@ datatype 'a Token =
     | NONE
 ;
 
-fun build_token ""          = NONE
-  | build_token "int"       = Keyword "int"       
+fun build_token "int"       = Keyword "int"       
   | build_token "bool"      = Keyword "bool"      
   | build_token "fn"        = Keyword "fn"        
   | build_token "write"     = Keyword "write"     
@@ -162,19 +161,10 @@ fun right_arrow_parse instr str =
    end
 ;
 
-(*
-if (isNotSinglton (Char.toString x)) then
-  read_symbol instr (str ^ TextIO.inputN (instr, 1))
-else
-  build_token (TextIO.inputN (instr, 1))
-*)
 fun read_symbol instr str =
   let
     val x = (valOf (TextIO.lookahead instr));
   in
-    (*
-    print ("symDBG: " ^ (Char.toString x) ^ "\n");
-    *)
     if ((Char.isAlpha x) orelse (Char.isDigit x) orelse (Char.isSpace x)) then
       build_token str
     else 
@@ -242,7 +232,7 @@ fun recognizeToken instr =
          | (Unary x) => print ("symbol: " ^ x ^ "\n")
          | (Number x) =>  print ("number: " ^ x ^ "\n")
          | (Identifier x) => print ("identifier: " ^ x ^ "\n")
-     (*    | (Other x) => print ("OTHER: " ^ x ^ "\n") *)
+     (*  | (Other x) => print ("OTHER: " ^ x ^ "\n") *)
          | (Other x) => ()
          | (EOF) => print ("end-of-file\n")
          | (NONE) => ()
