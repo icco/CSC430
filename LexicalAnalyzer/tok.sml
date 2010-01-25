@@ -1,3 +1,8 @@
+(**
+ * Part2 of lab 2. Requires code from part one in same directory.
+ * @author Nathaniel "Nat" Welch
+ *)
+
 use "rec.sml";
 
 datatype token =
