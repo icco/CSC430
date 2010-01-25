@@ -26,6 +26,7 @@ datatype 'a Token =
     | Number of 'a
     | Identifier of 'a
     | Other of 'a
+    | EOF
     | NONE
 ;
 
@@ -202,29 +203,35 @@ fun read_symbol instr str =
   ;
 
 fun read_token instr = 
-  let
-    val x = (valOf (TextIO.lookahead instr));
-  in
-    consume_white instr "";
-    if Char.isSpace x then
-      read_token instr
-    else
-      (
-      if Char.isAlpha x then
-        read_alpha instr ""
+  if (TextIO.endOfStream instr) then 
+    EOF
+  else
+    (
+    let
+      val x = (valOf (TextIO.lookahead instr));
+    in
+      if Char.isSpace x then
+        build_token (TextIO.inputN (instr, 1))
       else
         (
-        if Char.isDigit x then
-          read_digit instr ""
+        if Char.isAlpha x then
+          read_alpha instr ""
         else
-          read_symbol instr ""
+          (
+          if Char.isDigit x then
+            read_digit instr ""
+          else
+            read_symbol instr ""
+          )
         )
-      )
-  end
+    end
+    )
 ;
       
 fun recognizeToken instr =
-    if (not (TextIO.endOfStream instr)) then 
+    if (TextIO.endOfStream instr) then 
+      print "end-of-file\n"
+    else
       case (read_token instr) of
            (Keyword x) => print ("keyword: " ^ x ^ "\n")
          | (Assignment x) => print ("symbol: " ^ x ^ "\n")
@@ -235,9 +242,9 @@ fun recognizeToken instr =
          | (Unary x) => print ("symbol: " ^ x ^ "\n")
          | (Number x) =>  print ("number: " ^ x ^ "\n")
          | (Identifier x) => print ("identifier: " ^ x ^ "\n")
-         | (Other x) => print ("OTHER: " ^ x ^ "\n")
+     (*    | (Other x) => print ("OTHER: " ^ x ^ "\n") *)
+         | (Other x) => ()
+         | (EOF) => print ("end-of-file\n")
          | (NONE) => ()
-    else
-      print "end-of-file\n"
     ;
 ;
