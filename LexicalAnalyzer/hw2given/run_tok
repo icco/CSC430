@@ -29,7 +29,7 @@ nextToken fstr;
 nextToken fstr;
 END
 grep -v "GC #" ${outdir}/${b}.tmp | grep -v "Standard ML" | grep -v "autoloading" | grep -v "basis" | grep -v '^- $' >&! ${outdir}/${b}.output
-# rm ${outdir}/${b}.tmp
+rm ${outdir}/${b}.tmp
 diff -u ${outdir}/${b}.correct ${outdir}/${b}.output
-# rm ${outdir}/${b}.output
+rm ${outdir}/${b}.output
 
