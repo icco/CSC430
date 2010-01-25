@@ -1,70 +1,72 @@
 use "rec.sml";
 
-datatype Token =
-    TK_LBRACE
-    | TK_RBRACE
-    | TK_RPAREN
-    | TK_LPAREN
-    | TK_IF
-    | TK_ELSE
-    | TK_LT
-    | TK_TRUE
-    | TK_FALSE
-    | TK_SEMI
-    | TK_WRITE
-    | TK_WRITELINE
-    | TK_NUM of int
-    | TK_ID of string
-    | TK_VAR
-    | NONE
+datatype token =
+  TK_AND
+  | TK_ARROW
+  | TK_ASSIGN
+  | TK_BOOL
+  | TK_COMMA
+  | TK_EOF
+  | TK_ELSE
+  | TK_FALSE
+  | TK_FN
+  | TK_ID of string
+  | TK_IF
+  | TK_INT
+  | TK_LBRACE
+  | TK_LPAREN
+  | TK_LT
+  | TK_NE
+  | TK_NUM of int
+  | TK_PLUS
+  | TK_RBRACE
+  | TK_RETURN
+  | TK_RPAREN
+  | TK_SEMI
+  | TK_TIMES
+  | TK_TRUE
+  | TK_UNIT
+  | TK_VAR
+  | TK_WHILE
+  | TK_WRITELINE
+  | TK_WRITE
+  | TK_OTHER of string
+  | NONE
 ;
 
 (*
-* TK_AND : token
-* TK_ARROW : token
-* TK_ASSIGN : token
-* TK_BOOL : token
-* TK_COMMA : token
-* TK_EOF : token
-* TK_FALSE : token
-* TK_FN : token
-* TK_ID "abc456" : token
-* TK_IF : token
-* TK_INT : token
-* TK_LBRACE : token
-* TK_LPAREN : token
-* TK_LT : token
-* TK_NE : token
-* TK_NUM 5 : token
-* TK_PLUS : token
-* TK_RBRACE : token
-* TK_RETURN : token
-* TK_RPAREN : token
-* TK_SEMI : token
-* TK_TIMES : token
-* TK_TRUE : token
-* TK_UNIT : token
-* TK_VAR : token
-* TK_WHILE : token
-* TK_WRITELINE : token
-* TK_WRITE : token
+  Keywords: int bool fn write writeline if else while true false return var unit
 *)
-
 fun nextToken instr =
   case (read_token instr) of 
        Keyword "true" => TK_TRUE
      | Keyword "false" => TK_FALSE
-     | Keyword x => TK_LT
-     | Assignment x => TK_VAR
-     | Punctuation x => TK_VAR
-     | Logical x => TK_VAR
-     | Relational x => TK_VAR
-     | ArithmeticBinary x => TK_VAR
-     | Unary x => TK_VAR
-     | Number x => TK_VAR
+     | Keyword "int" => TK_INT
+     | Keyword "bool" => TK_BOOL
+     | Keyword "fn" => TK_FN
+     | Keyword "write" => TK_WRITE
+     | Keyword "writeline" => TK_WRITELINE
+     | Keyword "if" => TK_IF
+     | Keyword "else" => TK_ELSE
+     | Keyword "while" => TK_WHILE
+     | Keyword "return" => TK_RETURN
+     | Keyword "unit" => TK_UNIT
+     | Keyword "var" => TK_VAR
+     | Keyword x => TK_OTHER x
+     | Assignment x => TK_ASSIGN
+     | Punctuation x => TK_OTHER x
+     | Logical "&" => TK_AND
+     | Logical "|" => TK_OTHER "|"
+     | Logical x => TK_OTHER x
+     | Relational x => TK_OTHER x
+     | ArithmeticBinary "+" => TK_PLUS
+     | ArithmeticBinary "*" => TK_TIMES
+     | ArithmeticBinary x => TK_OTHER x
+     | Unary x => TK_OTHER x
+     | Number x => TK_NUM (valOf (Int.fromString x))
      | Identifier x => TK_ID x
-     | Other x => TK_VAR
-     | EOF => TK_VAR
+     | Other x => TK_OTHER x
+     | EOF => TK_EOF
      | None => NONE
 ;
 
