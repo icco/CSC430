@@ -13,14 +13,19 @@ fun parse_tok fptr x = true;
 
 (* Takes a file ptr from parse. *)
 fun parse_ptr fptr =
-   let
-     val x = (parse_tok fptr (nextToken fptr));
-   in
-     if x then
-       parse_ptr fptr
-     else
-       print "And here I thought you were going to give me working code.\n"
-   end
+  if (TextIO.endOfStream instr) then 
+    ()
+  else
+     (
+     let
+       val x = (parse_tok fptr (nextToken fptr));
+     in
+       if x then
+         parse_ptr fptr
+       else
+         print "And here I thought you were going to give me working code.\n"
+     end
+     )
 ;
 
 (* Main func for Part 1 *)
