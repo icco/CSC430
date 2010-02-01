@@ -36,15 +36,26 @@ fun non_terminal [] curTok fstr = curTok
    )
 ;
 
+fun loop_fn f curTok fstr =
+  if (f fstr curTok) then
+    curTok
+  else
+    loop_fn f (nextToken fstr) fstr
+;
+
 (****** Grammer Tree ******************************************************)
 (* Addop *)
-(* Arguments *) 
+(* Arguments *)
 (* Assignment *)
 (* Boolop *)
 (* Boolterm *)
 (* Compound statement *)
 (* Conditional *)
 (* Declarations *)
+fun do_declarations fstr =
+
+;
+
 (* Expression *)
 (* Factor *)
 (* Function *)
@@ -61,7 +72,7 @@ fun non_terminal [] curTok fstr = curTok
 (* Unary *)
 (* Unaryop *)
 (* Write *)
-(* Program *) 
+(* Program *)
 
 (* sends to the appropriate parser for the given token. *)
 fun parse_tok fptr TK_VAR = parse_declaration fptr
