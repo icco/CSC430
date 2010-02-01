@@ -51,7 +51,7 @@ fun expect fstr a b =
      (nextToken fstr) 
    else 
    (
-     TextIO.output (TextIO.stdErr, "Did not get wanted token"); 
+     TextIO.output (TextIO.stdErr, "Did not get wanted token\n"); 
      OS.Process.exit OS.Process.failure
    )
 ;
@@ -74,7 +74,7 @@ fun expect fstr a b =
 (* Declarations -> {var id {, id}* ; }* *)
 (* TODO: Support more than one declaration*)
 fun do_declarations fstr curTok =
-  expect fstr TK_SEMI (expect fstr TK_ID (expect fstr TK_VAR curTok))
+  expect fstr TK_SEMI (expect fstr (TK_ID("x")) (expect fstr TK_VAR curTok))
 ;
 
 (* Expression *)
@@ -90,9 +90,11 @@ fun do_declarations fstr curTok =
 (* Multop *)
 
 (* Parameter *)
+(*
 fun do_parameter fstr curTok =
    expect fstr TK_ID curTok
 ;
+*)
 
 (* Parameters *)
 
@@ -110,22 +112,23 @@ fun do_parameter fstr curTok =
 
 
 (* Unaryop *)
+(*
 fun do_unaryop fstr curTok =
    expect fstr TK_NOT curTok
 ;
+*)
 
 (* Write *)
 
 (* Program *)
-
-(* sends to the appropriate parser for the given token. *)
-fun parse_tok fptr TK_VAR = parse_declaration fptr
-  | parse_tok fptr x = true;
+fun do_program fptr =
+  do_declarations fptr (nextToken fptr)
+;
 
 (* Takes a file ptr from parse. *)
 fun parse_ptr fptr =
   if (TextIO.endOfStream fptr) then 
-    ()
+    TK_EOF
   else
     do_program fptr  
 ;
