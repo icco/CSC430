@@ -10,6 +10,33 @@ use "lexer.sml";
 
 exception IncorrectSyntax of string;
 
+(**
+ * My attempt to make this rediculously abstract. See if we have it so we can
+ * pass in a list of terminals to check for, we can be uber simple and readable
+ * it is possible though that this will fail miserably.
+ *)
+fun terminal a b = 
+   if ( a = b ) then 
+     a 
+   else 
+   (
+     TextIO.output (TextIO.stdErr, "Did not get wanted token"); 
+     OS.Process.exit OS.Process.failure
+   )
+;
+
+fun non_terminal [] curTok fstr = curTok
+  | non_terminal x::xs curTok fstr =
+   if ((terminal curTok x) = curTok) then
+     non_terminal xs (nextToken fstr) fstr
+   else
+   (
+     TextIO.output (TextIO.stdErr, "Did not get wanted token in a terminal"); 
+     OS.Process.exit OS.Process.failure
+   )
+;
+
+(****** Grammer Tree ******************************************************)
 (* Addop *)
 (* Arguments *) 
 (* Assignment *)
@@ -18,27 +45,10 @@ exception IncorrectSyntax of string;
 (* Compound statement *)
 (* Conditional *)
 (* Declarations *)
-fun do_declarations fptr TK_VAR = do_declarations fptr (nextToken fptr)
-  | do_declarations fptr (TK_ID x) = 
-   case (nextToken fptr) of 
-        TK_COMMA => do_declaractions fptr (nextToken fptr)
-      | TK_SEMI => fptr 
-      | y = raise IncorrectSyntax("Incorrect Declaration\n")
-;
-
-
 (* Expression *)
 (* Factor *)
 (* Function *)
-fun do_function fptr TK_FN = do_function fptr (nextToken fptr)
-  | do_function fptr (TK_ID x) = do_function fptr (nextToken fptr)
-  | do_function fptr TK_LPAREN = do_parameters fptr (nextToken fptr)
-;
-
 (* Functions *)
-fun do_functions fptr x = 
-  do_function fptr x
-;
 (* Loop *)
 (* Multop *)
 (* Parameter *)
@@ -52,9 +62,6 @@ fun do_functions fptr x =
 (* Unaryop *)
 (* Write *)
 (* Program *) 
-fun do_program fptr =
-   do_statement (do_functions (do_declarations fptr))
-;
 
 (* sends to the appropriate parser for the given token. *)
 fun parse_tok fptr TK_VAR = parse_declaration fptr
