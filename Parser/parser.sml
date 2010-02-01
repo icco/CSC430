@@ -15,6 +15,7 @@ exception IncorrectSyntax of string;
  * pass in a list of terminals to check for, we can be uber simple and readable
  * it is possible though that this will fail miserably.
  *)
+(*
 fun terminal a b = 
    if ( a = b ) then 
      a 
@@ -42,36 +43,79 @@ fun loop_fn f curTok fstr =
   else
     loop_fn f (nextToken fstr) fstr
 ;
+*)
+
+(* Ugh. Doing this this way will make the AST really hard. *)
+fun expect fstr a b = 
+   if ( a = b ) then 
+     (nextToken fstr) 
+   else 
+   (
+     TextIO.output (TextIO.stdErr, "Did not get wanted token"); 
+     OS.Process.exit OS.Process.failure
+   )
+;
 
 (****** Grammer Tree ******************************************************)
 (* Addop *)
-(* Arguments *)
-(* Assignment *)
-(* Boolop *)
-(* Boolterm *)
-(* Compound statement *)
-(* Conditional *)
-(* Declarations *)
-fun do_declarations fstr =
 
+(* Arguments *)
+
+(* Assignment *)
+
+(* Boolop *)
+
+(* Boolterm *)
+
+(* Compound statement *)
+
+(* Conditional *)
+
+(* Declarations -> {var id {, id}* ; }* *)
+(* TODO: Support more than one declaration*)
+fun do_declarations fstr curTok =
+  expect fstr TK_SEMI (expect fstr TK_ID (expect fstr TK_VAR curTok))
 ;
 
 (* Expression *)
+
 (* Factor *)
+
 (* Function *)
+
 (* Functions *)
+
 (* Loop *)
+
 (* Multop *)
+
 (* Parameter *)
+fun do_parameter fstr curTok =
+   expect fstr TK_ID curTok
+;
+
 (* Parameters *)
+
 (* Relop *)
+
 (* Return *)
+
 (* Simple  *)
+
 (* Statement *)
+
 (* Term *)
+
 (* Unary *)
+
+
 (* Unaryop *)
+fun do_unaryop fstr curTok =
+   expect fstr TK_NOT curTok
+;
+
 (* Write *)
+
 (* Program *)
 
 (* sends to the appropriate parser for the given token. *)
