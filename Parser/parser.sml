@@ -10,40 +10,46 @@ use "lexer.sml";
 
 exception IncorrectSyntax of string;
 
-(**
- * My attempt to make this rediculously abstract. See if we have it so we can
- * pass in a list of terminals to check for, we can be uber simple and readable
- * it is possible though that this will fail miserably.
- *)
-(*
-fun terminal a b = 
-   if ( a = b ) then 
-     a 
-   else 
-   (
-     TextIO.output (TextIO.stdErr, "Did not get wanted token"); 
-     OS.Process.exit OS.Process.failure
-   )
+fun t2s TK_TRUE = "true"
+  | t2s TK_FALSE = "false"
+  | t2s TK_INT = "int"
+  | t2s TK_BOOL = "bool"
+  | t2s TK_FN = "fn"
+  | t2s TK_WRITE = "write"
+  | t2s TK_WRITELINE = "writeline"
+  | t2s TK_IF = "if"
+  | t2s TK_ELSE = "else"
+  | t2s TK_WHILE = "while"
+  | t2s TK_RETURN = "return"
+  | t2s TK_UNIT = "unit"
+  | t2s TK_VAR = "var"
+  | t2s TK_ASSIGN = ":="
+  | t2s TK_LPAREN = "("
+  | t2s TK_RPAREN = ")"
+  | t2s TK_LBRACE = "{"
+  | t2s TK_RBRACE = "}"
+  | t2s TK_COMMA = ","
+  | t2s TK_SEMI = ";"
+  | t2s TK_ARROW = "->"
+  | t2s TK_AND = "&"
+  | t2s TK_OR = "|"
+  | t2s TK_NE = "!="
+  | t2s TK_GTE = ">="
+  | t2s TK_LTE = "<="
+  | t2s TK_EQUALS = "="
+  | t2s TK_GT = ">"
+  | t2s TK_LT = "<"
+  | t2s TK_LT = "<"
+  | t2s TK_PLUS = "+"
+  | t2s TK_MINUS = "-"
+  | t2s TK_TIMES = "*"
+  | t2s TK_DIVIDE = "/"
+  | t2s TK_NOT = "!"
+  | t2s (TK_NUM x) = (str x)
+  | t2s (TK_ID x) = (str x)
+  | t2s TK_EOF = "eof"
+  | t2s x = "UNKNOW"
 ;
-
-fun non_terminal [] curTok fstr = curTok
-  | non_terminal x::xs curTok fstr =
-   if ((terminal curTok x) = curTok) then
-     non_terminal xs (nextToken fstr) fstr
-   else
-   (
-     TextIO.output (TextIO.stdErr, "Did not get wanted token in a terminal"); 
-     OS.Process.exit OS.Process.failure
-   )
-;
-
-fun loop_fn f curTok fstr =
-  if (f fstr curTok) then
-    curTok
-  else
-    loop_fn f (nextToken fstr) fstr
-;
-*)
 
 (* Ugh. Doing this this way will make the AST really hard. *)
 fun expect fstr a b = 
