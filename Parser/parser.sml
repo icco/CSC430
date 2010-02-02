@@ -8,8 +8,9 @@
 (* Bring in lexer to turn txt into tokens *)
 use "lexer.sml";
 
-exception IncorrectSyntax of string;
-
+(**
+ * Token to String
+ *)
 fun t2s TK_TRUE = "true"
   | t2s TK_FALSE = "false"
   | t2s TK_INT = "int"
@@ -39,26 +40,28 @@ fun t2s TK_TRUE = "true"
   | t2s TK_EQUALS = "="
   | t2s TK_GT = ">"
   | t2s TK_LT = "<"
-  | t2s TK_LT = "<"
   | t2s TK_PLUS = "+"
   | t2s TK_MINUS = "-"
   | t2s TK_TIMES = "*"
   | t2s TK_DIVIDE = "/"
   | t2s TK_NOT = "!"
-  | t2s (TK_NUM x) = (str x)
-  | t2s (TK_ID x) = (str x)
+  | t2s (TK_NUM x) = (Int.toString x)
+  | t2s (TK_ID x) = x
   | t2s TK_EOF = "eof"
   | t2s x = "UNKNOW"
 ;
 
-(* Ugh. Doing this this way will make the AST really hard. *)
+(**
+ * General expect function
+ *)
 fun expect fstr a b = 
    if ( a = b ) then 
-     (nextToken fstr) 
+     true
    else 
    (
-     TextIO.output (TextIO.stdErr, "Did not get wanted token\n"); 
-     OS.Process.exit OS.Process.failure
+     TextIO.output (TextIO.stdErr, "expected '" ^ (t2s a) ^ "' got '" ^ (t2s b) ^ "'\n"); 
+     OS.Process.exit OS.Process.failure;
+     false
    )
 ;
 
@@ -80,7 +83,7 @@ fun expect fstr a b =
 (* Declarations -> {var id {, id}* ; }* *)
 (* TODO: Support more than one declaration*)
 fun do_declarations fstr curTok =
-  expect fstr TK_SEMI (expect fstr (TK_ID("x")) (expect fstr TK_VAR curTok))
+   
 ;
 
 (* Expression *)
