@@ -110,8 +110,10 @@ fun do_parameter fstr curTok =
 ;
 
 (* Parameters *)
-fun do_paramaters fstr curTok =
-  curTok
+fun do_parameters fstr curTok =
+  if curTok = (TK_ID "x") then
+    do_parameters fstr (do_parameter fstr curTok)
+  else
 ;
 
 (* Expression *)
