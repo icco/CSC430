@@ -54,7 +54,8 @@ fun t2s TK_TRUE = "true"
 (**
  * General expect function
  *)
-fun expect fstr a b = 
+fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
+  | expect fstr a b = 
    if ( a = b ) then 
      nextToken fstr
    else 
@@ -65,20 +66,23 @@ fun expect fstr a b =
    )
 ;
 
+
+(**
+ * ....
+ *)
+fun isId (TK_ID _) = true
+  | isId x = false
+;
+
 (****** Grammer Tree ******************************************************)
-(* Addop *)
-
-(* Arguments *)
-
-(* Assignment *)
-
-(* Boolop *)
-
-(* Boolterm *)
-
 (* Compound statement *)
+(* { statement* } *)
 fun do_compound_statement fstr curTok =
-  curTok
+   curTok
+(* Statement *)
+(* compound statement | assignment | write | conditional | loop | return *)
+and do_statement fstr curTok =
+   curTok
 ;
 
 (* Conditional *)
@@ -111,9 +115,15 @@ fun do_parameter fstr curTok =
 
 (* Parameters *)
 fun do_parameters fstr curTok =
-  if curTok = (TK_ID "x") then
+  if (isId curTok)  then
     do_parameters fstr (do_parameter fstr curTok)
   else
+      (
+      if curTok = TK_COMMA then
+        do_parameter fstr (expect fstr TK_COMMA curTok)
+      else 
+        curTok
+      )
 ;
 
 (* Expression *)
@@ -125,7 +135,7 @@ fun do_function fstr curTok =
   do_compound_statement fstr (
     do_declarations fstr (
       expect fstr TK_RPAREN (
-        do_paramaters fstr (
+        do_parameters fstr (
           expect fstr TK_LPAREN (
             expect fstr (TK_ID "x") (expect fstr TK_FN curTok)
           )
@@ -153,21 +163,26 @@ fun do_functions fstr curTok =
 
 (* Simple  *)
 
-(* Statement *)
-
 (* Term *)
 
 (* Unary *)
 
-
 (* Unaryop *)
-(*
 fun do_unaryop fstr curTok =
    expect fstr TK_NOT curTok
 ;
-*)
 
 (* Write *)
+
+(* Addop *)
+
+(* Arguments *)
+
+(* Assignment *)
+
+(* Boolop *)
+
+(* Boolterm *)
 
 (* Program *)
 fun do_program fptr =
@@ -184,6 +199,10 @@ fun parse_ptr fptr =
 
 (* Main func for Part 1 *)
 fun parse filename = 
-   parse_ptr (TextIO.openIn filename)
+  let
+    val f = (TextIO.openIn filename);
+  in
+    expect f TK_EOF (parse_ptr f)
+  end
 ;
 
