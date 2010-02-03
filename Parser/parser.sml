@@ -46,7 +46,7 @@ fun t2s TK_TRUE = "true"
   | t2s TK_DIVIDE = "/"
   | t2s TK_NOT = "!"
   | t2s (TK_NUM x) = (Int.toString x)
-  | t2s (TK_ID x) = x
+  | t2s (TK_ID x) = "ID: " ^ x
   | t2s TK_EOF = "eof"
   | t2s x = "UNKNOW"
 ;
@@ -56,12 +56,12 @@ fun t2s TK_TRUE = "true"
  *)
 fun expect fstr a b = 
    if ( a = b ) then 
-     true
+     nextToken fstr
    else 
    (
      TextIO.output (TextIO.stdErr, "expected '" ^ (t2s a) ^ "' got '" ^ (t2s b) ^ "'\n"); 
      OS.Process.exit OS.Process.failure;
-     false
+     NONE
    )
 ;
 
@@ -80,10 +80,25 @@ fun expect fstr a b =
 
 (* Conditional *)
 
-(* Declarations -> {var id {, id}* ; }* *)
+(* Declarations -> var id {, id}* ; * *)
 (* TODO: Support more than one declaration*)
+fun comma_id fstr curTok =
+  if (curTok = TK_COMMA) then
+    comma_id fstr (expect fstr (TK_ID "x") (expect fstr TK_COMMA curTok))
+  else 
+    curTok
+;
+
 fun do_declarations fstr curTok =
-   
+  if (curTok = TK_VAR) then
+    expect fstr TK_SEMI 
+      (comma_id fstr 
+         (expect fstr (TK_ID "x") 
+            (expect fstr TK_VAR curTok)
+         )
+      )
+  else 
+    curTok
 ;
 
 (* Expression *)
@@ -93,17 +108,21 @@ fun do_declarations fstr curTok =
 (* Function *)
 
 (* Functions *)
+fun do_functions fstr curTok =
+  if curTok = TK_FN then
+    do_function fstr curTok
+  else
+    curTok
+;
 
 (* Loop *)
 
 (* Multop *)
 
 (* Parameter *)
-(*
 fun do_parameter fstr curTok =
    expect fstr TK_ID curTok
 ;
-*)
 
 (* Parameters *)
 
