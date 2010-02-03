@@ -77,6 +77,9 @@ fun expect fstr a b =
 (* Boolterm *)
 
 (* Compound statement *)
+fun do_compound_statement fstr curTok =
+  curTok
+;
 
 (* Conditional *)
 
@@ -101,11 +104,34 @@ fun do_declarations fstr curTok =
     curTok
 ;
 
+(* Parameter *)
+fun do_parameter fstr curTok =
+   expect fstr (TK_ID "x") curTok
+;
+
+(* Parameters *)
+fun do_paramaters fstr curTok =
+  curTok
+;
+
 (* Expression *)
 
 (* Factor *)
 
 (* Function *)
+fun do_function fstr curTok =
+  do_compound_statement fstr (
+    do_declarations fstr (
+      expect fstr TK_RPAREN (
+        do_paramaters fstr (
+          expect fstr TK_LPAREN (
+            expect fstr (TK_ID "x") (expect fstr TK_FN curTok)
+          )
+        )
+      )
+    )
+  )
+;
 
 (* Functions *)
 fun do_functions fstr curTok =
@@ -118,13 +144,6 @@ fun do_functions fstr curTok =
 (* Loop *)
 
 (* Multop *)
-
-(* Parameter *)
-fun do_parameter fstr curTok =
-   expect fstr TK_ID curTok
-;
-
-(* Parameters *)
 
 (* Relop *)
 
