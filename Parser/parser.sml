@@ -66,10 +66,7 @@ fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
    )
 ;
 
-
-(**
- * ....
- *)
+(** I guess I could have used this in expect, but whatever...  *)
 fun isId (TK_ID _) = true
   | isId x = false
 ;
