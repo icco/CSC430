@@ -107,18 +107,45 @@ fun do_write fstr curTok =
 
 (* Arguments *)
 
-(* Assignment *)
-fun do_assignment fstr curTok =
-  curTok
-;
-
 (* Boolop *)
 
 (* Boolterm *)
 
+(* Expression *)
+
+(* Factor *)
+
+(* Assignment *)
+fun do_assignment fstr curTok =
+   expect fstr TK_SEMI (
+      do_expression fstr (
+         expect fstr TK_ASSIGN (
+            expect fstr TK_ID curTok
+         )
+      )
+   )
+;
+
 (* Conditional *)
+fun do_else fstr curTok =
+   if curTok = TK_ELSE then
+     do_compound_statement fstr (expect fstr TK_ELSE curTok)    
+   else
+     curTok
+;
+
 fun do_conditional fstr curTok =
-  curTok
+   do_else fstr (
+     do_compound_statement fstr (
+       expect fstr TK_RPAREN (
+         do_expresssion fstr (
+           expect fstr TK_LPAREN (
+             expect fstr TK_IF curTok
+           )
+         )
+       )
+     )
+   )
 ;
 
 (* Compound statement : { statement* } *)
@@ -174,10 +201,6 @@ fun do_parameters fstr curTok =
         curTok
       )
 ;
-
-(* Expression *)
-
-(* Factor *)
 
 (* Function *)
 fun do_function fstr curTok =
