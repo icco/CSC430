@@ -66,15 +66,56 @@ fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
    )
 ;
 
+(**
+ * Like expect, but takes an array of possible values.
+ * NOTE: Doesn't work for TK_ID
+ *)
+fun array_expect fstr [] curTok = ( TextIO.output (TextIO.stdErr, "expected something else\n"); OS.Process.exit OS.Process.failure; NONE)
+  | array_expect fstr (x::xs) curTok = 
+   if (curTok = x) then 
+      nextToken fstr
+   else 
+     array_expect fstr xs curTok
+;
+
 (** I guess I could have used this in expect, but whatever...  *)
 fun isId (TK_ID _) = true
   | isId x = false
 ;
 
 (****** Grammer Tree Parsing **************************************************)
-(* TODO: Multop *)
+(* Multop *)
+fun do_multop fstr curTok =
+  array_expect fstr (TK_TIMES::TK_DIVIDE::[]) curTok
+;
+
+(* TODO: Addop *)
+fun do_addop fstr curTok =
+  array_expect fstr (TK_PLUS::TK_MINUS::[]) curTok
+;
 
 (* TODO: Relop *)
+fun do_relop fstr curTok =
+  let
+    val w = (TK_EQUALS::TK_LT::TK_GT::TK_GTE::TK_LTE::TK_NE::[]);
+  in
+    array_expect fstr w curTok
+  end
+;
+
+(* TODO: Boolop *)
+fun do_boolop fstr curTok =
+  array_expect fstr (TK_AND::TK_OR::[]) curTok
+;
+
+(* Unaryop *)
+fun do_unaryop fstr curTok =
+   expect fstr TK_NOT curTok
+;
+
+(* TODO: Arguments *)
+
+(* TODO: Boolterm *)
 
 (* TODO: Simple  *)
 
@@ -82,18 +123,6 @@ fun isId (TK_ID _) = true
 
 (* TODO: Unary *)
 
-(* Unaryop *)
-fun do_unaryop fstr curTok =
-   expect fstr TK_NOT curTok
-;
-
-(* TODO: Addop *)
-
-(* TODO: Arguments *)
-
-(* TODO: Boolop *)
-
-(* TODO: Boolterm *)
 
 (* Expression -- Boolean fun *)
 fun do_expression fstr curTok =
