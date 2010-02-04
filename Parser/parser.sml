@@ -57,12 +57,12 @@ fun t2s TK_TRUE = "true"
 fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
   | expect fstr a b = 
    if ( a = b ) then 
-     nextToken fstr
+      nextToken fstr
    else 
    (
-     TextIO.output (TextIO.stdErr, "expected '" ^ (t2s a) ^ "' got '" ^ (t2s b) ^ "'\n"); 
-     OS.Process.exit OS.Process.failure;
-     NONE
+      TextIO.output (TextIO.stdErr, "expected '" ^ (t2s a) ^ "' got '" ^ (t2s b) ^ "'\n"); 
+      OS.Process.exit OS.Process.failure;
+      NONE
    )
 ;
 
@@ -71,19 +71,55 @@ fun isId (TK_ID _) = true
   | isId x = false
 ;
 
-(****** Grammer Tree ******************************************************)
+(****** Grammer Tree Parsing **************************************************)
 
-(* Compound statement *)
-(* { statement* } *)
-fun do_compound_statement fstr curTok =
-   curTok
-(* Statement *)
-(* compound statement | assignment | write | conditional | loop | return *)
-and do_statement fstr curTok =
-   curTok
+(* Loop *)
+
+(* Multop *)
+
+(* Relop *)
+
+(* Return *)
+
+(* Simple  *)
+
+(* Term *)
+
+(* Unary *)
+
+(* Unaryop *)
+fun do_unaryop fstr curTok =
+   expect fstr TK_NOT curTok
 ;
 
+(* Write *)
+
+(* Addop *)
+
+(* Arguments *)
+
+(* Assignment *)
+
+(* Boolop *)
+
+(* Boolterm *)
+
 (* Conditional *)
+
+(* Compound statement : { statement* } *)
+(* Statement: compound statement | assignment | write | conditional | loop | return *)
+fun do_compound_statement fstr curTok =
+  expect fstr TK_RBRACE (do_statement fstr (expect fstr TK_LBRACE curTok))
+and do_statement fstr curTok =
+   case curTok of
+        (TK_ID x) => do_assignment fstr curTok
+      | TK_WRITE => do_write fstr curTok
+      | TK_IF => do_conditional fstr curTok
+      | TK_WHILE => do_loop fstr curTok
+      | TK_RETURN => do_return fstr curTok
+      | TK_LBRACE => do_compound_statement fstr curTok
+      | y => curTok
+;
 
 (* Declarations -> var id {, id}* ; * *)
 (* TODO: Support more than one declaration*)
@@ -150,37 +186,6 @@ fun do_functions fstr curTok =
   else
     curTok
 ;
-
-(* Loop *)
-
-(* Multop *)
-
-(* Relop *)
-
-(* Return *)
-
-(* Simple  *)
-
-(* Term *)
-
-(* Unary *)
-
-(* Unaryop *)
-fun do_unaryop fstr curTok =
-   expect fstr TK_NOT curTok
-;
-
-(* Write *)
-
-(* Addop *)
-
-(* Arguments *)
-
-(* Assignment *)
-
-(* Boolop *)
-
-(* Boolterm *)
 
 (* Program *)
 fun do_program fptr =
