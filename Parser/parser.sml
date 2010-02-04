@@ -170,7 +170,6 @@ and do_statement fstr curTok =
 ;
 
 (* Declarations -> var id {, id}* ; * *)
-(* TODO: Support more than one declaration*)
 fun comma_id fstr curTok =
   if (curTok = TK_COMMA) then
     comma_id fstr (expect fstr (TK_ID "x") (expect fstr TK_COMMA curTok))
