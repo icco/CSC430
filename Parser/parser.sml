@@ -114,10 +114,6 @@ fun do_write fstr curTok =
      | x => curTok
 ;
 
-(* TODO: Loop *)
-fun do_loop fstr curTok =
-  curTok
-;
 
 (* Assignment *)
 fun do_assignment fstr curTok =
@@ -153,6 +149,17 @@ and do_conditional fstr curTok =
        )
      )
    )
+(* Loop *)
+and do_loop fstr curTok =
+  do_compound_statement fstr (
+    expect fstr TK_RPAREN (
+      do_expression fstr (
+        expect fstr TK_LPAREN (
+          expect fstr TK_WHILE curTok
+        )
+      )
+    )
+  )
 (* Compound statement : { statement* } *)
 and do_compound_statement fstr curTok =
   expect fstr TK_RBRACE (do_statement fstr (expect fstr TK_LBRACE curTok))
