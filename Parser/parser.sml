@@ -74,12 +74,18 @@ fun isId (TK_ID _) = true
 (****** Grammer Tree Parsing **************************************************)
 
 (* Loop *)
+fun do_loop fstr curTok =
+  curTok
+;
 
 (* Multop *)
 
 (* Relop *)
 
 (* Return *)
+fun do_return fstr curTok =
+  curTok
+;
 
 (* Simple  *)
 
@@ -93,18 +99,27 @@ fun do_unaryop fstr curTok =
 ;
 
 (* Write *)
+fun do_write fstr curTok =
+  curTok
+;
 
 (* Addop *)
 
 (* Arguments *)
 
 (* Assignment *)
+fun do_assignment fstr curTok =
+  curTok
+;
 
 (* Boolop *)
 
 (* Boolterm *)
 
 (* Conditional *)
+fun do_conditional fstr curTok =
+  curTok
+;
 
 (* Compound statement : { statement* } *)
 (* Statement: compound statement | assignment | write | conditional | loop | return *)
