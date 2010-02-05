@@ -339,7 +339,7 @@ fun do_functions fstr curTok =
 
 (* Program *)
 fun do_program fptr =
-  do_declarations fptr (nextToken fptr)
+  do_statement fptr (do_functions fptr (do_declarations fptr (nextToken fptr)))
 ;
 
 (* Takes a file ptr from parse. *)
@@ -355,6 +355,7 @@ fun parse filename =
   let
     val f = (TextIO.openIn filename);
   in
+ (*   print ((t2s (parse_ptr f)) ^ "\n") *)
     expect f TK_EOF (parse_ptr f)
   end
 ;
