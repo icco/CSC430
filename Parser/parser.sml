@@ -288,7 +288,7 @@ and do_statement fstr curTok =
       | TK_WHILE => do_loop fstr curTok
       | TK_RETURN => do_return fstr curTok
       | TK_LBRACE => do_compound_statement fstr curTok
-      | y => die ("expected 'statement', got '" ^ (t2s y) ^ "'\n")
+      | y => (die ("expected 'statement', found '" ^ (t2s y) ^ "'\n"); y)
 ;
 
 (* Declarations -> var id {, id}* ; * *)
