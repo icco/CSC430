@@ -55,6 +55,7 @@ fun t2s TK_TRUE = "true"
  * General expect function
  *)
 fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
+  | expect fstr (TK_NUM _) (TK_NUM _) = (nextToken fstr)
   | expect fstr a b = 
    if ( a = b ) then 
       nextToken fstr
@@ -88,9 +89,16 @@ fun isId (TK_ID _) = true
 ;
 
 (****** Grammer Tree Parsing **************************************************)
-(* TODO: Factor *)
+(* Factor *)
 fun do_factor fstr curTok =
-  curTok
+   case curTok of
+        TK_LPAREN => expect fstr TK_RPAREN (do_expression fstr (expect fstr TK_LPAREN curTok))
+      | TK_ID _ => expect fstr (TK_ID "x") curTok
+      | TK_NUM _ => expect fstr (TK_NUM 0) curTok
+      | TK_TRUE => expect fstr TK_TRUE curTok
+      | TK_FALSE => expect fstr TK_FALSE curTok
+      | TK_UNIT => expect fstr TK_UNIT curTok
+      | x => x
 ;
 
 (* Multop *)
