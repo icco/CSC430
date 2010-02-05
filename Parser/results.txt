@@ -1,0 +1,225 @@
+./runPart1 parser.sml
+==== tests/1_parser/badparse01.df ====
+1c1
+< expected ':=', found 'eof'
+---
+> expected 'eof', found 'program'
+==== tests/1_parser/badparse02.df ====
+1c1
+< expected ':=', found 'eof'
+---
+> expected 'eof', found 'a'
+==== tests/1_parser/badparse03.df ====
+==== tests/1_parser/badparse04.df ====
+1c1
+< expected 'statement', found '}'
+---
+> expected 'eof', found '}'
+==== tests/1_parser/badparse05.df ====
+1c1
+< expected ':=', found 'k'
+---
+> expected 'eof', found 'bob'
+==== tests/1_parser/badparse06.df ====
+==== tests/1_parser/badparse07.df ====
+1c1
+< expected '}', found 'var'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse08.df ====
+==== tests/1_parser/badparse09.df ====
+1c1
+< expected '}', found ':='
+---
+> expected 'eof', found 'var'
+==== tests/1_parser/badparse10.df ====
+1c1
+< expected 'id or value', found '}'
+---
+> expected 'eof', found 'var'
+==== tests/1_parser/badparse11.df ====
+1c1
+< expected '}', found 'eof'
+---
+> expected 'eof', found 'var'
+==== tests/1_parser/badparse12.df ====
+1c1
+< expected 'id or value', found 'eof'
+---
+> expected 'eof', found 'var'
+==== tests/1_parser/badparse13.df ====
+1c1
+< expected ';', found '2'
+---
+> expected 'eof', found 'var'
+==== tests/1_parser/badparse14.df ====
+1c1
+< expected '{', found 'writeline'
+---
+> expected 'eof', found 'var'
+==== tests/1_parser/badparse15.df ====
+1c1
+< expected ')', found '{'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse16.df ====
+1c1
+< expected '{', found '}'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse17.df ====
+1c1
+< expected '}', found 'else'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse18.df ====
+1c1
+< expected '{', found 'else'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse19.df ====
+1c1
+< expected ')', found '{'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse20.df ====
+1c1
+< expected '(', found '{'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse21.df ====
+1c1
+< expected '{', found 'write'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse22.df ====
+1c1
+< expected ';', found 'b'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse23.df ====
+1c1
+< expected 'id or value', found '+'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse24.df ====
+1c1
+< expected '{', found 'write'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse25.df ====
+1c1
+< expected ';', found '!'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse26.df ====
+==== tests/1_parser/badparse27.df ====
+1c1
+< expected 'id or value', found '!'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse28.df ====
+1c1
+< expected ';', found '<='
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse29.df ====
+1c1
+< expected ')', found ';'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse30.df ====
+1c1
+< expected '{', found ')'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse31.df ====
+1c1
+< expected ':=', found '='
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse32.df ====
+1c1
+< expected 'id or value', found '-'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse33.df ====
+1c1
+< expected '{', found ')'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse34.df ====
+1c1
+< expected '(', found '2'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse35.df ====
+1c1
+< expected 'statement', found 'eof'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse36.df ====
+1c1
+< expected ')', found 'var'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse37.df ====
+1c1
+< expected ')', found 'j'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse38.df ====
+1c1
+< expected '{', found 'fn'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse39.df ====
+1c1
+< expected 'identifier', found '('
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse40.df ====
+1c1
+< expected ':=', found '}'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse41.df ====
+1c1
+< expected '(', found '{'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse42.df ====
+1c1
+< expected ')', found 'b'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse43.df ====
+1c1
+< expected ';', found 'a'
+---
+> expected 'eof', found '{'
+==== tests/1_parser/badparse44.df ====
+1c1
+< expected '{', found 'bob'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse45.df ====
+1c1
+< expected 'statement', found 'var'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse46.df ====
+1c1
+< expected 'id or value', found ';'
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse47.df ====
+1c1
+< expected ':=', found '('
+---
+> expected 'eof', found 'fn'
+==== tests/1_parser/badparse48.df ====
+1c1
+< expected 'id or value', found '='
+---
+> expected 'eof', found '{'
