@@ -52,6 +52,15 @@ fun t2s TK_TRUE = "true"
   | t2s x = "UNKNOW"
 ;
 
+(* print message and die *)
+fun die "" = die "no message"
+  | die msg = (
+    TextIO.output (TextIO.stdErr, msg); 
+    OS.Process.exit OS.Process.failure;
+    msg
+  )
+;
+
 (**
  * General expect function
  *)
@@ -62,8 +71,7 @@ fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
       nextToken fstr
    else 
    (
-      TextIO.output (TextIO.stdErr, "expected '" ^ (t2s a) ^ "', found '" ^ (t2s b) ^ "'\n"); 
-      OS.Process.exit OS.Process.failure;
+      die ("expected '" ^ (t2s a) ^ "', found '" ^ (t2s b) ^ "'\n"); 
       NONE
    )
 ;
@@ -209,8 +217,15 @@ and do_arguments fstr curTok =
 (* Write *)
 fun do_write fstr curTok =
   case curTok of
-       TK_WRITE => (expect fstr TK_SEMI (do_expression fstr (expect fstr TK_WRITE curTok)))
-     | TK_WRITELINE => (expect fstr TK_SEMI (do_expression fstr ( expect fstr TK_WRITELINE curTok)))
+       TK_WRITE => (expect fstr TK_SEMI (
+                     do_expression fstr (expect fstr TK_WRITE curTok))
+                   )
+     | TK_WRITELINE =>  (expect fstr TK_SEMI (
+                              do_expression fstr (
+                                 expect fstr TK_WRITELINE curTok
+                              )
+                           )
+                        )
      | x => curTok
 ;
 
@@ -273,7 +288,7 @@ and do_statement fstr curTok =
       | TK_WHILE => do_loop fstr curTok
       | TK_RETURN => do_return fstr curTok
       | TK_LBRACE => do_compound_statement fstr curTok
-      | y => curTok
+      | y => die ("expected 'statement', got '" ^ (t2s y) ^ "'\n")
 ;
 
 (* Declarations -> var id {, id}* ; * *)
@@ -355,7 +370,7 @@ fun parse filename =
   let
     val f = (TextIO.openIn filename);
   in
- (*   print ((t2s (parse_ptr f)) ^ "\n") *)
+    (* print ((t2s (parse_ptr f)) ^ "\n"); *)
     expect f TK_EOF (parse_ptr f)
   end
 ;
