@@ -8,5 +8,8 @@ verify: parser.sml
 test: parser.sml lexer.sml test.sml
 	echo 'use "test.sml";' | sml
 
+part1: parser.sml
+	./runPart1 parser.sml
+
 runall: parser.sml
 	./runall parser.sml

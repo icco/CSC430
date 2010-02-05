@@ -46,7 +46,8 @@ fun t2s TK_TRUE = "true"
   | t2s TK_DIVIDE = "/"
   | t2s TK_NOT = "!"
   | t2s (TK_NUM x) = (Int.toString x)
-  | t2s (TK_ID x) = "ID: " ^ x
+  | t2s (TK_ID "x") = "id or value"
+  | t2s (TK_ID x) = x
   | t2s TK_EOF = "eof"
   | t2s x = "UNKNOW"
 ;
@@ -61,7 +62,7 @@ fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
       nextToken fstr
    else 
    (
-      TextIO.output (TextIO.stdErr, "expected '" ^ (t2s a) ^ "' got '" ^ (t2s b) ^ "'\n"); 
+      TextIO.output (TextIO.stdErr, "expected '" ^ (t2s a) ^ "', found '" ^ (t2s b) ^ "'\n"); 
       OS.Process.exit OS.Process.failure;
       NONE
    )
