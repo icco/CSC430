@@ -89,18 +89,6 @@ fun isId (TK_ID _) = true
 ;
 
 (****** Grammer Tree Parsing **************************************************)
-(* Factor *)
-fun do_factor fstr curTok =
-   case curTok of
-        TK_LPAREN => expect fstr TK_RPAREN (do_expression fstr (expect fstr TK_LPAREN curTok))
-      | TK_ID _ => expect fstr (TK_ID "x") curTok
-      | TK_NUM _ => expect fstr (TK_NUM 0) curTok
-      | TK_TRUE => expect fstr TK_TRUE curTok
-      | TK_FALSE => expect fstr TK_FALSE curTok
-      | TK_UNIT => expect fstr TK_UNIT curTok
-      | x => x
-;
-
 (* Multop *)
 fun do_multop fstr curTok =
   array_expect fstr (TK_TIMES::TK_DIVIDE::[]) curTok
@@ -136,10 +124,8 @@ fun do_unary fstr curTok =
       do_unary fstr (do_unaryop fstr curTok)
    else
       do_factor fstr curTok
-;
-
 (* Term *)
-fun do_term fstr curTok =
+and do_term fstr curTok =
    let
       val t = (do_unary fstr curTok);
       val w = (TK_TIMES::TK_DIVIDE::[]);
@@ -149,10 +135,8 @@ fun do_term fstr curTok =
       else
         t
    end
-;
-
 (* Simple  *)
-fun do_simple fstr curTok =
+and do_simple fstr curTok =
    let
       val t = (do_term fstr curTok);
       val w = (TK_PLUS::TK_MINUS::[]);
@@ -162,10 +146,8 @@ fun do_simple fstr curTok =
       else
         t
    end
-;
-
 (* Boolterm *)
-fun do_boolterm fstr curTok =
+and do_boolterm fstr curTok =
    let
       val t = (do_simple fstr curTok);
       val w = (TK_EQUALS::TK_LT::TK_GT::TK_GTE::TK_LTE::TK_NE::[]);
@@ -175,10 +157,17 @@ fun do_boolterm fstr curTok =
       else
         t
    end
-;
-
-(* Expression *)
-fun do_expression fstr curTok =
+(* Expression & Factor *)
+and do_factor fstr curTok =
+   case curTok of
+        TK_LPAREN => expect fstr TK_RPAREN (do_expression fstr (expect fstr TK_LPAREN curTok))
+      | TK_ID _ => expect fstr (TK_ID "x") curTok
+      | TK_NUM _ => expect fstr (TK_NUM 0) curTok
+      | TK_TRUE => expect fstr TK_TRUE curTok
+      | TK_FALSE => expect fstr TK_FALSE curTok
+      | TK_UNIT => expect fstr TK_UNIT curTok
+      | x => x
+and do_expression fstr curTok =
    let
       val t = (do_boolterm fstr curTok);
    in
