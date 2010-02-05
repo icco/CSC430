@@ -170,8 +170,15 @@ and do_factor fstr curTok =
           let 
              val t = expect fstr (TK_ID "x") curTok; 
           in 
-             if t = TK_LPAREN then 
-               expect fstr TK_RPAREN (do_arguments fstr (expect fstr TK_LPAREN t))
+             if t = TK_LPAREN then ( 
+               let
+                  val y = expect fstr TK_LPAREN t;
+               in
+                  if y = TK_RPAREN then
+                    expect fstr TK_RPAREN y
+                  else
+                    expect fstr TK_RPAREN (do_arguments fstr y)
+               end)
              else 
                t
           end
@@ -191,9 +198,12 @@ and do_expression fstr curTok =
      else
        t
    end
-(* TODO: Arguments *)
+(* Arguments - we assume at least one... *)
 and do_arguments fstr curTok =
-   curTok
+   if (curTok = TK_COMMA) then
+      do_arguments fstr (expect fstr TK_COMMA curTok)
+   else
+     do_expression fstr curTok
 ;
 
 (* Write *)
