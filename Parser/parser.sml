@@ -88,6 +88,11 @@ fun isId (TK_ID _) = true
 ;
 
 (****** Grammer Tree Parsing **************************************************)
+(* TODO: Factor *)
+fun do_factor fstr curTok =
+  curTok
+;
+
 (* Multop *)
 fun do_multop fstr curTok =
   array_expect fstr (TK_TIMES::TK_DIVIDE::[]) curTok
@@ -117,8 +122,6 @@ fun do_unaryop fstr curTok =
    expect fstr TK_NOT curTok
 ;
 
-(* TODO: Arguments *)
-
 (* TODO: Boolterm *)
 fun do_boolterm fstr curTok =
    curTok
@@ -128,8 +131,13 @@ fun do_boolterm fstr curTok =
 
 (* TODO: Term *)
 
-(* TODO: Unary *)
-
+(* Unary *)
+fun do_unary fstr curTok =
+   if curTok = TK_NOT then
+      do_unary fstr (do_unaryop fstr curTok)
+   else
+      do_factor fstr curTok
+;
 
 (* Expression *)
 fun do_expression fstr curTok =
@@ -143,16 +151,15 @@ fun do_expression fstr curTok =
    end
 ;
 
-(* TODO: Factor *)
-fun do_factor fstr curTok =
-  curTok
+(* TODO: Arguments *)
+fun do_arguments fstr curTok =
+   curTok
 ;
 
 (* Write *)
 fun do_write fstr curTok =
   case curTok of
-       TK_WRITE => (expect fstr TK_SEMI (do_expression fstr ( expect fstr
-       TK_WRITE curTok)))
+       TK_WRITE => (expect fstr TK_SEMI (do_expression fstr (expect fstr TK_WRITE curTok)))
      | TK_WRITELINE => (expect fstr TK_SEMI (do_expression fstr ( expect fstr TK_WRITELINE curTok)))
      | x => curTok
 ;
