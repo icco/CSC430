@@ -78,6 +78,10 @@ fun array_expect fstr [] curTok = ( TextIO.output (TextIO.stdErr, "expected some
      array_expect fstr xs curTok
 ;
 
+fun array_search [] _ = false
+  | array_search (x::xs) y = if x = y then true else array_search xs y
+;
+
 (** I guess I could have used this in expect, but whatever...  *)
 fun isId (TK_ID _) = true
   | isId x = false
@@ -89,12 +93,12 @@ fun do_multop fstr curTok =
   array_expect fstr (TK_TIMES::TK_DIVIDE::[]) curTok
 ;
 
-(* TODO: Addop *)
+(* Addop *)
 fun do_addop fstr curTok =
   array_expect fstr (TK_PLUS::TK_MINUS::[]) curTok
 ;
 
-(* TODO: Relop *)
+(* Relop *)
 fun do_relop fstr curTok =
   let
     val w = (TK_EQUALS::TK_LT::TK_GT::TK_GTE::TK_LTE::TK_NE::[]);
@@ -103,7 +107,7 @@ fun do_relop fstr curTok =
   end
 ;
 
-(* TODO: Boolop *)
+(* Boolop *)
 fun do_boolop fstr curTok =
   array_expect fstr (TK_AND::TK_OR::[]) curTok
 ;
@@ -116,6 +120,9 @@ fun do_unaryop fstr curTok =
 (* TODO: Arguments *)
 
 (* TODO: Boolterm *)
+fun do_boolterm fstr curTok =
+   curTok
+;
 
 (* TODO: Simple  *)
 
@@ -124,9 +131,16 @@ fun do_unaryop fstr curTok =
 (* TODO: Unary *)
 
 
-(* Expression -- Boolean fun *)
+(* Expression *)
 fun do_expression fstr curTok =
-   curTok
+   let
+      val t = (do_boolterm fstr curTok);
+   in
+     if (array_search (TK_AND::TK_OR::[]) t) then
+       do_expression fstr (do_boolop fstr t)
+     else
+       t
+   end
 ;
 
 (* TODO: Factor *)
