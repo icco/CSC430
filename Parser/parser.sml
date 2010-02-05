@@ -71,7 +71,11 @@ fun expect fstr (TK_ID _) (TK_ID _) = (nextToken fstr)
  * Like expect, but takes an array of possible values.
  * NOTE: Doesn't work for TK_ID
  *)
-fun array_expect fstr [] curTok = ( TextIO.output (TextIO.stdErr, "expected something else\n"); OS.Process.exit OS.Process.failure; NONE)
+fun array_expect fstr [] curTok = (
+     TextIO.output (TextIO.stdErr, "expected something else\n"); 
+     OS.Process.exit OS.Process.failure; 
+     NONE
+   )
   | array_expect fstr (x::xs) curTok = 
    if (curTok = x) then 
       nextToken fstr
@@ -157,16 +161,26 @@ and do_boolterm fstr curTok =
       else
         t
    end
-(* Expression & Factor *)
+(* Factor *)
 and do_factor fstr curTok =
    case curTok of
         TK_LPAREN => expect fstr TK_RPAREN (do_expression fstr (expect fstr TK_LPAREN curTok))
-      | TK_ID _ => expect fstr (TK_ID "x") curTok
+      | TK_ID _ => (
+          let 
+             val t = expect fstr (TK_ID "x") curTok; 
+          in 
+             if t = TK_LPAREN then 
+               expect fstr TK_RPAREN (do_arguments fstr (expect fstr TK_LPAREN t))
+             else 
+               t
+          end
+        )
       | TK_NUM _ => expect fstr (TK_NUM 0) curTok
       | TK_TRUE => expect fstr TK_TRUE curTok
       | TK_FALSE => expect fstr TK_FALSE curTok
       | TK_UNIT => expect fstr TK_UNIT curTok
       | x => x
+(* Expression  *)
 and do_expression fstr curTok =
    let
       val t = (do_boolterm fstr curTok);
@@ -176,10 +190,8 @@ and do_expression fstr curTok =
      else
        t
    end
-;
-
 (* TODO: Arguments *)
-fun do_arguments fstr curTok =
+and do_arguments fstr curTok =
    curTok
 ;
 
