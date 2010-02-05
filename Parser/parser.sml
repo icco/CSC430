@@ -122,21 +122,51 @@ fun do_unaryop fstr curTok =
    expect fstr TK_NOT curTok
 ;
 
-(* TODO: Boolterm *)
-fun do_boolterm fstr curTok =
-   curTok
-;
-
-(* TODO: Simple  *)
-
-(* TODO: Term *)
-
 (* Unary *)
 fun do_unary fstr curTok =
    if curTok = TK_NOT then
       do_unary fstr (do_unaryop fstr curTok)
    else
       do_factor fstr curTok
+;
+
+(* Term *)
+fun do_term fstr curTok =
+   let
+      val t = (do_unary fstr curTok);
+      val w = (TK_TIMES::TK_DIVIDE::[]);
+   in
+      if (array_search w t) then
+        do_term fstr (do_multop fstr t)
+      else
+        t
+   end
+;
+
+(* Simple  *)
+fun do_simple fstr curTok =
+   let
+      val t = (do_term fstr curTok);
+      val w = (TK_PLUS::TK_MINUS::[]);
+   in
+      if (array_search w t) then
+        do_simple fstr (do_addop fstr t)
+      else
+        t
+   end
+;
+
+(* Boolterm *)
+fun do_boolterm fstr curTok =
+   let
+      val t = (do_simple fstr curTok);
+      val w = (TK_EQUALS::TK_LT::TK_GT::TK_GTE::TK_LTE::TK_NE::[]);
+   in
+      if (array_search w t) then
+        do_boolterm fstr (do_relop fstr t)
+      else
+        t
+   end
 ;
 
 (* Expression *)
