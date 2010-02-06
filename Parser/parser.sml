@@ -298,24 +298,26 @@ and do_statement fstr curTok =
       | y => (die ("expected 'statement', found '" ^ (t2s y) ^ "'\n"); y)
 ;
 
-(* Declarations -> var id {, id}* ; * *)
+(* Declarations *)
 fun comma_id fstr curTok =
   if (curTok = TK_COMMA) then
     comma_id fstr (expect fstr (TK_ID "x") (expect fstr TK_COMMA curTok))
   else 
     curTok
-;
-
-fun do_declarations fstr curTok =
-  if (curTok = TK_VAR) then
-    expect fstr TK_SEMI 
-      (comma_id fstr 
-         (expect fstr (TK_ID "x") 
-            (expect fstr TK_VAR curTok)
-         )
-      )
-  else 
-    curTok
+and do_declaration fstr curTok =
+   let 
+      val t =  expect fstr TK_SEMI (comma_id fstr (expect fstr (TK_ID "x") (expect fstr TK_VAR curTok)));
+   in
+      if (t = TK_VAR) then
+         do_declaration fstr t
+      else 
+         t
+   end
+and do_declarations fstr curTok = 
+   if curTok = TK_VAR then
+      do_declaration fstr curTok
+   else
+     curTok
 ;
 
 (* Parameter *)

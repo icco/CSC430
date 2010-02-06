@@ -15,32 +15,24 @@
 1c1
 < expected '}', found ':='
 ---
-> expected 'statement', found 'var'
+> expected 'statement', found ':='
 ==== tests/1_parser/badparse10.df ====
 1c1
 < expected 'id or value', found '}'
 ---
-> expected 'statement', found 'var'
+> expected ';', found '}'
 ==== tests/1_parser/badparse11.df ====
 1c1
 < expected '}', found 'eof'
 ---
-> expected 'statement', found 'var'
+> expected 'statement', found 'eof'
 ==== tests/1_parser/badparse12.df ====
 1c1
 < expected 'id or value', found 'eof'
 ---
-> expected 'statement', found 'var'
+> expected ';', found 'eof'
 ==== tests/1_parser/badparse13.df ====
-1c1
-< expected ';', found '2'
----
-> expected 'statement', found 'var'
 ==== tests/1_parser/badparse14.df ====
-1c1
-< expected '{', found 'writeline'
----
-> expected 'statement', found 'var'
 ==== tests/1_parser/badparse15.df ====
 ==== tests/1_parser/badparse16.df ====
 ==== tests/1_parser/badparse17.df ====
