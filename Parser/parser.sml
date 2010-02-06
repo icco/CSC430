@@ -166,7 +166,7 @@ and do_boolterm fstr curTok =
       val w = (TK_EQUALS::TK_LT::TK_GT::TK_GTE::TK_LTE::TK_NE::[]);
    in
       if (array_search w t) then
-        do_boolterm fstr (do_relop fstr t)
+        do_simple fstr (do_relop fstr t)
       else
         t
    end
@@ -204,7 +204,9 @@ and do_expression fstr curTok =
      if (array_search (TK_AND::TK_OR::[]) t) then
        do_expression fstr (do_boolop fstr t)
      else
-       (if t = curTok then (die ("expected 'id or value', found '" ^ (t2s t) ^ "'\n"); t) else t)
+       (if t = curTok then 
+         (die ("expected 'id or value', found '" ^ (t2s t) ^ "'\n"); t) 
+        else t)
    end
 (* Arguments - we assume at least one... *)
 and do_arguments fstr curTok =

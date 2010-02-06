@@ -41,8 +41,6 @@
 ==== tests/1_parser/badparse26.df ====
 ==== tests/1_parser/badparse27.df ====
 ==== tests/1_parser/badparse28.df ====
-1d0
-< expected ';', found '<='
 ==== tests/1_parser/badparse29.df ====
 ==== tests/1_parser/badparse30.df ====
 ==== tests/1_parser/badparse31.df ====
@@ -75,5 +73,7 @@
 ---
 > expected '}', found ';'
 ==== tests/1_parser/badparse48.df ====
-1d0
+1c1
 < expected 'id or value', found '='
+---
+> expected ')', found '='
