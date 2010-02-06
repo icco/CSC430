@@ -13,3 +13,6 @@ part1: parser.sml
 
 runall: parser.sml
 	./runall parser.sml
+
+handin:
+	handin akeen hw3 README.txt lexer.sml parser.sml && handin akeen hw3
