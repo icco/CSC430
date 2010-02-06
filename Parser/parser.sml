@@ -335,17 +335,20 @@ fun do_parameter fstr curTok =
    expect fstr (TK_ID "x") curTok
 ;
 
-(* Parameters *)
+(* Parameters -- ugly, I know... *)
 fun do_parameters fstr curTok =
   if (isId curTok)  then
-    do_parameters fstr (do_parameter fstr curTok)
-  else
-      (
-      if curTok = TK_COMMA then
-        do_parameter fstr (expect fstr TK_COMMA curTok)
-      else 
-        curTok
-      )
+    (
+   let
+     val t = do_parameter fstr curTok;
+   in
+     if t = TK_COMMA then
+       do_parameters fstr (expect fstr TK_COMMA t)
+     else 
+       t
+   end
+   ) else 
+     curTok
 ;
 
 (* Function *)

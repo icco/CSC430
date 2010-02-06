@@ -48,8 +48,6 @@
 ==== tests/1_parser/badparse35.df ====
 ==== tests/1_parser/badparse36.df ====
 ==== tests/1_parser/badparse37.df ====
-1d0
-< expected ')', found 'j'
 ==== tests/1_parser/badparse38.df ====
 ==== tests/1_parser/badparse39.df ====
 1c1
