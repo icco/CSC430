@@ -306,7 +306,9 @@ fun comma_id fstr curTok =
     curTok
 and do_declaration fstr curTok =
    let 
-      val t =  expect fstr TK_SEMI (comma_id fstr (expect fstr (TK_ID "x") (expect fstr TK_VAR curTok)));
+      val t =  expect fstr TK_SEMI (comma_id fstr (
+                  expect fstr (TK_ID "x") (expect fstr TK_VAR curTok)
+               ));
    in
       if (t = TK_VAR) then
          do_declaration fstr t
