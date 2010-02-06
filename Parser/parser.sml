@@ -277,7 +277,14 @@ and do_loop fstr curTok =
   )
 (* Compound statement : { statement* } *)
 and do_compound_statement fstr curTok =
-  expect fstr TK_RBRACE (do_statement fstr (expect fstr TK_LBRACE curTok))
+   let
+      val t = expect fstr TK_LBRACE curTok;
+   in
+      if t = TK_RBRACE then
+        expect fstr TK_RBRACE t
+      else
+         expect fstr TK_RBRACE (do_statement fstr t)
+   end
 (* Statement: compound statement | assignment | write | conditional | loop | return *)
 and do_statement fstr curTok =
    case curTok of

@@ -11,10 +11,6 @@
 ---
 > expected 'statement', found 'var'
 ==== tests/1_parser/badparse08.df ====
-1c1
-< expected 'eof', found '{'
----
-> expected 'statement', found '}'
 ==== tests/1_parser/badparse09.df ====
 1c1
 < expected '}', found ':='
@@ -74,16 +70,10 @@
 ==== tests/1_parser/badparse33.df ====
 ==== tests/1_parser/badparse34.df ====
 ==== tests/1_parser/badparse35.df ====
-1c1
-< expected 'statement', found 'eof'
----
-> expected 'statement', found '}'
 ==== tests/1_parser/badparse36.df ====
 ==== tests/1_parser/badparse37.df ====
-1c1
+1d0
 < expected ')', found 'j'
----
-> expected 'statement', found '}'
 ==== tests/1_parser/badparse38.df ====
 ==== tests/1_parser/badparse39.df ====
 1c1
@@ -96,10 +86,6 @@
 ==== tests/1_parser/badparse43.df ====
 ==== tests/1_parser/badparse44.df ====
 ==== tests/1_parser/badparse45.df ====
-1c1
-< expected 'statement', found 'var'
----
-> expected 'statement', found '}'
 ==== tests/1_parser/badparse46.df ====
 1c1
 < expected 'id or value', found ';'
@@ -111,7 +97,5 @@
 ---
 > expected '}', found ';'
 ==== tests/1_parser/badparse48.df ====
-1c1
+1d0
 < expected 'id or value', found '='
----
-> expected 'statement', found '}'
