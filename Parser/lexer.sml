@@ -88,7 +88,7 @@ fun read_digit instr str =
   end
 ;
 
-fun equals_parse instr "=" str =
+fun equals_parse instr "=" str = (
    case str of
         ":" => build_token (str ^ "=")
       | ">" => build_token (str ^ "=")
@@ -96,6 +96,7 @@ fun equals_parse instr "=" str =
       | "!" => build_token (str ^ "=")
       | ""  => build_token (str ^ "=")
       | abc => build_token (str)
+) | equals_parse instr _ _ = None
 ;
 
 fun dash_parse instr str =
