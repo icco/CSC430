@@ -1,0 +1,48 @@
+==== tests/1_parser/badparse09.df ====
+1c1
+< expected '}', found ':='
+---
+> expected 'statement', found ':='
+==== tests/1_parser/badparse10.df ====
+1c1
+< expected 'id or value', found '}'
+---
+> expected ';', found '}'
+==== tests/1_parser/badparse11.df ====
+1c1
+< expected '}', found 'eof'
+---
+> expected 'statement', found 'eof'
+==== tests/1_parser/badparse12.df ====
+1c1
+< expected 'id or value', found 'eof'
+---
+> expected ';', found 'eof'
+==== tests/1_parser/badparse23.df ====
+1d0
+< expected 'id or value', found '+'
+==== tests/1_parser/badparse27.df ====
+1d0
+< expected 'id or value', found '!'
+==== tests/1_parser/badparse28.df ====
+1d0
+< expected ';', found '<='
+==== tests/1_parser/badparse32.df ====
+1d0
+< expected 'id or value', found '-'
+==== tests/1_parser/badparse37.df ====
+1d0
+< expected ')', found 'j'
+==== tests/1_parser/badparse46.df ====
+1c1
+< expected 'id or value', found ';'
+---
+> expected '}', found ';'
+==== tests/1_parser/badparse47.df ====
+1c1
+< expected ':=', found '('
+---
+> expected '}', found ';'
+==== tests/1_parser/badparse48.df ====
+1d0
+< expected 'id or value', found '='
