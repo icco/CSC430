@@ -204,7 +204,7 @@ and do_expression fstr curTok =
      if (array_search (TK_AND::TK_OR::[]) t) then
        do_expression fstr (do_boolop fstr t)
      else
-       t
+       (if t = curTok then (die ("expected 'id or value', found '" ^ (t2s t) ^ "'\n"); t) else t)
    end
 (* Arguments - we assume at least one... *)
 and do_arguments fstr curTok =
