@@ -146,7 +146,9 @@ and do_term fstr curTok =
       if (array_search w t) then
         do_term fstr (do_multop fstr t)
       else
-        t
+       (if t = curTok then 
+         (die ("expected 'id or value', found '" ^ (t2s t) ^ "'\n"); t) 
+        else t)
    end
 (* Simple  *)
 and do_simple fstr curTok =
@@ -157,7 +159,9 @@ and do_simple fstr curTok =
       if (array_search w t) then
         do_simple fstr (do_addop fstr t)
       else
-        t
+       (if t = curTok then 
+         (die ("expected 'id or value', found '" ^ (t2s t) ^ "'\n"); t) 
+        else t)
    end
 (* Boolterm *)
 and do_boolterm fstr curTok =
@@ -168,7 +172,9 @@ and do_boolterm fstr curTok =
       if (array_search w t) then
         do_simple fstr (do_relop fstr t)
       else
-        t
+       (if t = curTok then 
+         (die ("expected 'id or value', found '" ^ (t2s t) ^ "'\n"); t) 
+        else t)
    end
 (* Factor *)
 and do_factor fstr curTok =
