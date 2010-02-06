@@ -134,7 +134,7 @@ fun do_unaryop fstr curTok =
 (* Unary *)
 fun do_unary fstr curTok =
    if curTok = TK_NOT then
-      do_unary fstr (do_unaryop fstr curTok)
+      do_factor fstr (do_unaryop fstr curTok)
    else
       do_factor fstr curTok
 (* Term *)
@@ -277,7 +277,14 @@ and do_loop fstr curTok =
   )
 (* Compound statement : { statement* } *)
 and do_compound_statement fstr curTok =
-  expect fstr TK_RBRACE (do_statement fstr (expect fstr TK_LBRACE curTok))
+   let
+      val t = expect fstr TK_LBRACE curTok;
+   in
+      if t = TK_RBRACE then
+        expect fstr TK_RBRACE t
+      else
+         expect fstr TK_RBRACE (do_statement fstr t)
+   end
 (* Statement: compound statement | assignment | write | conditional | loop | return *)
 and do_statement fstr curTok =
    case curTok of
@@ -291,24 +298,28 @@ and do_statement fstr curTok =
       | y => (die ("expected 'statement', found '" ^ (t2s y) ^ "'\n"); y)
 ;
 
-(* Declarations -> var id {, id}* ; * *)
+(* Declarations *)
 fun comma_id fstr curTok =
   if (curTok = TK_COMMA) then
     comma_id fstr (expect fstr (TK_ID "x") (expect fstr TK_COMMA curTok))
   else 
     curTok
-;
-
-fun do_declarations fstr curTok =
-  if (curTok = TK_VAR) then
-    expect fstr TK_SEMI 
-      (comma_id fstr 
-         (expect fstr (TK_ID "x") 
-            (expect fstr TK_VAR curTok)
-         )
-      )
-  else 
-    curTok
+and do_declaration fstr curTok =
+   let 
+      val t =  expect fstr TK_SEMI (comma_id fstr (
+                  expect fstr (TK_ID "x") (expect fstr TK_VAR curTok)
+               ));
+   in
+      if (t = TK_VAR) then
+         do_declaration fstr t
+      else 
+         t
+   end
+and do_declarations fstr curTok = 
+   if curTok = TK_VAR then
+      do_declaration fstr curTok
+   else
+     curTok
 ;
 
 (* Parameter *)
