@@ -134,7 +134,7 @@ fun do_unaryop fstr curTok =
 (* Unary *)
 fun do_unary fstr curTok =
    if curTok = TK_NOT then
-      do_unary fstr (do_unaryop fstr curTok)
+      do_factor fstr (do_unaryop fstr curTok)
    else
       do_factor fstr curTok
 (* Term *)

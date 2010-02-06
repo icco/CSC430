@@ -48,8 +48,10 @@
 ==== tests/1_parser/badparse25.df ====
 ==== tests/1_parser/badparse26.df ====
 ==== tests/1_parser/badparse27.df ====
-1d0
+1c1
 < expected 'id or value', found '!'
+---
+> expected ';', found '!'
 ==== tests/1_parser/badparse28.df ====
 1d0
 < expected ';', found '<='
