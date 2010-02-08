@@ -1,0 +1,7 @@
+var i;
+var j;
+var b;
+{
+i := 3;
+b := j > i;
+}

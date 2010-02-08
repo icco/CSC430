@@ -1,0 +1,7 @@
+var i;
+var j;
+{
+i := 3;
+j := true;
+j := j != i;
+}

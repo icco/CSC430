@@ -1,0 +1,10 @@
+var i;
+var b;
+{
+i := 17;
+b := true;
+write i;
+writeline 10;
+write b;
+writeline false;
+}

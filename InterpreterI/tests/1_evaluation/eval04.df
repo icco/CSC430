@@ -1,0 +1,14 @@
+var i;
+{
+i := 0;
+writeline i > 0 ;
+writeline 3 < 5 ;
+writeline 3 > 5 ;
+writeline 3 = 5 ;
+writeline 3 != 5 ;
+writeline 3 >= 5 ;
+writeline 3 <= 5 ;
+writeline 3 <= 5 & 5 <= 22 ;
+writeline 3 <= 5 & 5 > 22 ;
+writeline 3 < 5 | 5 > 10 ;
+}

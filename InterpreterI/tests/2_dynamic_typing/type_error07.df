@@ -1,0 +1,8 @@
+var i;
+var b;
+{
+ if (i = b)
+ {
+   writeline i;
+ }
+}

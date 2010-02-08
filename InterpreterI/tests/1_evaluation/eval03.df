@@ -1,0 +1,15 @@
+var i;
+{
+writeline 1 + 2 ;
+writeline 2 - 7 ;
+writeline 1 + 2 - 7 ;
+{
+writeline 3 + 2*4 ;
+{
+writeline (8 - 7 - 6);
+writeline (8 - (7 - 6)) ;
+}
+writeline ((8 - 7) - 6) ;
+}
+writeline 1 + 2 * 3 + 7 * 4 / 2 * 5 ;
+}

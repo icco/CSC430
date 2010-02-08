@@ -1,0 +1,1 @@
+operator '|' requires bool * bool, found int * int

@@ -1,0 +1,27 @@
+var i;
+{
+i := 10;
+if (i > 5)
+{
+   if (i > 20)
+   {
+      writeline 32 ;
+   }
+   else
+   {
+      writeline 31 ;
+   }
+}
+
+if (i > 5)
+{
+   if (i > 20)
+   {
+      writeline 32 ;
+   }
+}
+else
+{
+   writeline 31 ;
+}
+}

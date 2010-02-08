@@ -1,0 +1,12 @@
+var i, j;
+{
+   writeline i;
+   writeline j;
+   i := 7;
+   writeline i;
+   writeline j;
+   j := 10;
+   writeline i + j;
+   i := true;
+   if (i) { writeline j; }
+}

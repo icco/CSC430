@@ -1,0 +1,10 @@
+{
+writeline true & false ;
+writeline false & true ;
+writeline false & false ;
+writeline true & true ;
+writeline true | false ;
+writeline false | true ;
+writeline false | false ;
+writeline true | true ;
+}

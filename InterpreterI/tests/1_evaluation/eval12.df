@@ -1,0 +1,41 @@
+var i, k, long, n;
+{
+i := 25;
+long := 0 - 1112;
+while (10!=i)
+{
+        if (20=i)
+         {
+                k := 20 - i;
+                  if (k != 0){
+               while (k != 0)
+                {writeline k;  k := k+1; }
+}
+         }
+        else
+      {
+          if (15=i)
+         {
+                k := 15 - i;
+                n := 5;
+               if (k != 0)
+   {
+               while (k != 0)
+                 {long := 10*k; writeline long;  k := k+1; }
+}
+                  while (n != 0)
+                {writeline n;  n := 0; }
+                writeline long; 
+         }
+          else
+         {
+                k := 10-i;
+               while (!( ! (k != 0)))
+                {writeline k;  k := k+1; }
+         }
+      }
+        i := i-1;
+}
+writeline i ;
+
+}

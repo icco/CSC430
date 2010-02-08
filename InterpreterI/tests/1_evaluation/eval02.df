@@ -1,0 +1,6 @@
+var i;
+var b;
+{
+writeline i;
+writeline b;
+}

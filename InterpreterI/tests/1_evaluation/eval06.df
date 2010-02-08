@@ -1,0 +1,17 @@
+var i,j,k;
+{
+i := 3;
+writeline i ;
+writeline j ;
+writeline k ;
+j := i + 17;
+writeline i ;
+writeline j ;
+writeline k ;
+i := 22;
+j := 4;
+k := i + j;
+writeline i ;
+writeline j ;
+writeline k ;
+}
