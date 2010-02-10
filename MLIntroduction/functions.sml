@@ -21,7 +21,7 @@ fun number_of v [] = 0
 (* Part 2 *)
 fun pair_swap [] = []
   | pair_swap ((x, y)::zs):('a * 'a) list =
-   (y, x)::zs
+   (y, x)::zs (* you idiot, zs should be (pair_swap zs) *)
 ;
 
 (* Part 3 *)
