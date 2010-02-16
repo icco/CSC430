@@ -6,6 +6,4 @@ fun print_states [] = ()
   | print_states ((x, y)::xs) = 
   (print (x ^ " = " ^ y "\n"); print_states xs)
 ;
-(*
-print_states s;
-*)
+
