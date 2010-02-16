@@ -14,8 +14,27 @@ exception Oops;
 * lookup tbl "foo";
 *)
 
+fun update_table tbl (s:string, v:int) =
+   (
+     insert tbl (s, v);
+     (v, tbl)
+   )
+;
+
+fun eval_expression ex sta =
+  (0, sta)
+;
+
+fun eval_assignment str ex sta =
+   let
+      val (v, s1) = eval_expression ex sta;
+   in
+      update_table s1 (str, v)
+   end
+;
+
 fun eval_statement (ST_COMPOUND sl) st = (0, st)
-  | eval_statement (ST_ASSIGN(str, x)) st = (0, st)
+  | eval_statement (ST_ASSIGN(str, x)) st = eval_assignment str x st
   | eval_statement (ST_WRITE(x)) st = (0, st)
   | eval_statement (ST_WRITELINE(x)) st = (0, st)
   | eval_statement (ST_IF(x, s1, s2)) st = (0, st)
