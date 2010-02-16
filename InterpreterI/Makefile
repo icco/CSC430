@@ -3,7 +3,7 @@
 all: runall
 
 verify: interpreter.sml
-	echo 'use "parser.sml";' | sml
+	echo 'use "interpreter.sml";' | sml
 
 test: interpreter.sml test.sml
 	echo 'use "test.sml";' | sml
