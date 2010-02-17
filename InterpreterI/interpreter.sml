@@ -16,6 +16,10 @@ datatype ret =
    | R_UNIT
 ;
 
+fun error msg = 
+  (print msg; OS.Process.exit OS.Process.failure; (R_UNIT))
+;
+
 fun retToString (R_NUM x) =
     let
        val v = Int.toString (Int.abs x);
@@ -37,19 +41,24 @@ fun update_table tbl (s:string, v) =
 
 fun look_table tbl (s:string) =
    let
-      val error = ("use of undeclared identifier '" ^ s ^ "'\n");
+      val msg = ("use of undeclared identifier '" ^ s ^ "'\n");
    in
-      lookup tbl s handle Oops => (print error; OS.Process.exit OS.Process.failure; (R_NUM 0))
+      lookup tbl s handle Oops => error msg
    end
 ;
 
-(*  | eval_binary OP_DIVIDE (R_NUM x) (R_NUM y) = (R_NUM (x / y)) *)
 fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
   | eval_binary OP_MINUS (R_NUM x) (R_NUM y) = (R_NUM (x - y))
   | eval_binary OP_TIMES (R_NUM x) (R_NUM y) = (R_NUM (x * y))
   | eval_binary OP_DIVIDE (R_NUM x) (R_NUM y) = (R_NUM (Int.div(x,  y)))
   | eval_binary opa (R_NUM x) (R_NUM y) = (R_NUM (0))
   | eval_binary opa (x) (y) = (R_NUM (0))
+;
+
+fun eval_unary OP_NOT (R_NUM x) = (R_NUM (0 - x))
+  | eval_unary OP_NOT (R_TRUE) = (R_FALSE)
+  | eval_unary OP_NOT (R_FALSE) = (R_TRUE)
+  | eval_unary opa x = (R_UNIT)
 ;
 
 fun eval_expression (EXP_ID x) sta = ((look_table sta x), sta)
@@ -63,6 +72,12 @@ fun eval_expression (EXP_ID x) sta = ((look_table sta x), sta)
      val (v2, s2) = (eval_expression ex2 s1);
    in
      ((eval_binary opa v1 v2), s2)
+   end
+  | eval_expression (EXP_UNARY(opa, ex)) sta = 
+   let
+     val (v1, s1) = (eval_expression ex sta);
+   in
+     ((eval_unary opa v1), s1)
    end
   | eval_expression ex sta =
    (R_NUM 0, sta)
