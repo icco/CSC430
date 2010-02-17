@@ -141,7 +141,15 @@ and eval_statement (ST_COMPOUND sl) st = eval_compound sl st
       else
          (eval_statement s2 st2)
    end
-  | eval_statement (ST_WHILE(x, s)) st = (R_NUM 0, st)
+  | eval_statement (ST_WHILE(x, s)) st = 
+   let 
+      val (v, st2) = eval_expression x st;
+   in
+      if (eval_bool v) then
+         (eval_statement s st2)
+      else
+         (v, st2)
+   end
   | eval_statement (ST_RETURN(x)) st = eval_expression x st
 ;
 

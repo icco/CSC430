@@ -10,16 +10,15 @@
 1c1
 < 1 2 3 4 5 6 7 8 9 10
 ---
-> 1
+> 1 2
 5,6c5,6
 < -1
 < 55
 ---
+> 9
 > 10
-> 0
 ==== tests/1_evaluation/eval09.df ====
-1,100d0
-< 100
+2,100d1
 < 99
 < 98
 < 97
@@ -123,11 +122,10 @@
 1c1
 < 120
 ---
-> 1
+> 5
 ==== tests/1_evaluation/eval11.df ====
 ==== tests/1_evaluation/eval12.df ====
-1,108c1
-< -15
+2,108c2
 < -14
 < -13
 < -12
@@ -236,7 +234,7 @@
 < -1
 < 10
 ---
-> 25
+> 24
 ==== tests/1_evaluation/eval13.df ====
 ==== tests/1_evaluation/eval14.df ====
 ==== tests/2_dynamic_typing/type_error01.df ====
@@ -244,9 +242,9 @@
 1d0
 < operator '*' requires int * int, found int * unit
 ==== tests/2_dynamic_typing/type_error03.df ====
-1,8d0
+1d0
 < boolean guard required for 'while' statement, found unit
-< 4
+3,8d1
 < 3
 < 2
 < 1
@@ -283,8 +281,10 @@
 1d0
 < operator '+' requires int * int, found int * bool
 ==== tests/2_dynamic_typing/type_error13.df ====
-1d0
+1c1
 < boolean guard required for 'while' statement, found int
+---
+> Expected a boolean value
 ==== tests/2_dynamic_typing/type_error14.df ====
 1d0
 < operator '-' requires int * int, found bool * int
