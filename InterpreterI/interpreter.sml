@@ -104,9 +104,9 @@ and eval_statement (ST_COMPOUND sl) st = eval_compound sl st
   | eval_statement (ST_RETURN(x)) st = (R_NUM 0, st)
 ;
 
-fun eval_declarations [] st = (R_NUM 0, st)
+fun eval_declarations [] st = (R_UNIT, st)
   | eval_declarations ((DECL d)::ds) st = 
-   eval_declarations ds (insert st (d, R_NUM 0); st)
+   eval_declarations ds (insert st (d, R_UNIT); st)
 ;
 
 (* Don't do functions for this one. *)

@@ -1,12 +1,6 @@
 ./runall interpreter.sml
 ==== tests/1_evaluation/eval01.df ====
 ==== tests/1_evaluation/eval02.df ====
-1,2c1,2
-< unit
-< unit
----
-> 0
-> 0
 ==== tests/1_evaluation/eval03.df ====
 ==== tests/1_evaluation/eval04.df ====
 1,10c1,10
@@ -51,16 +45,6 @@
 > 0
 > 0
 ==== tests/1_evaluation/eval06.df ====
-2,3c2,3
-< unit
-< unit
----
-> 0
-> 0
-6c6
-< unit
----
-> 0
 ==== tests/1_evaluation/eval07.df ====
 1,3d0
 < 44
@@ -305,16 +289,6 @@
 > 25
 ==== tests/1_evaluation/eval13.df ====
 ==== tests/1_evaluation/eval14.df ====
-1,2c1,2
-< unit
-< unit
----
-> 0
-> 0
-4c4
-< unit
----
-> 0
 6d5
 < 10
 ==== tests/2_dynamic_typing/type_error01.df ====
