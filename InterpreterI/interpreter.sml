@@ -30,11 +30,34 @@ fun update_table tbl (s:string, v) =
    )
 ;
 
-fun eval_expression (EXP_ID x) sta = ((lookup sta x), sta)
+fun look_table tbl (s:string) =
+   let
+      val error = ("use of undeclared identifier '" ^ s ^ "'\n");
+   in
+      lookup tbl s handle Oops => (print error; OS.Process.exit OS.Process.failure; (R_NUM 0))
+   end
+;
+
+(*  | eval_binary OP_DIVIDE (R_NUM x) (R_NUM y) = (R_NUM (x / y)) *)
+fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
+  | eval_binary OP_MINUS (R_NUM x) (R_NUM y) = (R_NUM (x - y))
+  | eval_binary OP_TIMES (R_NUM x) (R_NUM y) = (R_NUM (x * y))
+  | eval_binary opa (R_NUM x) (R_NUM y) = (R_NUM (0))
+  | eval_binary opa (x) (y) = (R_NUM (0))
+;
+
+fun eval_expression (EXP_ID x) sta = ((look_table sta x), sta)
   | eval_expression (EXP_NUM x) sta = ((R_NUM x), sta)
   | eval_expression (EXP_TRUE) sta = ((R_TRUE), sta)
   | eval_expression (EXP_FALSE) sta = ((R_FALSE), sta)
   | eval_expression (EXP_UNIT) sta = ((R_UNIT), sta)
+  | eval_expression (EXP_BINARY(opa, ex1, ex2)) sta = 
+   let
+     val (v1, s1) = (eval_expression ex1 sta);
+     val (v2, s2) = (eval_expression ex2 s1);
+   in
+     ((eval_binary opa v1 v2), s2)
+   end
   | eval_expression ex sta =
    (R_NUM 0, sta)
 ;
