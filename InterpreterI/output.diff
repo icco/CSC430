@@ -3,12 +3,6 @@
 ==== tests/1_evaluation/eval02.df ====
 ==== tests/1_evaluation/eval03.df ====
 ==== tests/1_evaluation/eval04.df ====
-4,5c4,5
-< false
-< true
----
-> unit
-> unit
 ==== tests/1_evaluation/eval05.df ====
 ==== tests/1_evaluation/eval06.df ====
 ==== tests/1_evaluation/eval07.df ====

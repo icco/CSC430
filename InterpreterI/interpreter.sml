@@ -17,7 +17,7 @@ datatype ret =
 ;
 
 fun error msg = 
-  (print msg; OS.Process.exit OS.Process.failure; (R_UNIT))
+  (print (msg^"\n"); OS.Process.exit OS.Process.failure; (R_UNIT))
 ;
 
 fun retToString (R_NUM x) =
@@ -41,7 +41,7 @@ fun update_table tbl (s:string, v) =
 
 fun look_table tbl (s:string) =
    let
-      val msg = ("use of undeclared identifier '" ^ s ^ "'\n");
+      val msg = ("use of undeclared identifier '" ^ s ^ "'");
    in
       lookup tbl s handle Oops => error msg
    end
@@ -52,10 +52,6 @@ fun eval_bool R_TRUE = true
   | eval_bool other = (error "Expected a boolean value"; false)
 ;
 
-(*
-  | eval_binary OP_NE x y = if (x != y) then R_TRUE else R_FALSE
-  | eval_binary OP_EQ x y = if (x = y) then R_TRUE else R_FALSE
-*)
 fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
   | eval_binary OP_MINUS (R_NUM x) (R_NUM y) = (R_NUM (x - y))
   | eval_binary OP_TIMES (R_NUM x) (R_NUM y) = (R_NUM (x * y))
@@ -72,13 +68,15 @@ fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
   | eval_binary OP_OR R_TRUE R_FALSE = R_TRUE
   | eval_binary OP_OR R_FALSE R_TRUE = R_TRUE
   | eval_binary OP_OR R_FALSE R_FALSE = R_FALSE
+  | eval_binary OP_NE (R_NUM x) (R_NUM y) = if (not (x = y)) then R_TRUE else R_FALSE
+  | eval_binary OP_EQ (R_NUM x) (R_NUM y) = if (x = y) then R_TRUE else R_FALSE
   | eval_binary opa (x) (y) = (R_UNIT)
 ;
 
 fun eval_unary OP_NOT (R_NUM x) = (R_NUM (0 - x))
   | eval_unary OP_NOT (R_TRUE) = (R_FALSE)
   | eval_unary OP_NOT (R_FALSE) = (R_TRUE)
-  | eval_unary opa x = (R_UNIT)
+  | eval_unary opa x = (error "Unary expects a boolean."; R_UNIT)
 ;
 
 fun eval_expression (EXP_ID x) sta = ((look_table sta x), sta)
