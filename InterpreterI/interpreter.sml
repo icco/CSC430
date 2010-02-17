@@ -16,7 +16,12 @@ datatype ret =
    | R_UNIT
 ;
 
-fun retToString (R_NUM x) = Int.toString x
+fun retToString (R_NUM x) =
+    let
+       val v = Int.toString (Int.abs x);
+    in
+       if (((Int.sign x) > 0) orelse (x = 0)) then v else ("-" ^ v)
+    end
   | retToString (R_ID x) = x
   | retToString R_TRUE = "true"
   | retToString R_FALSE = "false"
@@ -42,6 +47,7 @@ fun look_table tbl (s:string) =
 fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
   | eval_binary OP_MINUS (R_NUM x) (R_NUM y) = (R_NUM (x - y))
   | eval_binary OP_TIMES (R_NUM x) (R_NUM y) = (R_NUM (x * y))
+  | eval_binary OP_DIVIDE (R_NUM x) (R_NUM y) = (R_NUM (Int.div(x,  y)))
   | eval_binary opa (R_NUM x) (R_NUM y) = (R_NUM (0))
   | eval_binary opa (x) (y) = (R_NUM (0))
 ;
