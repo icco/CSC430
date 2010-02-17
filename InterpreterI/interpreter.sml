@@ -47,12 +47,32 @@ fun look_table tbl (s:string) =
    end
 ;
 
+fun eval_bool R_TRUE = true
+  | eval_bool R_FALSE = false
+  | eval_bool other = (error "Expected a boolean value"; false)
+;
+
+(*
+  | eval_binary OP_NE x y = if (x != y) then R_TRUE else R_FALSE
+  | eval_binary OP_EQ x y = if (x = y) then R_TRUE else R_FALSE
+*)
 fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
   | eval_binary OP_MINUS (R_NUM x) (R_NUM y) = (R_NUM (x - y))
   | eval_binary OP_TIMES (R_NUM x) (R_NUM y) = (R_NUM (x * y))
   | eval_binary OP_DIVIDE (R_NUM x) (R_NUM y) = (R_NUM (Int.div(x,  y)))
-  | eval_binary opa (R_NUM x) (R_NUM y) = (R_NUM (0))
-  | eval_binary opa (x) (y) = (R_NUM (0))
+  | eval_binary OP_LT (R_NUM x) (R_NUM y) = if x < y then R_TRUE else R_FALSE
+  | eval_binary OP_GT (R_NUM x) (R_NUM y) = if x > y then R_TRUE else R_FALSE
+  | eval_binary OP_LE (R_NUM x) (R_NUM y) = if x <= y then R_TRUE else R_FALSE
+  | eval_binary OP_GE (R_NUM x) (R_NUM y) = if x >= y then R_TRUE else R_FALSE
+  | eval_binary OP_AND R_TRUE R_TRUE = R_TRUE
+  | eval_binary OP_AND R_TRUE R_FALSE = R_FALSE
+  | eval_binary OP_AND R_FALSE R_TRUE = R_FALSE
+  | eval_binary OP_AND R_FALSE R_FALSE = R_FALSE
+  | eval_binary OP_OR R_TRUE R_TRUE = R_TRUE
+  | eval_binary OP_OR R_TRUE R_FALSE = R_TRUE
+  | eval_binary OP_OR R_FALSE R_TRUE = R_TRUE
+  | eval_binary OP_OR R_FALSE R_FALSE = R_FALSE
+  | eval_binary opa (x) (y) = (R_UNIT)
 ;
 
 fun eval_unary OP_NOT (R_NUM x) = (R_NUM (0 - x))

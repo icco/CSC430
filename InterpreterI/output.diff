@@ -3,47 +3,13 @@
 ==== tests/1_evaluation/eval02.df ====
 ==== tests/1_evaluation/eval03.df ====
 ==== tests/1_evaluation/eval04.df ====
-1,10c1,10
-< false
-< true
-< false
-< false
-< true
-< false
-< true
-< true
+4,5c4,5
 < false
 < true
 ---
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
+> unit
+> unit
 ==== tests/1_evaluation/eval05.df ====
-1,8c1,8
-< false
-< false
-< false
-< true
-< true
-< true
-< false
-< true
----
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
-> 0
 ==== tests/1_evaluation/eval06.df ====
 ==== tests/1_evaluation/eval07.df ====
 1,3d0
