@@ -18,6 +18,7 @@ datatype ret =
    | R_UNIT
 ;
 
+(* utility functions *)
 fun error msg =
    (print (msg^"\n"); OS.Process.exit OS.Process.failure; (R_UNIT))
 ;
@@ -56,11 +57,6 @@ fun look_table tbl (s:string) =
    end
 ;
 
-fun eval_bool R_TRUE = true
-  | eval_bool R_FALSE = false
-  | eval_bool other = (raise Oops; false)
-;
-
 fun op2s OP_PLUS = "+"
   | op2s OP_MINUS = "-"
   | op2s OP_TIMES = "*"
@@ -80,6 +76,12 @@ fun binary_err op_str (want1, want2) (found1, found2) =
       "operator '" ^ (op_str) ^ "' requires " ^ want1 ^ " * " ^ want2
        ^ ", found " ^ found1 ^ " * " ^ found2
    )
+;
+
+(* evaluation funcitons *)
+fun eval_bool R_TRUE = true
+  | eval_bool R_FALSE = false
+  | eval_bool other = (raise Oops; false)
 ;
 
 fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
