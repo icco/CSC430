@@ -15,56 +15,76 @@
 ==== tests/1_evaluation/eval14.df ====
 ==== tests/2_dynamic_typing/type_error01.df ====
 ==== tests/2_dynamic_typing/type_error02.df ====
-1d0
+1c1
 < operator '*' requires int * int, found int * unit
+---
+> operator '*' requires something else, found int * unit.
 ==== tests/2_dynamic_typing/type_error03.df ====
 1d0
 < boolean guard required for 'while' statement, found unit
 8a8
 > Expected a boolean value
 ==== tests/2_dynamic_typing/type_error04.df ====
-1d0
+1c1
 < operator '>' requires int * int, found bool * int
+---
+> operator '>' requires something else, found bool * int.
 ==== tests/2_dynamic_typing/type_error05.df ====
-1d0
+1c1
 < operator '>' requires int * int, found unit * int
+---
+> operator '>' requires something else, found unit * int.
 ==== tests/2_dynamic_typing/type_error06.df ====
-1d0
+1c1
 < operator '>=' requires int * int, found bool * int
+---
+> operator '>=' requires something else, found bool * int.
 ==== tests/2_dynamic_typing/type_error07.df ====
 1c1
 < operator '=' requires int * int, found unit * unit
 ---
-> Expected a boolean value
+> operator '=' requires something else, found unit * unit.
 ==== tests/2_dynamic_typing/type_error08.df ====
-1d0
+1c1
 < operator '!=' requires int * int, found bool * int
+---
+> operator '!=' requires something else, found bool * int.
 ==== tests/2_dynamic_typing/type_error09.df ====
-1d0
+1c1
 < operator '&' requires bool * bool, found int * int
+---
+> operator '&' requires something else, found int * int.
 ==== tests/2_dynamic_typing/type_error10.df ====
-1d0
+1c1
 < operator '|' requires bool * bool, found int * int
+---
+> operator '|' requires something else, found int * int.
 ==== tests/2_dynamic_typing/type_error11.df ====
-1d0
-< boolean operand required for operator '!', found int
 ==== tests/2_dynamic_typing/type_error12.df ====
-1d0
+1c1
 < operator '+' requires int * int, found int * bool
+---
+> operator '+' requires something else, found int * bool.
 ==== tests/2_dynamic_typing/type_error13.df ====
 1c1
 < boolean guard required for 'while' statement, found int
 ---
 > Expected a boolean value
 ==== tests/2_dynamic_typing/type_error14.df ====
-1d0
+1c1
 < operator '-' requires int * int, found bool * int
+---
+> operator '-' requires something else, found bool * int.
 ==== tests/2_dynamic_typing/type_error15.df ====
-1d0
+1c1
 < operator '*' requires int * int, found bool * int
+---
+> operator '*' requires something else, found bool * int.
 ==== tests/2_dynamic_typing/type_error16.df ====
-1d0
+1c1
 < operator '/' requires int * int, found bool * int
+---
+> operator '/' requires something else, found bool * int.
 ==== tests/2_dynamic_typing/type_error17.df ====
 1c1
 < boolean guard required for 'if' statement, found int

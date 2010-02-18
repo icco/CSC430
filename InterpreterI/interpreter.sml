@@ -32,6 +32,13 @@ fun retToString (R_NUM x) =
   | retToString R_UNIT = "unit"
 ;
 
+fun typeOf (R_NUM x) = "int"
+  | typeOf (R_ID x) = "string"
+  | typeOf R_TRUE = "bool"
+  | typeOf R_FALSE = "bool"
+  | typeOf R_UNIT = "unit"
+;
+
 fun update_table tbl (s:string, v) =
    (
      insert tbl (s, v);
@@ -52,6 +59,20 @@ fun eval_bool R_TRUE = true
   | eval_bool other = (error "Expected a boolean value"; false)
 ;
 
+fun op2s OP_PLUS = "+"
+  | op2s OP_MINUS = "-"
+  | op2s OP_TIMES = "*"
+  | op2s OP_DIVIDE = "/"
+  | op2s OP_LT = "<"
+  | op2s OP_GT = ">"
+  | op2s OP_LE = "<="
+  | op2s OP_GE = ">="
+  | op2s OP_AND = "&"
+  | op2s OP_OR = "|"
+  | op2s OP_NE = "!="
+  | op2s OP_EQ = "="
+;
+
 fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
   | eval_binary OP_MINUS (R_NUM x) (R_NUM y) = (R_NUM (x - y))
   | eval_binary OP_TIMES (R_NUM x) (R_NUM y) = (R_NUM (x * y))
@@ -70,13 +91,20 @@ fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
   | eval_binary OP_OR R_FALSE R_FALSE = R_FALSE
   | eval_binary OP_NE (R_NUM x) (R_NUM y) = if (not (x = y)) then R_TRUE else R_FALSE
   | eval_binary OP_EQ (R_NUM x) (R_NUM y) = if (x = y) then R_TRUE else R_FALSE
-  | eval_binary opa (x) (y) = (R_UNIT)
+  | eval_binary opa (x) (y) = 
+   let (* operator '|' requires bool * bool, found int * int *)
+      val msg = ("operator '" ^ (op2s opa) ^ "' requires something else, found " ^ (typeOf x) ^ " * " ^ (typeOf y) ^ ".");
+   in
+     (error msg; (R_UNIT))
+   end
 ;
 
-fun eval_unary OP_NOT (R_NUM x) = (R_NUM (0 - x))
-  | eval_unary OP_NOT (R_TRUE) = (R_FALSE)
+fun eval_unary OP_NOT (R_TRUE) = (R_FALSE)
   | eval_unary OP_NOT (R_FALSE) = (R_TRUE)
-  | eval_unary opa x = (error "Unary expects a boolean."; R_UNIT)
+  | eval_unary opa x = (
+      error "boolean operand required for operator '!', found int"; 
+      R_UNIT
+   )
 ;
 
 fun eval_expression (EXP_ID x) sta = ((look_table sta x), sta)
@@ -156,7 +184,7 @@ and eval_while x s st =
       else
          (v2, st2)
    end
-   
+; 
 
 fun eval_declarations [] st = (R_UNIT, st)
   | eval_declarations ((DECL d)::ds) st = 
