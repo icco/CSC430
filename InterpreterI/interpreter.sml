@@ -16,8 +16,8 @@ datatype ret =
    | R_UNIT
 ;
 
-fun error msg = 
-  (print (msg^"\n"); OS.Process.exit OS.Process.failure; (R_UNIT))
+fun error msg =
+   (print (msg^"\n"); OS.Process.exit OS.Process.failure; (R_UNIT))
 ;
 
 fun retToString (R_NUM x) =
@@ -73,29 +73,48 @@ fun op2s OP_PLUS = "+"
   | op2s OP_EQ = "="
 ;
 
+fun binary_err op_str (want1, want2) (found1, found2) =
+   (
+      "operator '" ^ (op_str) ^ "' requires " ^ want1 ^ " * " ^ want2
+       ^ ", found " ^ found1 ^ " * " ^ found2
+   )
+;
+
 fun eval_binary OP_PLUS (R_NUM x) (R_NUM y) = (R_NUM (x + y))
+  | eval_binary OP_PLUS (x) (y) = (error (binary_err (op2s OP_PLUS) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_MINUS (R_NUM x) (R_NUM y) = (R_NUM (x - y))
+  | eval_binary OP_MINUS (x) (y) = (error (binary_err (op2s OP_MINUS) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_TIMES (R_NUM x) (R_NUM y) = (R_NUM (x * y))
+  | eval_binary OP_TIMES (x) (y) = (error (binary_err (op2s OP_TIMES) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_DIVIDE (R_NUM x) (R_NUM y) = (R_NUM (Int.div(x,  y)))
+  | eval_binary OP_DIVIDE (x) (y) = (error (binary_err (op2s OP_DIVIDE) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_LT (R_NUM x) (R_NUM y) = if x < y then R_TRUE else R_FALSE
+  | eval_binary OP_LT (x) (y) = (error (binary_err (op2s OP_LT) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_GT (R_NUM x) (R_NUM y) = if x > y then R_TRUE else R_FALSE
+  | eval_binary OP_GT (x) (y) = (error (binary_err (op2s OP_GT) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_LE (R_NUM x) (R_NUM y) = if x <= y then R_TRUE else R_FALSE
+  | eval_binary OP_LE (x) (y) = (error (binary_err (op2s OP_LE) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_GE (R_NUM x) (R_NUM y) = if x >= y then R_TRUE else R_FALSE
+  | eval_binary OP_GE (x) (y) = (error (binary_err (op2s OP_GE) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_AND R_TRUE R_TRUE = R_TRUE
   | eval_binary OP_AND R_TRUE R_FALSE = R_FALSE
   | eval_binary OP_AND R_FALSE R_TRUE = R_FALSE
   | eval_binary OP_AND R_FALSE R_FALSE = R_FALSE
+  | eval_binary OP_AND (x) (y) = (error (binary_err (op2s OP_AND) ("bool", "bool") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_OR R_TRUE R_TRUE = R_TRUE
   | eval_binary OP_OR R_TRUE R_FALSE = R_TRUE
   | eval_binary OP_OR R_FALSE R_TRUE = R_TRUE
   | eval_binary OP_OR R_FALSE R_FALSE = R_FALSE
+  | eval_binary OP_OR (x) (y) = (error (binary_err (op2s OP_OR) ("bool", "bool") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_NE (R_NUM x) (R_NUM y) = if (not (x = y)) then R_TRUE else R_FALSE
+  | eval_binary OP_NE (x) (y) = (error (binary_err (op2s OP_NE) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary OP_EQ (R_NUM x) (R_NUM y) = if (x = y) then R_TRUE else R_FALSE
+  | eval_binary OP_EQ (x) (y) = (error (binary_err (op2s OP_EQ) ("int", "int") ((typeOf x), (typeOf y))); (R_UNIT))
   | eval_binary opa (x) (y) = 
-   let (* operator '|' requires bool * bool, found int * int *)
-      val msg = ("operator '" ^ (op2s opa) ^ "' requires something else, found " ^ (typeOf x) ^ " * " ^ (typeOf y) ^ ".");
+   let
+      val msg = binary_err (op2s opa) ("some", "some") ((typeOf x), (typeOf y));
    in
-     (error msg; (R_UNIT))
+      (error msg; (R_UNIT))
    end
 ;
 
@@ -112,14 +131,14 @@ fun eval_expression (EXP_ID x) sta = ((look_table sta x), sta)
   | eval_expression (EXP_TRUE) sta = ((R_TRUE), sta)
   | eval_expression (EXP_FALSE) sta = ((R_FALSE), sta)
   | eval_expression (EXP_UNIT) sta = ((R_UNIT), sta)
-  | eval_expression (EXP_BINARY(opa, ex1, ex2)) sta = 
+  | eval_expression (EXP_BINARY(opa, ex1, ex2)) sta =
    let
      val (v1, s1) = (eval_expression ex1 sta);
      val (v2, s2) = (eval_expression ex2 s1);
    in
      ((eval_binary opa v1 v2), s2)
    end
-  | eval_expression (EXP_UNARY(opa, ex)) sta = 
+  | eval_expression (EXP_UNARY(opa, ex)) sta =
    let
      val (v1, s1) = (eval_expression ex sta);
    in
@@ -171,8 +190,8 @@ and eval_statement (ST_COMPOUND sl) st = eval_compound sl st
    end
   | eval_statement (ST_WHILE(x, s)) st = eval_while x s st
   | eval_statement (ST_RETURN(x)) st = eval_expression x st
-and eval_while x s st = 
-   let 
+and eval_while x s st =
+   let
       val (v2, st2) = eval_expression x st;
    in
       if (eval_bool v2) then
@@ -184,7 +203,7 @@ and eval_while x s st =
       else
          (v2, st2)
    end
-; 
+;
 
 fun eval_declarations [] st = (R_UNIT, st)
   | eval_declarations ((DECL d)::ds) st = 
