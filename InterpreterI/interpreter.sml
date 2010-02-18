@@ -1,6 +1,8 @@
 (**
  * HW 4 - Part 1 of the interpreter.
  * @author Nathaniel "Nat" Welch
+ *
+ * Note: Comments are kinda sparse. Sorry...
  *)
 
 (* import Keen's solution to hw3 *)
@@ -56,7 +58,7 @@ fun look_table tbl (s:string) =
 
 fun eval_bool R_TRUE = true
   | eval_bool R_FALSE = false
-  | eval_bool other = (error "Expected a boolean value"; false)
+  | eval_bool other = (raise Oops; false)
 ;
 
 fun op2s OP_PLUS = "+"
@@ -182,8 +184,9 @@ and eval_statement (ST_COMPOUND sl) st = eval_compound sl st
   | eval_statement (ST_IF(x, s1, s2)) st = 
    let
       val (v, st2) = eval_expression x st;
+      val msg = ("boolean guard required for 'if' statement, found " ^ (typeOf v));
    in
-      if (eval_bool v) then
+      if (eval_bool v handle Oops => (error msg; false)) then
          (eval_statement s1 st2)
       else
          (eval_statement s2 st2)
@@ -193,8 +196,9 @@ and eval_statement (ST_COMPOUND sl) st = eval_compound sl st
 and eval_while x s st =
    let
       val (v2, st2) = eval_expression x st;
+      val msg = ("boolean guard required for 'while' statement, found " ^ (typeOf v2));
    in
-      if (eval_bool v2) then
+      if (eval_bool v2 handle Oops => (error msg; false)) then
          (let
             val (v3, st3) = eval_statement s st2;
          in
