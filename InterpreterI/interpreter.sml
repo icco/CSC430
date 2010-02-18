@@ -141,17 +141,22 @@ and eval_statement (ST_COMPOUND sl) st = eval_compound sl st
       else
          (eval_statement s2 st2)
    end
-  | eval_statement (ST_WHILE(x, s)) st = 
-   let 
-      val (v, st2) = eval_expression x st;
-   in
-      if (eval_bool v) then
-         (eval_statement s st2)
-      else
-         (v, st2)
-   end
+  | eval_statement (ST_WHILE(x, s)) st = eval_while x s st
   | eval_statement (ST_RETURN(x)) st = eval_expression x st
-;
+and eval_while x s st = 
+   let 
+      val (v2, st2) = eval_expression x st;
+   in
+      if (eval_bool v2) then
+         (let
+            val (v3, st3) = eval_statement s st2;
+         in
+           (eval_while x s st3)
+         end)
+      else
+         (v2, st2)
+   end
+   
 
 fun eval_declarations [] st = (R_UNIT, st)
   | eval_declarations ((DECL d)::ds) st = 
