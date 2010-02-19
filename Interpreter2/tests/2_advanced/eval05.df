@@ -1,0 +1,28 @@
+var i, x;
+fn f(i)
+   var x;
+{
+   while (i > 0)
+   {
+      x := g(i);
+      i := i - 1;
+   }
+}
+
+fn g(j)
+{
+   writeline j * 2;
+   i := i - 1;
+}
+
+{
+   i := 20;
+   while (i > 0)
+   {
+      writeline i;
+      x := f(i);
+      writeline i;
+      i := i - 1;
+   }
+   writeline i;
+}

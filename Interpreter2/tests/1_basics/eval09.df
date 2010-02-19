@@ -1,0 +1,18 @@
+var a, b, x;
+   fn f(a, b)
+   {
+      writeline a;
+      a := a - 7;
+      b := false;
+      writeline a;
+      writeline b;
+   }
+{
+   a := 28;
+   b := true;
+   write a;
+   writeline b;
+   x := f(a, b);
+   write a;
+   writeline b;
+}

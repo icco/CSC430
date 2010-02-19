@@ -1,0 +1,13 @@
+var x, y;
+
+fn f()
+{
+   y := 100;
+}
+
+{
+   y := 9;
+   writeline y;
+   x := f();
+   writeline y;
+}

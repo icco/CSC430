@@ -1,0 +1,20 @@
+  var i, y;
+  fn f(n)
+    var i, x;
+  {
+    i := 2;
+    writeline i;
+    x := g(8);
+    writeline i;
+  }
+  fn g(n)
+  {
+    i := n;
+    writeline i;
+  }
+{
+  i := 3;
+  writeline i;
+  y := f(2);
+  writeline i;
+}

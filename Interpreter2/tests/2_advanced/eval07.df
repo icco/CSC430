@@ -1,0 +1,18 @@
+var x;
+   fn f(i)
+   {
+      if (i <= 0)
+      {
+         writeline 99;
+      }
+      else
+      {
+         writeline i;
+         x := f(i - 1);
+      }
+   }
+{
+   x := f(3);
+   x := f(2);
+   writeline 1;
+}

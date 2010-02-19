@@ -1,0 +1,21 @@
+fn foo()
+{
+   return 2;
+}
+
+fn bar()
+   var x;
+{
+   x := foo() + 1;
+   writeline x;
+   return foo() * x + foo();
+   writeline 1;
+   while (true)
+   {
+      writeline 2;
+   }
+}
+
+{
+   writeline bar();
+}

@@ -1,0 +1,17 @@
+var y;
+  fn f(i)
+   var x;
+  {
+    x := g(14 * 2);
+    writeline i;
+  }
+  fn g(i)
+  {
+    writeline i;
+    i := 17;
+    writeline 3;
+  }
+{
+  y := f(7);
+  y := g(8);
+}
