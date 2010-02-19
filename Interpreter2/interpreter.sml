@@ -49,7 +49,6 @@ fun binary_type_error elft erht flft frht oper =
    )
 ;
 
-
 fun initial_value () = Unit_Value;
 
 fun value_string (Int_Value n) =
