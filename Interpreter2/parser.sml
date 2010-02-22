@@ -160,6 +160,7 @@ fun parse_addop fstr TK_PLUS =
   | parse_addop fstr tk =
    err_expect ((tkString TK_PLUS) ^ " or " ^ (tkString TK_MINUS)) (tkString tk)
 ;
+
 fun parse_multop fstr TK_TIMES =
    (OP_TIMES, match_tk fstr TK_TIMES TK_TIMES)
   | parse_multop fstr TK_DIVIDE =
@@ -168,6 +169,7 @@ fun parse_multop fstr TK_TIMES =
    err_expect
       ((tkString TK_TIMES) ^ " or " ^ (tkString TK_DIVIDE)) (tkString tk)
 ;
+
 fun parse_unaryop fstr TK_NOT =
    (OP_NOT, match_tk fstr TK_NOT TK_NOT)
   | parse_unaryop fstr tk =

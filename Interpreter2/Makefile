@@ -12,5 +12,5 @@ runall: parser.sml
 	./runall interpreter.sml
 
 handin:
-	handin akeen hw4 README.txt *.sml && handin akeen hw5
+	handin akeen hw5 README.txt *.sml && handin akeen hw5
 
