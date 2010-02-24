@@ -174,8 +174,28 @@ fun build_state [] state = state
          build_state ds (insert state id (initial_value ()))
 ;
 
+(**
+ * TODO:
+ *  Insert function to state table - name
+ *  Add params to state table
+ *  Add declarations to state table
+ *  do inside work
+ *  remove inserted stuff from state table
+ *    - Maybe do something like a sperate state table for the function we are in
+ *
+ * Calling functions: wtf?
+ *)
+fun build_functions [] state = state
+  | build_functions ((FUNCTION (name, params, dec, inside))::fs) state =
+   state
+;
+
 fun evaluate_program (PROGRAM (decls, funcs, body)) =
-   evaluate_statement body (build_state decls (new_map ()))
+   evaluate_statement body (
+      build_functions funcs (
+         build_state decls (new_map ())
+      )
+   )
 ;
 
 fun interpret file =
