@@ -111,7 +111,7 @@ fun evaluate_exp (EXP_ID id) state = (lookup state id
   | evaluate_exp EXP_FALSE state = Bool_Value false
   | evaluate_exp EXP_UNIT state = Unit_Value
   | evaluate_exp (EXP_INVOC (id, args)) state =
-      (output (stdErr, "return not supported at this time\n"); Invalid_Value)
+      (output (stdErr, "function call not supported at this time\n"); Invalid_Value)
   | evaluate_exp (EXP_BINARY (optr, lft, rht)) state =
       apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
   | evaluate_exp (EXP_UNARY (oper, opnd)) state =
@@ -176,17 +176,7 @@ fun build_state [] state = state
 ;
 
 (**
- * TODO:
- *  Insert function to state table - name
- *  Add params to state table
- *  Add declarations to state table
- *  do inside work
- *  remove inserted stuff from state table
- *    - Maybe do something like a sperate state table for the function we are in
- *
- * Calling functions: EXP_INVOC
- *
- * Stores statment (inside) and state in a tuple.
+ * Builds function table
  *)
 fun build_functions [] state = state
   | build_functions (f::fs) state =
