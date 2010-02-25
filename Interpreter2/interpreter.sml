@@ -5,6 +5,7 @@ datatype value =
      Int_Value of int
    | Bool_Value of bool
    | Unit_Value
+   | Func_Value of (string, value) HashTable.hash_table * statement
    | Invalid_Value
 ;
 
@@ -171,7 +172,7 @@ and evaluate_while exp body state =
 
 fun build_state [] state = state
   | build_state ((DECL id)::ds) state =
-         build_state ds (insert state id (initial_value ()))
+   build_state ds (insert state id (initial_value ()))
 ;
 
 (**
@@ -183,11 +184,21 @@ fun build_state [] state = state
  *  remove inserted stuff from state table
  *    - Maybe do something like a sperate state table for the function we are in
  *
- * Calling functions: wtf?
+ * Calling functions: EXP_INVOC
+ *
+ * Stores statment (inside) and state in a tuple.
  *)
 fun build_functions [] state = state
-  | build_functions ((FUNCTION (name, params, dec, inside))::fs) state =
-   state
+  | build_functions (f::fs) state =
+   build_functions fs (build_function f state)
+and build_function (FUNCTION (name, params, dec, inside)) state =
+   insert state name (Func_Value (
+      (build_state dec (
+         build_state params (
+            new_map ())
+         )
+      ), inside)
+   )
 ;
 
 fun evaluate_program (PROGRAM (decls, funcs, body)) =
