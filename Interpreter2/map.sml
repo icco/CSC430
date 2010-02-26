@@ -8,3 +8,25 @@ fun insert map st t = (HashTable.insert map (st, t); map);
 fun new_map () = HashTable.mkTable (HashString.hashString, (op =))
    (initial_size, UndefinedIdentifier)
 ;
+
+(**
+ * Take a list and put it into the map/hashtable.
+ *
+ * if ins is false, only update values that already exist, else insert new ones
+ *)
+fun update_table map [] (ins:bool) = map
+  | update_table map ((id, x)::li) (ins:bool) =
+   if contains map id then
+      update_table (insert map id x) li ins
+   else (
+      if ins then
+        update_table (insert map id x) li ins
+      else
+        update_table map li ins
+   )
+;
+
+fun merge_state s1 s2 =
+   update_table s2 (HashTable.listItemsi s1) true
+;
+

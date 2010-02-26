@@ -104,50 +104,6 @@ fun apply_unary OP_NOT (Bool_Value b) = Bool_Value (not b)
   | apply_unary _ _ = Invalid_Value
 ;
 
-(* Write this to go through some x number of states and find a value*)
-fun get_val [] id = Invalid_Value
-  | get_val (x::xs) id =
-   if contains x id then
-      lookup x id
-   else
-      get_val xs id
-;
-
-fun evaluate_function (Func_Value(x, fstate)) args state = 
-   Invalid_Value
-;
-
-fun evaluate_exp (EXP_ID id) state = (lookup state id
-   handle UndefinedIdentifier => undeclared_identifier_error id)
-  | evaluate_exp (EXP_NUM n) state = Int_Value n
-  | evaluate_exp EXP_TRUE state = Bool_Value true
-  | evaluate_exp EXP_FALSE state = Bool_Value false
-  | evaluate_exp EXP_UNIT state = Unit_Value
-  | evaluate_exp (EXP_INVOC (id, args)) state =
-   if contains state state then
-      evaluate_function (lookup state id) args state
-   else
-      (output (stdErr, "not a valid function name\n"); Invalid_Value)
-  | evaluate_exp (EXP_BINARY (optr, lft, rht)) state =
-      apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
-  | evaluate_exp (EXP_UNARY (oper, opnd)) state =
-      apply_unary oper (evaluate_exp opnd state)
-;
-
-fun evaluate_assignment id exp state =
-   ((lookup state id
-      handle UndefinedIdentifier => undeclared_identifier_error id);
-      insert state id (evaluate_exp exp state))
-;
-
-fun evaluate_print exp state =
-      (output (stdOut, (value_string (evaluate_exp exp state)) ^ " "); state)
-;
-
-fun evaluate_println exp state =
-      (output (stdOut, (value_string (evaluate_exp exp state)) ^ "\n"); state)
-;
-
 fun evaluate_statement (ST_COMPOUND c) state =
       evaluate_compound c state
   | evaluate_statement (ST_ASSIGN (id, exp)) state =
@@ -184,7 +140,34 @@ and evaluate_while exp body state =
           | (Bool_Value false) => state
           | _ => while_type_error guard
       end
+and evaluate_function (Func_Value(fstate, x)) args state = 
+   (evaluate_statement x (merge_state fstate state); Invalid_Value)
+  | evaluate_function x args state = Invalid_Value
+and evaluate_exp (EXP_ID id) state = (lookup state id
+   handle UndefinedIdentifier => undeclared_identifier_error id)
+  | evaluate_exp (EXP_NUM n) state = Int_Value n
+  | evaluate_exp EXP_TRUE state = Bool_Value true
+  | evaluate_exp EXP_FALSE state = Bool_Value false
+  | evaluate_exp EXP_UNIT state = Unit_Value
+  | evaluate_exp (EXP_INVOC (id, args)) state =
+   if contains state id then
+      evaluate_function (lookup state id) args state
+   else
+      (output (stdErr, "not a valid function name\n"); Invalid_Value)
+  | evaluate_exp (EXP_BINARY (optr, lft, rht)) state =
+      apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
+  | evaluate_exp (EXP_UNARY (oper, opnd)) state =
+      apply_unary oper (evaluate_exp opnd state)
+and evaluate_assignment id exp state =
+   ((lookup state id
+      handle UndefinedIdentifier => undeclared_identifier_error id);
+      insert state id (evaluate_exp exp state))
+and evaluate_print exp state =
+      (output (stdOut, (value_string (evaluate_exp exp state)) ^ " "); state)
+and evaluate_println exp state =
+      (output (stdOut, (value_string (evaluate_exp exp state)) ^ "\n"); state)
 ;
+
 
 fun build_state [] state = state
   | build_state ((DECL id)::ds) state =

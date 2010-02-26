@@ -1,115 +1,86 @@
 ./runall interpreter.sml
 ==== tests/1_basics/eval01.df ====
-0a1
-> function call not supported at this time
-2d2
-< 1
 ==== tests/1_basics/eval02.df ====
-0a1
-> function call not supported at this time
-2d2
-< 1
 ==== tests/1_basics/eval03.df ====
-0a1,2
-> function call not supported at this time
-> function call not supported at this time
-2,3d3
+2,3c2,3
 < 1
 < 2
+---
+> unit
+> unit
 ==== tests/1_basics/eval04.df ====
-0a1,2
-> function call not supported at this time
-> function call not supported at this time
-2,3d3
+2,3c2,3
 < 1
 < 2
+---
+> unit
+> unit
 ==== tests/1_basics/eval05.df ====
-0a1,2
-> function call not supported at this time
-> function call not supported at this time
-2,3d3
+0a1
+> operator '+' requires int * int, found unit * int
+2,4d2
 < 10
 < 11
+< 3
 ==== tests/1_basics/eval06.df ====
-0a1,2
-> function call not supported at this time
-> 9
-2d3
-< 100
 ==== tests/1_basics/eval07.df ====
-0a1
-> function call not supported at this time
+2c2
+< 9
+---
+> 100
 ==== tests/1_basics/eval08.df ====
-1c1,2
+1c1
 < unit
 ---
-> function call not supported at this time
 > <invalid>
 ==== tests/1_basics/eval09.df ====
 0a1
-> function call not supported at this time
-2,4d2
+> operator '-' requires int * int, found unit * int
+2,5c3
 < 28
 < 21
 < false
+< 28 true
+---
+> unit
 ==== tests/2_advanced/eval01.df ====
-1c1,2
+1c1
 < 120
 ---
-> function call not supported at this time
-> unit
+> operator '<=' requires int * int, found unit * int
 ==== tests/2_advanced/eval02.df ====
-1c1,3
-< 2
+2,4c2,4
+< 3
+< 7
+< 7
 ---
-> function call not supported at this time
-> function call not supported at this time
-> 3
-3,4d4
-< 7
-< 7
+> 2
+> unit
+> unit
 ==== tests/2_advanced/eval03.df ====
-1,5c1,2
+1c1
 < 28
-< 3
+---
+> unit
+3,4c3,4
 < 7
 < 8
-< 3
 ---
-> function call not supported at this time
-> function call not supported at this time
+> 17
+> unit
 ==== tests/2_advanced/eval04.df ====
-0a1,2
-> function call not supported at this time
-> 3
-2,5d3
-< 2
+3,5c3,5
 < 8
 < 2
 < 8
+---
+> unit
+> unit
+> unit
 ==== tests/2_advanced/eval05.df ====
-0a1,20
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-2,11d21
+0a1
+> operator '>' requires int * int, found unit * int
+2,23d2
 < 40
 < 38
 < 36
@@ -120,50 +91,22 @@
 < 26
 < 24
 < 22
-12a23,24
-> 19
-> 19
-13a26,29
-> 18
-> 17
-> 17
-> 16
-14a31,33
-> 15
-> 15
-> 14
-15a35,36
-> 13
-> 13
-16a38,41
-> 12
-> 11
-> 11
-> 10
-17a43,44
-> 9
-> 9
-18a46,49
-> 8
-> 7
-> 7
-> 6
-19a51,52
-> 5
-> 5
-20a54,57
-> 4
-> 3
-> 3
-> 2
-21a59,60
-> 1
-> 1
-23d61
+< 20
+< 18
+< 16
+< 14
+< 12
+< 10
+< 8
+< 6
+< 4
+< 2
+< 0
 < -1
 ==== tests/2_advanced/eval06.df ====
-1,14c1
-< 999
+0a1
+> operator '>' requires int * int, found unit * int
+2,15d2
 < 3
 < 999
 < 3
@@ -177,10 +120,9 @@
 < 999
 < 17
 < 999
----
-> function call not supported at this time
+< 3
 ==== tests/2_advanced/eval07.df ====
-1,7c1,2
+1,8c1
 < 3
 < 2
 < 1
@@ -188,60 +130,60 @@
 < 2
 < 1
 < 99
+< 1
 ---
-> function call not supported at this time
-> function call not supported at this time
+> operator '<=' requires int * int, found unit * int
 ==== tests/2_advanced/eval08.df ====
-1,3c1
-< 2
+2d1
 < 3
-< 2
+4c3,4
+< 3
 ---
-> function call not supported at this time
+> 2
+> 2
 ==== tests/3_return/eval01.df ====
-1c1,2
+1c1
 < 120
 ---
-> function call not supported at this time
-> <invalid>
+> operator '<=' requires int * int, found unit * int
 ==== tests/3_return/eval02.df ====
-1c1,2
+1c1
 < 120
 ---
-> function call not supported at this time
-> <invalid>
+> operator '<=' requires int * int, found unit * int
 ==== tests/3_return/eval03.df ====
 1,3c1,6
 < 3
 < 7
 < 10
 ---
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
 > <invalid>
 > <invalid>
 > <invalid>
 ==== tests/3_return/eval04.df ====
-0a1,9
-> function call not supported at this time
-> function call not supported at this time
-> function call not supported at this time
-> 0
-> <invalid>
-> 0
-> <invalid>
-> 0
-> <invalid>
-2,7d10
+0a1,3
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
+2c5
 < 3
-< 1
+---
+> <invalid>
+4c7
 < 5
-< 2
+---
+> <invalid>
+6,7c9,10
 < 9
 < 4
+---
+> <invalid>
+> 3
 ==== tests/3_return/eval05.df ====
-1,9c1,4
+1,9c1
 < 3
 < unit
 < 10
@@ -252,97 +194,72 @@
 < 5
 < unit
 ---
-> function call not supported at this time
-> function call not supported at this time
-> <invalid>
-> <invalid>
+> operator '>' requires int * int, found unit * int
 ==== tests/3_return/eval06.df ====
-1,2c1,2
-< 1
+0a1
+> return not supported at this time
+2c3,4
 < 2
 ---
-> function call not supported at this time
+> 3
 > <invalid>
 ==== tests/3_return/eval07.df ====
 1c1,2
 < 3
 ---
-> function call not supported at this time
+> return not supported at this time
 > <invalid>
 ==== tests/3_return/eval08.df ====
 1,2c1,2
 < 3
 < 8
 ---
-> function call not supported at this time
-> <invalid>
+> return not supported at this time
+> operator '+' requires int * int, found <invalid> * int
 ==== tests/3_return/eval09.df ====
 1,2c1,2
 < 3
 < 8
 ---
-> function call not supported at this time
-> <invalid>
+> return not supported at this time
+> operator '+' requires int * int, found <invalid> * int
 ==== tests/4_dynamic_typing/badsemantic01.df ====
-1c1
+1d0
 < too many arguments in invocation of function 'm'
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic02.df ====
-1c1
+1d0
 < too few arguments in invocation of function 'j'
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic03.df ====
-1c1
+1d0
 < attempt to invoke variable 'i' as a function
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic04.df ====
-1c1
+1d0
 < operator '>' requires int * int, found bool * int
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic05.df ====
-1c1
-< operator '>' requires int * int, found int * bool
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic06.df ====
-1c1
-< boolean guard required for 'if' statement, found int
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic07.df ====
-1c1
-< use of undeclared identifier 'j'
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic08.df ====
-1c1
+1d0
 < attempt to invoke variable 'f' as a function
----
-> function call not supported at this time
 ==== tests/4_dynamic_typing/badsemantic09.df ====
-1c1,2
+1c1
 < operator '+' requires int * int, found int * unit
 ---
-> function call not supported at this time
 > operator '+' requires int * int, found int * <invalid>
 ==== tests/4_dynamic_typing/badsemantic10.df ====
 1c1,2
 < operator '+' requires int * int, found bool * int
 ---
-> function call not supported at this time
+> return not supported at this time
 > operator '+' requires int * int, found <invalid> * int
 ==== tests/4_dynamic_typing/badsemantic11.df ====
 1c1,2
 < operator '+' requires int * int, found int * bool
 ---
-> function call not supported at this time
+> return not supported at this time
 > <invalid>
 ==== tests/4_dynamic_typing/badsemantic12.df ====
 1c1
 < use of undeclared function 'f'
 ---
-> function call not supported at this time
+> not a valid function name
