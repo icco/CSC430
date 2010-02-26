@@ -143,7 +143,11 @@ and evaluate_while exp body state =
 and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
    let
       val scope = (
-         update_table (merge_state fstate state) (pair params args (state, id)) false)
+         update_table 
+            (merge_state fstate state) 
+            (pair params args (state, id)) 
+            true
+      )
    in
      (evaluate_statement bdy (scope); Invalid_Value)
    end
@@ -175,10 +179,10 @@ and evaluate_println exp state =
       (output (stdOut, (value_string (evaluate_exp exp state)) ^ "\n"); state)
 and pair [] [] _ = []
   | pair x [] (_, id) = (output (stdErr, (
-    "too few arguments in invocation of function '" ^ id ^ "'\n")
+   "too few arguments in invocation of function '" ^ id ^ "'\n")
   ); [])
   | pair [] y  (_, id) = (output (stdErr, (
-    "too many arguments in invocation of function '" ^ id ^ "'\n")
+   "too many arguments in invocation of function '" ^ id ^ "'\n")
   ); [])
   | pair ((DECL x)::xs) (y::ys) (state, id) =
    (x, (evaluate_exp y state))::(pair xs ys (state, id))
@@ -199,9 +203,7 @@ fun build_functions [] state = state
 and build_function (FUNCTION (name, params, dec, inside)) state =
    insert state name (Func_Value (
       (build_state dec (
-         build_state params (
-            new_map ())
-         )
+        new_map ())
       ), inside, params)
    )
 ;
