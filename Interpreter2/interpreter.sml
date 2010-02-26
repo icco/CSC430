@@ -158,7 +158,7 @@ and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
    in
      (evaluate_statement bdy (scope); 
      update_table state (HashTable.listItemsi scope) false;
-     Invalid_Value)
+     Unit_Value)
    end
   | evaluate_function id x args state = (output (stdErr, (
      "attempt to invoke variable '" ^ id ^ "' as a function\n")
