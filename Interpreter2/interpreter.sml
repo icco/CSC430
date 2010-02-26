@@ -104,6 +104,19 @@ fun apply_unary OP_NOT (Bool_Value b) = Bool_Value (not b)
   | apply_unary _ _ = Invalid_Value
 ;
 
+(* Write this to go through some x number of states and find a value*)
+fun get_val [] id = Invalid_Value
+  | get_val (x::xs) id =
+   if contains x id then
+      lookup x id
+   else
+      get_val xs id
+;
+
+fun evaluate_function (Func_Value(x, fstate)) args state = 
+   Invalid_Value
+;
+
 fun evaluate_exp (EXP_ID id) state = (lookup state id
    handle UndefinedIdentifier => undeclared_identifier_error id)
   | evaluate_exp (EXP_NUM n) state = Int_Value n
@@ -111,7 +124,10 @@ fun evaluate_exp (EXP_ID id) state = (lookup state id
   | evaluate_exp EXP_FALSE state = Bool_Value false
   | evaluate_exp EXP_UNIT state = Unit_Value
   | evaluate_exp (EXP_INVOC (id, args)) state =
-      (output (stdErr, "function call not supported at this time\n"); Invalid_Value)
+   if contains state state then
+      evaluate_function (lookup state id) args state
+   else
+      (output (stdErr, "not a valid function name\n"); Invalid_Value)
   | evaluate_exp (EXP_BINARY (optr, lft, rht)) state =
       apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
   | evaluate_exp (EXP_UNARY (oper, opnd)) state =
