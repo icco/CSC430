@@ -7,20 +7,20 @@
 ==== tests/1_basics/eval06.df ====
 ==== tests/1_basics/eval07.df ====
 --- tests/1_basics/eval07.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/1_basics/eval07.output	2010-02-26 02:15:44.000000000 -0800
++++ tests/1_basics/eval07.output	2010-02-26 02:51:08.000000000 -0800
 @@ -1,2 +1,2 @@
  9
 -9
 +100
 ==== tests/1_basics/eval08.df ====
 --- tests/1_basics/eval08.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/1_basics/eval08.output	2010-02-26 02:15:45.000000000 -0800
++++ tests/1_basics/eval08.output	2010-02-26 02:51:09.000000000 -0800
 @@ -1 +1 @@
 -unit
 +<invalid>
 ==== tests/1_basics/eval09.df ====
 --- tests/1_basics/eval09.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/1_basics/eval09.output	2010-02-26 02:15:46.000000000 -0800
++++ tests/1_basics/eval09.output	2010-02-26 02:51:10.000000000 -0800
 @@ -2,4 +2,4 @@
  28
  21
@@ -29,13 +29,13 @@
 +21 false
 ==== tests/2_advanced/eval01.df ====
 --- tests/2_advanced/eval01.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/2_advanced/eval01.output	2010-02-26 02:15:47.000000000 -0800
++++ tests/2_advanced/eval01.output	2010-02-26 02:51:11.000000000 -0800
 @@ -1 +1 @@
 -120
 +0
 ==== tests/2_advanced/eval02.df ====
 --- tests/2_advanced/eval02.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/2_advanced/eval02.output	2010-02-26 02:15:48.000000000 -0800
++++ tests/2_advanced/eval02.output	2010-02-26 02:51:12.000000000 -0800
 @@ -1,4 +1,4 @@
  2
 -3
@@ -44,7 +44,7 @@
  7
 ==== tests/2_advanced/eval03.df ====
 --- tests/2_advanced/eval03.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/2_advanced/eval03.output	2010-02-26 02:15:49.000000000 -0800
++++ tests/2_advanced/eval03.output	2010-02-26 02:51:14.000000000 -0800
 @@ -1,5 +1,5 @@
  28
  3
@@ -54,7 +54,7 @@
  3
 ==== tests/2_advanced/eval04.df ====
 --- tests/2_advanced/eval04.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/2_advanced/eval04.output	2010-02-26 02:15:51.000000000 -0800
++++ tests/2_advanced/eval04.output	2010-02-26 02:51:15.000000000 -0800
 @@ -1,5 +1,5 @@
  3
  2
@@ -64,7 +64,7 @@
  8
 ==== tests/2_advanced/eval05.df ====
 --- tests/2_advanced/eval05.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/2_advanced/eval05.output	2010-02-26 02:15:52.000000000 -0800
++++ tests/2_advanced/eval05.output	2010-02-26 02:51:16.000000000 -0800
 @@ -1,23 +1,13 @@
  20
  40
@@ -91,8 +91,9 @@
  -1
 ==== tests/2_advanced/eval06.df ====
 --- tests/2_advanced/eval06.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/2_advanced/eval06.output	2010-02-26 02:15:53.000000000 -0800
-@@ -1,15 +1,8 @@
++++ tests/2_advanced/eval06.output	2010-02-26 02:51:17.000000000 -0800
+@@ -1,15 +1,9 @@
++attempt to invoke variable 'j' as a function
  999
 -3
  999
@@ -111,7 +112,7 @@
 ==== tests/2_advanced/eval07.df ====
 ==== tests/2_advanced/eval08.df ====
 --- tests/2_advanced/eval08.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/2_advanced/eval08.output	2010-02-26 02:15:55.000000000 -0800
++++ tests/2_advanced/eval08.output	2010-02-26 02:51:19.000000000 -0800
 @@ -1,4 +1,4 @@
  2
 -3
@@ -121,7 +122,7 @@
 +2
 ==== tests/3_return/eval01.df ====
 --- tests/3_return/eval01.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval01.output	2010-02-26 02:15:56.000000000 -0800
++++ tests/3_return/eval01.output	2010-02-26 02:51:21.000000000 -0800
 @@ -1 +1,7 @@
 -120
 +return not supported at this time
@@ -133,14 +134,14 @@
 +<invalid>
 ==== tests/3_return/eval02.df ====
 --- tests/3_return/eval02.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval02.output	2010-02-26 02:15:58.000000000 -0800
++++ tests/3_return/eval02.output	2010-02-26 02:51:22.000000000 -0800
 @@ -1 +1,2 @@
 -120
 +return not supported at this time
 +<invalid>
 ==== tests/3_return/eval03.df ====
 --- tests/3_return/eval03.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval03.output	2010-02-26 02:15:59.000000000 -0800
++++ tests/3_return/eval03.output	2010-02-26 02:51:23.000000000 -0800
 @@ -1,3 +1,7 @@
 -3
 -7
@@ -154,7 +155,7 @@
 +<invalid>
 ==== tests/3_return/eval04.df ====
 --- tests/3_return/eval04.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval04.output	2010-02-26 02:16:00.000000000 -0800
++++ tests/3_return/eval04.output	2010-02-26 02:51:24.000000000 -0800
 @@ -1,7 +1,11 @@
 +return not supported at this time
 +return not supported at this time
@@ -172,7 +173,7 @@
  4
 ==== tests/3_return/eval05.df ====
 --- tests/3_return/eval05.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval05.output	2010-02-26 02:16:01.000000000 -0800
++++ tests/3_return/eval05.output	2010-02-26 02:51:25.000000000 -0800
 @@ -1,9 +1,23 @@
 +return not supported at this time
 +return not supported at this time
@@ -201,7 +202,7 @@
 +<invalid>
 ==== tests/3_return/eval06.df ====
 --- tests/3_return/eval06.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval06.output	2010-02-26 02:16:02.000000000 -0800
++++ tests/3_return/eval06.output	2010-02-26 02:51:26.000000000 -0800
 @@ -1,2 +1,4 @@
 +return not supported at this time
  1
@@ -210,14 +211,14 @@
 +<invalid>
 ==== tests/3_return/eval07.df ====
 --- tests/3_return/eval07.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval07.output	2010-02-26 02:16:03.000000000 -0800
++++ tests/3_return/eval07.output	2010-02-26 02:51:27.000000000 -0800
 @@ -1 +1,2 @@
 -3
 +return not supported at this time
 +<invalid>
 ==== tests/3_return/eval08.df ====
 --- tests/3_return/eval08.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval08.output	2010-02-26 02:16:04.000000000 -0800
++++ tests/3_return/eval08.output	2010-02-26 02:51:28.000000000 -0800
 @@ -1,2 +1,2 @@
 -3
 -8
@@ -225,7 +226,7 @@
 +operator '+' requires int * int, found <invalid> * int
 ==== tests/3_return/eval09.df ====
 --- tests/3_return/eval09.correct	2007-01-02 16:19:48.000000000 -0800
-+++ tests/3_return/eval09.output	2010-02-26 02:16:06.000000000 -0800
++++ tests/3_return/eval09.output	2010-02-26 02:51:30.000000000 -0800
 @@ -1,2 +1,2 @@
 -3
 -8
@@ -234,35 +235,27 @@
 ==== tests/4_dynamic_typing/badsemantic01.df ====
 ==== tests/4_dynamic_typing/badsemantic02.df ====
 ==== tests/4_dynamic_typing/badsemantic03.df ====
---- tests/4_dynamic_typing/badsemantic03.correct	2007-01-02 16:19:49.000000000 -0800
-+++ tests/4_dynamic_typing/badsemantic03.output	2010-02-26 02:16:09.000000000 -0800
-@@ -1 +0,0 @@
--attempt to invoke variable 'i' as a function
 ==== tests/4_dynamic_typing/badsemantic04.df ====
 ==== tests/4_dynamic_typing/badsemantic05.df ====
 ==== tests/4_dynamic_typing/badsemantic06.df ====
 ==== tests/4_dynamic_typing/badsemantic07.df ====
 ==== tests/4_dynamic_typing/badsemantic08.df ====
---- tests/4_dynamic_typing/badsemantic08.correct	2007-01-02 16:19:49.000000000 -0800
-+++ tests/4_dynamic_typing/badsemantic08.output	2010-02-26 02:16:15.000000000 -0800
-@@ -1 +0,0 @@
--attempt to invoke variable 'f' as a function
 ==== tests/4_dynamic_typing/badsemantic09.df ====
 --- tests/4_dynamic_typing/badsemantic09.correct	2007-01-02 16:19:49.000000000 -0800
-+++ tests/4_dynamic_typing/badsemantic09.output	2010-02-26 02:16:16.000000000 -0800
++++ tests/4_dynamic_typing/badsemantic09.output	2010-02-26 02:51:40.000000000 -0800
 @@ -1 +1 @@
 -operator '+' requires int * int, found int * unit
 +operator '+' requires int * int, found int * <invalid>
 ==== tests/4_dynamic_typing/badsemantic10.df ====
 --- tests/4_dynamic_typing/badsemantic10.correct	2007-01-02 16:19:49.000000000 -0800
-+++ tests/4_dynamic_typing/badsemantic10.output	2010-02-26 02:16:17.000000000 -0800
++++ tests/4_dynamic_typing/badsemantic10.output	2010-02-26 02:51:41.000000000 -0800
 @@ -1 +1,2 @@
 -operator '+' requires int * int, found bool * int
 +return not supported at this time
 +operator '+' requires int * int, found <invalid> * int
 ==== tests/4_dynamic_typing/badsemantic11.df ====
 --- tests/4_dynamic_typing/badsemantic11.correct	2007-01-02 16:19:49.000000000 -0800
-+++ tests/4_dynamic_typing/badsemantic11.output	2010-02-26 02:16:18.000000000 -0800
++++ tests/4_dynamic_typing/badsemantic11.output	2010-02-26 02:51:42.000000000 -0800
 @@ -1 +1,2 @@
 -operator '+' requires int * int, found int * bool
 +return not supported at this time

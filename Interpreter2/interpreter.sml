@@ -56,7 +56,7 @@ fun value_string (Int_Value n) =
       if n >= 0 then Int.toString n else "-" ^ (Int.toString (~n))
   | value_string (Bool_Value b) = Bool.toString b
   | value_string (Unit_Value) = "unit"
-  | value_string Invalid_Value = "<invalid>"
+  | value_string x = "<invalid>"
 ;
 
 fun arithmetic_operator oper = member oper arithmetic_operators;
@@ -144,16 +144,16 @@ and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
    let
       val scope = (
          update_table 
-            (merge_state fstate state) 
-            (pair params args (state, id)) 
-            true
+            (merge_state fstate state) (pair params args (state, id)) true
       )
    in
      (evaluate_statement bdy (scope); Invalid_Value)
    end
-  | evaluate_function id x args state = Invalid_Value
-and evaluate_exp (EXP_ID id) state = (lookup state id
-   handle UndefinedIdentifier => undeclared_identifier_error id)
+  | evaluate_function id x args state = (output (stdErr, (
+     "attempt to invoke variable '" ^ id ^ "' as a function\n")
+   ); Invalid_Value)
+and evaluate_exp (EXP_ID id) state = 
+   (lookup state id handle UndefinedIdentifier => undeclared_identifier_error id)
   | evaluate_exp (EXP_NUM n) state = Int_Value n
   | evaluate_exp EXP_TRUE state = Bool_Value true
   | evaluate_exp EXP_FALSE state = Bool_Value false
@@ -179,11 +179,11 @@ and evaluate_println exp state =
       (output (stdOut, (value_string (evaluate_exp exp state)) ^ "\n"); state)
 and pair [] [] _ = []
   | pair x [] (_, id) = (output (stdErr, (
-   "too few arguments in invocation of function '" ^ id ^ "'\n")
-  ); [])
+      "too few arguments in invocation of function '" ^ id ^ "'\n")
+   ); [])
   | pair [] y  (_, id) = (output (stdErr, (
-   "too many arguments in invocation of function '" ^ id ^ "'\n")
-  ); [])
+      "too many arguments in invocation of function '" ^ id ^ "'\n")
+   ); [])
   | pair ((DECL x)::xs) (y::ys) (state, id) =
    (x, (evaluate_exp y state))::(pair xs ys (state, id))
 ;
