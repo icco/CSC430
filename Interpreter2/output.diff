@@ -2,26 +2,8 @@
 ==== tests/1_basics/eval01.df ====
 ==== tests/1_basics/eval02.df ====
 ==== tests/1_basics/eval03.df ====
-2,3c2,3
-< 1
-< 2
----
-> unit
-> unit
 ==== tests/1_basics/eval04.df ====
-2,3c2,3
-< 1
-< 2
----
-> unit
-> unit
 ==== tests/1_basics/eval05.df ====
-0a1
-> operator '+' requires int * int, found unit * int
-2,4d2
-< 10
-< 11
-< 3
 ==== tests/1_basics/eval06.df ====
 ==== tests/1_basics/eval07.df ====
 2c2
@@ -47,36 +29,22 @@
 1c1
 < 120
 ---
-> operator '<=' requires int * int, found unit * int
+> operator '-' requires int * int, found unit * int
 ==== tests/2_advanced/eval02.df ====
-2,4c2,4
+2c2
 < 3
-< 7
-< 7
 ---
 > 2
-> unit
-> unit
 ==== tests/2_advanced/eval03.df ====
-1c1
-< 28
----
-> unit
-3,4c3,4
+3c3
 < 7
-< 8
 ---
 > 17
-> unit
 ==== tests/2_advanced/eval04.df ====
-3,5c3,5
-< 8
+4c4
 < 2
-< 8
 ---
-> unit
-> unit
-> unit
+> 8
 ==== tests/2_advanced/eval05.df ====
 0a1
 > operator '>' requires int * int, found unit * int
@@ -105,10 +73,10 @@
 < -1
 ==== tests/2_advanced/eval06.df ====
 0a1
-> operator '>' requires int * int, found unit * int
-2,15d2
+> operator '-' requires int * int, found unit * int
+2d2
 < 3
-< 999
+4,15d3
 < 3
 < 999
 < 3
@@ -122,8 +90,9 @@
 < 999
 < 3
 ==== tests/2_advanced/eval07.df ====
-1,8c1
-< 3
+0a1
+> operator '-' requires int * int, found unit * int
+2,8d2
 < 2
 < 1
 < 99
@@ -131,8 +100,6 @@
 < 1
 < 99
 < 1
----
-> operator '<=' requires int * int, found unit * int
 ==== tests/2_advanced/eval08.df ====
 2d1
 < 3
@@ -145,18 +112,20 @@
 1c1
 < 120
 ---
-> operator '<=' requires int * int, found unit * int
+> operator '-' requires int * int, found unit * int
 ==== tests/3_return/eval02.df ====
-1c1
+1c1,2
 < 120
 ---
-> operator '<=' requires int * int, found unit * int
+> return not supported at this time
+> <invalid>
 ==== tests/3_return/eval03.df ====
-1,3c1,6
+1,3c1,7
 < 3
 < 7
 < 10
 ---
+> return not supported at this time
 > return not supported at this time
 > return not supported at this time
 > return not supported at this time
@@ -164,37 +133,47 @@
 > <invalid>
 > <invalid>
 ==== tests/3_return/eval04.df ====
-0a1,3
+0a1,4
 > return not supported at this time
 > return not supported at this time
 > return not supported at this time
-2c5
+> return not supported at this time
+2c6
 < 3
 ---
 > <invalid>
-4c7
+4c8
 < 5
 ---
 > <invalid>
-6,7c9,10
+6c10
 < 9
-< 4
 ---
 > <invalid>
-> 3
 ==== tests/3_return/eval05.df ====
-1,9c1
-< 3
-< unit
-< 10
-< 9
-< 8
-< 7
-< 6
-< 5
+0a1,8
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
+> return not supported at this time
+2c10,12
 < unit
 ---
-> operator '>' requires int * int, found unit * int
+> 2
+> 1
+> <invalid>
+9c19,23
+< unit
+---
+> 4
+> 3
+> 2
+> 1
+> <invalid>
 ==== tests/3_return/eval06.df ====
 0a1
 > return not supported at this time
@@ -224,17 +203,11 @@
 > return not supported at this time
 > operator '+' requires int * int, found <invalid> * int
 ==== tests/4_dynamic_typing/badsemantic01.df ====
-1d0
-< too many arguments in invocation of function 'm'
 ==== tests/4_dynamic_typing/badsemantic02.df ====
-1d0
-< too few arguments in invocation of function 'j'
 ==== tests/4_dynamic_typing/badsemantic03.df ====
 1d0
 < attempt to invoke variable 'i' as a function
 ==== tests/4_dynamic_typing/badsemantic04.df ====
-1d0
-< operator '>' requires int * int, found bool * int
 ==== tests/4_dynamic_typing/badsemantic05.df ====
 ==== tests/4_dynamic_typing/badsemantic06.df ====
 ==== tests/4_dynamic_typing/badsemantic07.df ====

@@ -5,7 +5,7 @@ datatype value =
      Int_Value of int
    | Bool_Value of bool
    | Unit_Value
-   | Func_Value of (string, value) HashTable.hash_table * statement
+   | Func_Value of (string, value) HashTable.hash_table * statement * declaration list
    | Invalid_Value
 ;
 
@@ -140,9 +140,14 @@ and evaluate_while exp body state =
           | (Bool_Value false) => state
           | _ => while_type_error guard
       end
-and evaluate_function (Func_Value(fstate, x)) args state = 
-   (evaluate_statement x (merge_state fstate state); Invalid_Value)
-  | evaluate_function x args state = Invalid_Value
+and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
+   let
+      val scope = (
+         update_table (merge_state fstate state) (pair params args (state, id)) false)
+   in
+     (evaluate_statement bdy (scope); Invalid_Value)
+   end
+  | evaluate_function id x args state = Invalid_Value
 and evaluate_exp (EXP_ID id) state = (lookup state id
    handle UndefinedIdentifier => undeclared_identifier_error id)
   | evaluate_exp (EXP_NUM n) state = Int_Value n
@@ -151,7 +156,7 @@ and evaluate_exp (EXP_ID id) state = (lookup state id
   | evaluate_exp EXP_UNIT state = Unit_Value
   | evaluate_exp (EXP_INVOC (id, args)) state =
    if contains state id then
-      evaluate_function (lookup state id) args state
+      evaluate_function id (lookup state id) args state
    else (
       output (stdErr, ("use of undeclared function '" ^ id ^ "'\n"));
       Invalid_Value
@@ -168,6 +173,15 @@ and evaluate_print exp state =
       (output (stdOut, (value_string (evaluate_exp exp state)) ^ " "); state)
 and evaluate_println exp state =
       (output (stdOut, (value_string (evaluate_exp exp state)) ^ "\n"); state)
+and pair [] [] _ = []
+  | pair x [] (_, id) = (output (stdErr, (
+    "too few arguments in invocation of function '" ^ id ^ "'\n")
+  ); [])
+  | pair [] y  (_, id) = (output (stdErr, (
+    "too many arguments in invocation of function '" ^ id ^ "'\n")
+  ); [])
+  | pair ((DECL x)::xs) (y::ys) (state, id) =
+   (x, (evaluate_exp y state))::(pair xs ys (state, id))
 ;
 
 
@@ -188,7 +202,7 @@ and build_function (FUNCTION (name, params, dec, inside)) state =
          build_state params (
             new_map ())
          )
-      ), inside)
+      ), inside, params)
    )
 ;
 
