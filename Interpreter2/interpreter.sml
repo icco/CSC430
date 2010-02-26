@@ -7,6 +7,8 @@
 use "parser.sml";
 use "map.sml";
 
+val return_val = "_return";
+
 datatype value =
      Int_Value of int
    | Bool_Value of bool
@@ -125,8 +127,8 @@ fun evaluate_statement (ST_COMPOUND c) state =
       evaluate_conditional exp th el state
   | evaluate_statement (ST_WHILE (exp, body)) state =
       evaluate_while exp body state
-  | evaluate_statement (ST_RETURN _) state =
-      (output (stdErr, "return not supported at this time\n"); state)
+  | evaluate_statement (ST_RETURN x) state = 
+   insert state return_val (evaluate_exp x state)
 and evaluate_compound [] state = state
   | evaluate_compound (s::ss) state =
       evaluate_compound ss (evaluate_statement s state)
@@ -158,7 +160,11 @@ and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
    in
      (evaluate_statement bdy (scope); 
      update_table state (HashTable.listItemsi scope) false;
-     Unit_Value)
+     (if contains scope return_val then
+       lookup scope return_val
+      else
+        Unit_Value
+     ))
    end
   | evaluate_function id x args state = (output (stdErr, (
      "attempt to invoke variable '" ^ id ^ "' as a function\n")
