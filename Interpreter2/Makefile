@@ -8,7 +8,7 @@ verify: interpreter.sml
 test: interpreter.sml test.sml
 	echo 'use "test.sml";' | sml
 
-runall: parser.sml
+runall: interpreter.sml
 	./runall interpreter.sml
 
 handin:
