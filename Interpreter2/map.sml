@@ -27,6 +27,6 @@ fun update_table map [] (ins:bool) = map
 ;
 
 fun merge_state s1 s2 =
-   update_table s2 (HashTable.listItemsi s1) true
+   update_table (HashTable.copy s2) (HashTable.listItemsi s1) true
 ;
 

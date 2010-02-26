@@ -1,3 +1,9 @@
+(**
+ * Based off of Dr. Keen's implementation of the interpreter part 1
+ *
+ * @author Nathaniel "Nat" Welch
+ *)
+
 use "parser.sml";
 use "map.sml";
 
@@ -104,6 +110,9 @@ fun apply_unary OP_NOT (Bool_Value b) = Bool_Value (not b)
   | apply_unary _ _ = Invalid_Value
 ;
 
+(**
+ * Statement evaluations
+ *)
 fun evaluate_statement (ST_COMPOUND c) state =
       evaluate_compound c state
   | evaluate_statement (ST_ASSIGN (id, exp)) state =
@@ -152,6 +161,9 @@ and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
   | evaluate_function id x args state = (output (stdErr, (
      "attempt to invoke variable '" ^ id ^ "' as a function\n")
    ); Invalid_Value)
+(**
+ * Expression evaluation stuff
+ *)
 and evaluate_exp (EXP_ID id) state = 
    (lookup state id handle UndefinedIdentifier => undeclared_identifier_error id)
   | evaluate_exp (EXP_NUM n) state = Int_Value n
@@ -177,6 +189,9 @@ and evaluate_print exp state =
       (output (stdOut, (value_string (evaluate_exp exp state)) ^ " "); state)
 and evaluate_println exp state =
       (output (stdOut, (value_string (evaluate_exp exp state)) ^ "\n"); state)
+(**
+ * 
+ *)
 and pair [] [] _ = []
   | pair x [] (_, id) = (output (stdErr, (
       "too few arguments in invocation of function '" ^ id ^ "'\n")
@@ -189,6 +204,9 @@ and pair [] [] _ = []
 ;
 
 
+(**
+ * Initializes all of the declarations in an array in the provided state
+ *)
 fun build_state [] state = state
   | build_state ((DECL id)::ds) state =
    build_state ds (insert state id (initial_value ()))
