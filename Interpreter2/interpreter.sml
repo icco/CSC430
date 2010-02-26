@@ -152,8 +152,10 @@ and evaluate_exp (EXP_ID id) state = (lookup state id
   | evaluate_exp (EXP_INVOC (id, args)) state =
    if contains state id then
       evaluate_function (lookup state id) args state
-   else
-      (output (stdErr, "not a valid function name\n"); Invalid_Value)
+   else (
+      output (stdErr, ("use of undeclared function '" ^ id ^ "'\n"));
+      Invalid_Value
+   )
   | evaluate_exp (EXP_BINARY (optr, lft, rht)) state =
       apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
   | evaluate_exp (EXP_UNARY (oper, opnd)) state =

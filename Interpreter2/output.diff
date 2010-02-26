@@ -259,7 +259,3 @@
 > return not supported at this time
 > <invalid>
 ==== tests/4_dynamic_typing/badsemantic12.df ====
-1c1
-< use of undeclared function 'f'
----
-> not a valid function name
