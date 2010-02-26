@@ -158,16 +158,11 @@ and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
             (merge_state fstate state) (pair params args (state, id)) true
       )
      val stmt = evaluate_statement bdy (scope);
-     (*
-     val ret = (if contains stmt return_val then lookup stmt return_val else Unit_Value);
-     *)
-     val ret = Unit_Value;
-   in
-     ( 
+     val ret = (if contains stmt return_val then ((*lookup stmt return_val*) Invalid_Value) else Unit_Value);
+   in ( 
      update_table state (HashTable.listItemsi scope) false;
      ret
-     )
-   end
+   ) end
   | evaluate_function id x args state = (output (stdErr, (
      "attempt to invoke variable '" ^ id ^ "' as a function\n")
    ); Invalid_Value)

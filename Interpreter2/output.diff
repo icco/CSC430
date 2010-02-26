@@ -85,67 +85,73 @@
 1c1
 < 120
 ---
-> operator '*' requires int * int, found int * unit
+> operator '*' requires int * int, found int * <invalid>
 ==== tests/3_return/eval02.df ====
 1c1
 < 120
 ---
-> operator '*' requires int * int, found int * unit
+> operator '*' requires int * int, found int * <invalid>
 ==== tests/3_return/eval03.df ====
 1,3c1,3
 < 3
 < 7
 < 10
 ---
-> operator '+' requires int * int, found int * unit
-> unit
-> unit
+> operator '+' requires int * int, found int * <invalid>
+> <invalid>
+> <invalid>
 ==== tests/3_return/eval04.df ====
 0a1
-> operator '+' requires int * int, found int * unit
+> operator '+' requires int * int, found int * <invalid>
 2c3
 < 3
 ---
-> unit
+> <invalid>
 4c5
 < 5
 ---
-> unit
+> <invalid>
 6,7d6
 < 9
 < 4
 ==== tests/3_return/eval05.df ====
-1a2,3
+2c2,4
+< unit
+---
 > 2
 > 1
-8a11,14
+> <invalid>
+9c11,15
+< unit
+---
 > 4
 > 3
 > 2
 > 1
+> <invalid>
 ==== tests/3_return/eval06.df ====
 2c2,3
 < 2
 ---
 > 3
-> unit
+> <invalid>
 ==== tests/3_return/eval07.df ====
 1c1
 < 3
 ---
-> operator '+' requires int * int, found unit * int
+> operator '+' requires int * int, found <invalid> * int
 ==== tests/3_return/eval08.df ====
 1,2c1
 < 3
 < 8
 ---
-> operator '+' requires int * int, found unit * int
+> operator '+' requires int * int, found <invalid> * int
 ==== tests/3_return/eval09.df ====
 1,2c1
 < 3
 < 8
 ---
-> operator '+' requires int * int, found unit * int
+> operator '+' requires int * int, found <invalid> * int
 ==== tests/4_dynamic_typing/badsemantic01.df ====
 ==== tests/4_dynamic_typing/badsemantic02.df ====
 ==== tests/4_dynamic_typing/badsemantic03.df ====
@@ -159,6 +165,6 @@
 1c1
 < operator '+' requires int * int, found bool * int
 ---
-> operator '+' requires int * int, found unit * int
+> operator '+' requires int * int, found <invalid> * int
 ==== tests/4_dynamic_typing/badsemantic11.df ====
 ==== tests/4_dynamic_typing/badsemantic12.df ====

@@ -1,3 +1,4 @@
+
 exception UndefinedIdentifier;
 
 val initial_size = 127;
@@ -30,3 +31,6 @@ fun merge_state s1 s2 =
    update_table (HashTable.copy s2) (HashTable.listItemsi s1) true
 ;
 
+fun print_map map = 
+   HashTable.foldi (fn (x, y, map) => (print (x ^ " : " ^ y ^ "\n"); map)) map
+;

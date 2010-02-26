@@ -2,5 +2,5 @@
 
 use "interpreter.sml";
 
-interpret "tests/2_advanced/eval05.df";
+interpret "tests/3_return/eval09.df";
 
