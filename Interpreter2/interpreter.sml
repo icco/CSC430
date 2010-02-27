@@ -168,6 +168,9 @@ and evaluate_while exp body state =
           | (Bool_Value false) => state
           | _ => while_type_error guard
       end
+(**
+ * Main function evaluation function
+ *)
 and evaluate_function id (Func_Value(fstate, bdy, params, decls)) args state =
    let
       val scope = (
