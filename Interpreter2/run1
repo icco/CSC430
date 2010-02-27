@@ -15,4 +15,4 @@ END
 grep -v "GC #" ${dir}/${b}.tmp | grep -v "Standard ML" | grep -v "autoloading" | grep -v "val " | grep -v "basis" | grep -v '^- $' >&! ${dir}/${b}.output
 rm ${dir}/${b}.tmp
 diff ${dir}/${b}.correct ${dir}/${b}.output
-# rm ${dir}/${b}.output
+rm ${dir}/${b}.output
