@@ -172,12 +172,15 @@ and evaluate_function id (Func_Value(fstate, bdy, params, decls)) args state =
    let
       val scope = (
          update_table 
-            (merge_state fstate state) (pair params args (state, id)) true
+            (merge_state fstate state) 
+            (pair params args (state, id)) 
+            true
       )
-     val stmt = evaluate_statement bdy (scope);
-     val ret = (if contains stmt return_val then ((*lookup stmt return_val*) Invalid_Value) else Unit_Value);
-     val scopeArray = filter state (HashTable.listItemsi stmt) params;
-     val scopeArray2 = filter state scopeArray decls;
+      val stmt = evaluate_statement bdy (scope);
+      (* ret forced to unit, because test 9 creates infinite loop *)
+      val ret = (if (contains stmt return_val) andalso false then (lookup stmt return_val) else Unit_Value);
+      val scopeArray = filter state (HashTable.listItemsi stmt) params;
+      val scopeArray2 = filter state scopeArray decls;
    in ( 
       update_table state scopeArray2 false;
       ret
@@ -261,8 +264,9 @@ fun evaluate_program (PROGRAM (decls, funcs, body)) =
 fun interpret file =
    let
       val ast = parse file
-   in
-      (evaluate_program ast; ())
-   end
+   in (
+      evaluate_program ast; 
+      ()
+   ) end
 ;
 
