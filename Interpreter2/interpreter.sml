@@ -13,7 +13,7 @@ datatype value =
      Int_Value of int
    | Bool_Value of bool
    | Unit_Value
-   | Func_Value of (string, value) HashTable.hash_table * statement * declaration list
+   | Func_Value of (string, value) HashTable.hash_table * statement * declaration list * declaration list
    | Invalid_Value
 ;
 
@@ -65,6 +65,22 @@ fun value_string (Int_Value n) =
   | value_string (Bool_Value b) = Bool.toString b
   | value_string (Unit_Value) = "unit"
   | value_string x = "<invalid>"
+;
+
+fun exists id [] = false
+  | exists id ((DECL id2)::li) =
+   if id = id2 then
+     true
+   else
+     exists id li
+;
+
+fun filter s1 [] decls = []
+  | filter s1 ((id, st)::s2) decls =
+   if exists id decls then
+     ((id, (lookup s1 id))::(filter s1 s2 decls))
+   else
+     ((id, st)::(filter s1 s2 decls))
 ;
 
 fun arithmetic_operator oper = member oper arithmetic_operators;
@@ -151,7 +167,7 @@ and evaluate_while exp body state =
           | (Bool_Value false) => state
           | _ => while_type_error guard
       end
-and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
+and evaluate_function id (Func_Value(fstate, bdy, params, decls)) args state =
    let
       val scope = (
          update_table 
@@ -159,8 +175,9 @@ and evaluate_function id (Func_Value(fstate, bdy, params)) args state =
       )
      val stmt = evaluate_statement bdy (scope);
      val ret = (if contains stmt return_val then ((*lookup stmt return_val*) Invalid_Value) else Unit_Value);
+     val scopeArray = filter state (HashTable.listItemsi scope) decls
    in ( 
-     update_table state (HashTable.listItemsi scope) false;
+     update_table state scopeArray false;
      ret
    ) end
   | evaluate_function id x args state = (output (stdErr, (
@@ -227,7 +244,7 @@ and build_function (FUNCTION (name, params, dec, inside)) state =
    insert state name (Func_Value (
       (build_state dec (
         new_map ())
-      ), inside, params)
+      ), inside, params, dec)
    )
 ;
 

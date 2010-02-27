@@ -6,10 +6,6 @@
 ==== tests/1_basics/eval05.df ====
 ==== tests/1_basics/eval06.df ====
 ==== tests/1_basics/eval07.df ====
-2c2
-< 9
----
-> 100
 ==== tests/1_basics/eval08.df ====
 ==== tests/1_basics/eval09.df ====
 5c5
@@ -22,20 +18,23 @@
 ---
 > 0
 ==== tests/2_advanced/eval02.df ====
-2c2
+==== tests/2_advanced/eval03.df ====
+3,5c3,6
+< 7
+< 8
 < 3
 ---
-> 2
-==== tests/2_advanced/eval03.df ====
-3c3
-< 7
----
 > 17
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/2_advanced/eval04.df ====
-4c4
+4d3
 < 2
----
-> 8
+5a5,7
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/2_advanced/eval05.df ====
 3d2
 < 38
@@ -60,26 +59,21 @@
 ==== tests/2_advanced/eval06.df ====
 0a1
 > attempt to invoke variable 'j' as a function
-2d2
+2,4d2
 < 3
-4d3
+< 999
 < 3
-6d4
+6d3
 < 3
-11,13d8
+9,11d5
 < 17
 < 999
 < 17
-15d9
-< 3
 ==== tests/2_advanced/eval07.df ====
 ==== tests/2_advanced/eval08.df ====
-2d1
-< 3
-4c3,4
+2c2
 < 3
 ---
-> 2
 > 2
 ==== tests/3_return/eval01.df ====
 1c1
