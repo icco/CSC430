@@ -67,6 +67,7 @@ fun value_string (Int_Value n) =
   | value_string x = "<invalid>"
 ;
 
+(* for playing with lists and states *)
 fun exists id [] = false
   | exists id ((DECL id2)::li) =
    if id = id2 then
@@ -175,10 +176,11 @@ and evaluate_function id (Func_Value(fstate, bdy, params, decls)) args state =
       )
      val stmt = evaluate_statement bdy (scope);
      val ret = (if contains stmt return_val then ((*lookup stmt return_val*) Invalid_Value) else Unit_Value);
-     val scopeArray = filter state (HashTable.listItemsi scope) decls
+     val scopeArray = filter state (HashTable.listItemsi stmt) params;
+     val scopeArray2 = filter state scopeArray decls;
    in ( 
-     update_table state scopeArray false;
-     ret
+      update_table state scopeArray2 false;
+      ret
    ) end
   | evaluate_function id x args state = (output (stdErr, (
      "attempt to invoke variable '" ^ id ^ "' as a function\n")

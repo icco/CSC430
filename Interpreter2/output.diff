@@ -2,29 +2,47 @@
 ==== tests/1_basics/eval01.df ====
 ==== tests/1_basics/eval02.df ====
 ==== tests/1_basics/eval03.df ====
+3,4c3,5
+< 2
+< 3
+---
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/1_basics/eval04.df ====
 ==== tests/1_basics/eval05.df ====
+3,4c3,5
+< 11
+< 3
+---
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/1_basics/eval06.df ====
 ==== tests/1_basics/eval07.df ====
 ==== tests/1_basics/eval08.df ====
 ==== tests/1_basics/eval09.df ====
-5c5
-< 28 true
----
-> 21 false
 ==== tests/2_advanced/eval01.df ====
-1c1
+1c1,3
 < 120
 ---
-> 0
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/2_advanced/eval02.df ====
-==== tests/2_advanced/eval03.df ====
-3,5c3,6
+2,4c2,4
+< 3
 < 7
+< 7
+---
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
+==== tests/2_advanced/eval03.df ====
+4,5c4,6
 < 8
 < 3
 ---
-> 17
 > 
 > uncaught exception UndefinedIdentifier
 >   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
@@ -36,45 +54,71 @@
 > uncaught exception UndefinedIdentifier
 >   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/2_advanced/eval05.df ====
-3d2
+3,23c3,5
 < 38
-5d3
+< 36
 < 34
-7d4
+< 32
 < 30
-9d5
+< 28
 < 26
-11d6
+< 24
 < 22
-13d7
+< 20
 < 18
-15d8
+< 16
 < 14
-17d9
+< 12
 < 10
-19d10
+< 8
 < 6
-21d11
+< 4
 < 2
+< 0
+< -1
+---
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/2_advanced/eval06.df ====
 0a1
 > attempt to invoke variable 'j' as a function
-2,4d2
+2d2
 < 3
-< 999
+4d3
 < 3
-6d3
+6d4
 < 3
-9,11d5
+11,15c9,11
 < 17
 < 999
 < 17
+< 999
+< 3
+---
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/2_advanced/eval07.df ====
+5,8c5,7
+< 2
+< 1
+< 99
+< 1
+---
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/2_advanced/eval08.df ====
-2c2
+2d1
+< 3
+4c3,6
 < 3
 ---
 > 2
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/3_return/eval01.df ====
 1c1
 < 120
@@ -91,38 +135,37 @@
 < 7
 < 10
 ---
-> operator '+' requires int * int, found int * <invalid>
-> <invalid>
-> <invalid>
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/3_return/eval04.df ====
-0a1
-> operator '+' requires int * int, found int * <invalid>
-2c3
+2,7c2,4
 < 3
----
-> <invalid>
-4c5
+< 1
 < 5
----
-> <invalid>
-6,7d6
+< 2
 < 9
 < 4
+---
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/3_return/eval05.df ====
-2c2,4
+2,9c2,6
+< unit
+< 10
+< 9
+< 8
+< 7
+< 6
+< 5
 < unit
 ---
 > 2
 > 1
-> <invalid>
-9c11,15
-< unit
----
-> 4
-> 3
-> 2
-> 1
-> <invalid>
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/3_return/eval06.df ====
 2c2,3
 < 2
@@ -148,6 +191,10 @@
 > operator '+' requires int * int, found <invalid> * int
 ==== tests/4_dynamic_typing/badsemantic01.df ====
 ==== tests/4_dynamic_typing/badsemantic02.df ====
+1a2,4
+> 
+> uncaught exception UndefinedIdentifier
+>   raised at: ../../smlnj-lib/Util/hash-table.sml:93.31-93.40
 ==== tests/4_dynamic_typing/badsemantic03.df ====
 ==== tests/4_dynamic_typing/badsemantic04.df ====
 ==== tests/4_dynamic_typing/badsemantic05.df ====
