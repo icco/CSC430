@@ -78,7 +78,7 @@ fun exists id [] = false
 
 fun filter s1 [] decls = []
   | filter s1 ((id, st)::s2) decls =
-   if exists id decls then
+   if (exists id decls) andalso (contains s1 id) then
      ((id, (lookup s1 id))::(filter s1 s2 decls))
    else
      ((id, st)::(filter s1 s2 decls))
