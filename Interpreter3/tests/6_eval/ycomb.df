@@ -1,0 +1,30 @@
+var h;
+var fact;
+fn z (f)
+   var g;
+{
+   g := fn (x)
+       {
+          return f (fn (y)
+                      var r;
+                    {
+                      r := x(x);
+                      return r(y);
+                    });
+      };
+   return g(g);
+}
+
+{
+   fact := fn (f)
+          {
+            return fn (x)
+                   {
+                     if (x = 0)
+                     { return 1; }
+                     else { return x * (f (x - 1)); }
+                   };
+          };
+   h := z(fact);
+   writeline h(6);
+}

@@ -1,0 +1,8 @@
+var a, b;
+var f;
+{
+   a := 7;
+   f := fn (a) { writeline a; };
+   b := f(2);
+   writeline a;
+}

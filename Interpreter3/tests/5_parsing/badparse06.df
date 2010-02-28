@@ -1,0 +1,3 @@
+{
+   writeline fn f(a, b) { writeline a; };
+}

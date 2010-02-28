@@ -1,0 +1,38 @@
+var odds, odd;
+fn f(x)
+   var tmp;
+{
+   return fn()
+          {
+             tmp := x;
+             x := x + 1;
+             return tmp;
+          };
+}
+
+fn filter(filt, gen)
+{
+   return fn ()
+   var tmp;
+   {
+      tmp := gen();
+      while (! filt(tmp))
+      {
+         tmp := gen();
+      }
+      return tmp;
+   };
+}
+
+{
+   odd := fn (x) { return (x / 2) * 2 != x; };
+   odds := filter(odd, f(1));
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+}

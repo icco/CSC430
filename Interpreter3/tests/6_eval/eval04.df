@@ -1,0 +1,5 @@
+var f;
+{
+   f := fn (a, b) { writeline a + b; };
+   f := f(1, 2);
+}

@@ -1,0 +1,9 @@
+fn f(a, b)
+{
+   return a + b;
+}
+{
+   writeline f(1,2);
+   writeline f(3,4);
+   writeline f(3,f(3,4));
+}

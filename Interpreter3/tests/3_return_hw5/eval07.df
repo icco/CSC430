@@ -1,0 +1,13 @@
+fn foo()
+{
+   return 2;
+}
+
+fn bar()
+{
+   return foo() + 1;
+}
+
+{
+   writeline bar();
+}

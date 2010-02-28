@@ -1,0 +1,20 @@
+var g, h;
+fn f()
+  var a;
+{
+   a := 0;
+   return fn () { a := a + 1; return a; };
+}
+
+{
+   g := f();
+   h := f();
+   writeline g();
+   writeline g();
+   writeline g();
+   writeline h();
+   writeline h();
+   writeline h();
+   writeline g();
+   writeline h();
+}

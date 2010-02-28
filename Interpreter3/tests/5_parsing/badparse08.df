@@ -1,0 +1,3 @@
+{
+   writeline fn () var { writeline a; };
+}

@@ -1,0 +1,9 @@
+var add, add1;
+{
+   add := fn(x) { return fn(y) { return x + y; }; };
+   add1 := add(1);
+   writeline add1(2);
+   writeline add1(3);
+   writeline add1(9);
+   writeline add1(0 - 1);
+}

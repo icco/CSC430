@@ -1,0 +1,19 @@
+var f;
+fn g(x)
+{
+   if (x)
+   {
+      return fn (x) { return x + 1; };
+   }
+   else
+   {
+      return true;
+   }
+}
+{
+   f := g(true);
+   writeline f;
+   f := g(false);
+   writeline f;
+   f := f(2);
+}

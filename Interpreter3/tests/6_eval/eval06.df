@@ -1,0 +1,9 @@
+var a, b;
+var f;
+{
+   f := fn (x) { return x + 1; };
+   a := f(2);
+   b := f(3);
+   writeline a;
+   writeline b;
+}

@@ -1,0 +1,18 @@
+var a, b, c;
+fn f(g)
+   var b, c;
+{
+   b := 100;
+   c := 200;
+   a := g();
+   writeline b;
+   writeline c;
+}
+
+{
+   b := 1;
+   c := 2;
+   a := f(fn () { b := 99; c := 21;});
+   writeline b;
+   writeline c;
+}

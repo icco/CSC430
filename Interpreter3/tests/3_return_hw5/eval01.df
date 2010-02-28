@@ -1,0 +1,16 @@
+  var x;
+  fn fact(n)
+  {
+    if (n <= 0)
+    {
+	return 1;
+    }
+    else {
+	x := fact(n - 1);
+        return n * x;
+    }
+  }
+{
+  x := fact(5);
+  writeline x;
+}

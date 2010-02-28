@@ -1,0 +1,89 @@
+var f1, f2, f3, f4, f5;
+var t;
+fn f()
+   var a;
+{
+   a := 1;
+   return fn(x)
+      var b;
+   {
+      b := 2;
+      if (x)
+      {
+         a := a + 1;
+      }
+      else
+      {
+         writeline a;
+      }
+      return fn(y)
+         var c;
+      {
+         c := 3;
+         if (y)
+         {
+            b := b + 1;
+         }
+         else
+         {
+            writeline b;
+         }
+         return fn(z)
+            var b;
+         {
+            b := 100;
+            if (z)
+            {
+               c := c + 1;
+            }
+            else
+            {
+               writeline c;
+            }
+            return fn()
+            {
+               a := a + 1;
+               b := b + 1;
+               c := c + 1;
+               return fn()
+               {
+                  writeline a;
+                  writeline b;
+                  writeline c;
+               };
+            };
+         };
+      };
+   };
+}
+
+{
+   f1 := f();
+   f2 := f1(false);
+   f3 := f2(false);
+   f4 := f3(false);
+   f5 := f4();
+
+   t := f5();
+   t := f4();
+   t := f4();
+   t := f4();
+   t := f5();
+   t := f1(false);
+   t := f2(false);
+   t := f3(false);
+   t := f5();
+
+   t := f1(true);
+   t := f2(true);
+   t := f3(true);
+
+   t := f1(true);
+   t := f2(true);
+   t := f3(true);
+
+   t := f1(false);
+   t := f2(false);
+   t := f3(false);
+   t := f5();
+}

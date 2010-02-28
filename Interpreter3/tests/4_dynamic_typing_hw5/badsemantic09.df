@@ -1,0 +1,6 @@
+fn f()
+{
+}
+{
+   writeline 1 + f();
+}
