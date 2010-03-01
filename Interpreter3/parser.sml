@@ -510,3 +510,4 @@ fun print_funcs funcs =
 fun printAST (PROGRAM (decls, funcs, body)) =
    (print_decls decls; print_funcs funcs; print_statement body)
 ;
+
