@@ -27,9 +27,8 @@ datatype expression =
    | EXP_INVOC of string * expression list
    | EXP_BINARY of operator * expression * expression
    | EXP_UNARY of operator * expression
-;
-
-datatype statement =
+   | EXP_FN of declaration list * declaration list * statement
+and statement =
    ST_COMPOUND of statement list
    | ST_ASSIGN of string * expression
    | ST_WRITE of expression
@@ -37,9 +36,7 @@ datatype statement =
    | ST_IF of expression * statement * statement
    | ST_WHILE of expression * statement
    | ST_RETURN of expression
-;
-
-datatype declaration =
+and declaration =
    DECL of string
 ;
 

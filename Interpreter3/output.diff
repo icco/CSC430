@@ -1,0 +1,242 @@
+==== tests/1_basics_hw5/eval01.df ====
+==== tests/1_basics_hw5/eval02.df ====
+==== tests/1_basics_hw5/eval03.df ====
+==== tests/1_basics_hw5/eval04.df ====
+==== tests/1_basics_hw5/eval05.df ====
+==== tests/1_basics_hw5/eval06.df ====
+==== tests/1_basics_hw5/eval07.df ====
+==== tests/1_basics_hw5/eval08.df ====
+==== tests/1_basics_hw5/eval09.df ====
+==== tests/2_advanced_hw5/eval01.df ====
+==== tests/2_advanced_hw5/eval02.df ====
+==== tests/2_advanced_hw5/eval03.df ====
+==== tests/2_advanced_hw5/eval04.df ====
+==== tests/2_advanced_hw5/eval05.df ====
+==== tests/2_advanced_hw5/eval06.df ====
+==== tests/2_advanced_hw5/eval07.df ====
+==== tests/2_advanced_hw5/eval08.df ====
+==== tests/3_return_hw5/eval01.df ====
+==== tests/3_return_hw5/eval02.df ====
+==== tests/3_return_hw5/eval03.df ====
+==== tests/3_return_hw5/eval04.df ====
+==== tests/3_return_hw5/eval05.df ====
+==== tests/3_return_hw5/eval06.df ====
+==== tests/3_return_hw5/eval07.df ====
+==== tests/3_return_hw5/eval08.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic01.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic02.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic03.df ====
+1c1
+< attempt to invoke 'unit' value as a function
+---
+> attempt to invoke variable 'i' as a function
+==== tests/4_dynamic_typing_hw5/badsemantic04.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic05.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic06.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic07.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic08.df ====
+1c1
+< attempt to invoke 'unit' value as a function
+---
+> attempt to invoke variable 'f' as a function
+==== tests/4_dynamic_typing_hw5/badsemantic09.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic10.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic11.df ====
+==== tests/4_dynamic_typing_hw5/badsemantic12.df ====
+==== tests/5_parsing/badparse01.df ====
+==== tests/5_parsing/badparse02.df ====
+==== tests/5_parsing/badparse03.df ====
+==== tests/5_parsing/badparse04.df ====
+==== tests/5_parsing/badparse05.df ====
+==== tests/5_parsing/badparse06.df ====
+==== tests/5_parsing/badparse07.df ====
+==== tests/5_parsing/badparse08.df ====
+==== tests/5_parsing/badparse09.df ====
+==== tests/6_eval/eval01.df ====
+1c1,3
+< 1
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval02.df ====
+1c1,3
+< 7
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval03.df ====
+1,2c1,3
+< 2
+< 7
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval04.df ====
+1c1,3
+< 3
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval05.df ====
+1,2c1,3
+< 2
+< unit
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval06.df ====
+1,2c1,3
+< 3
+< 4
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval07.df ====
+1,2c1
+< 1
+< 2
+---
+> expected ')', found 'fn'
+==== tests/6_eval/eval08.df ====
+1,4c1
+< 100
+< 200
+< 99
+< 21
+---
+> expected ')', found 'fn'
+==== tests/6_eval/eval09.df ====
+1,4c1
+< 100
+< 200
+< 2
+< 9
+---
+> expected ')', found 'fn'
+==== tests/6_eval/eval10.df ====
+1,8c1,3
+< 1
+< 2
+< 3
+< 1
+< 2
+< 3
+< 4
+< 4
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval11.df ====
+1,8c1,3
+< 0
+< 1
+< 2
+< 0
+< 1
+< 2
+< 3
+< 3
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval12.df ====
+1,4c1,3
+< 3
+< 4
+< 10
+< 0
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval13.df ====
+1,8c1,3
+< 1
+< 3
+< 5
+< 7
+< 9
+< 11
+< 13
+< 15
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval14.df ====
+1c1,3
+< 120
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/eval15.df ====
+1,21c1,3
+< 1
+< 2
+< 3
+< 2
+< 101
+< 4
+< 5
+< 104
+< 7
+< 5
+< 2
+< 7
+< 5
+< 104
+< 7
+< 7
+< 4
+< 9
+< 7
+< 104
+< 9
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/6_eval/ycomb.df ====
+1c1
+< 720
+---
+> expected ')', found 'fn'
+==== tests/7_typing/badsemantics01.df ====
+1c1,3
+< too many arguments in invocation of function 'f'
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/7_typing/badsemantics02.df ====
+1c1,3
+< too few arguments in invocation of function 'f'
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/7_typing/badsemantics03.df ====
+1,3c1,3
+< attempt to invoke 'bool' value as a function
+< <fun>
+< true
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49
+==== tests/7_typing/badsemantics04.df ====
+1c1,3
+< operator '+' requires int * int, found <fun> * int
+---
+> 
+> uncaught exception Match [nonexhaustive match failure]
+>   raised at: interpreter.sml:151.49

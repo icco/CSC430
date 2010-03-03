@@ -242,6 +242,17 @@ and parse_factor fstr (tk as TK_LPAREN) =
       else
          (EXP_ID id, tk1)
    end
+  | parse_factor fstr (tk as (TK_FN)) = 
+   let
+      val tk1 = match_tk fstr tk TK_FN;
+      val tk2 = match_tk fstr tk1 TK_LPAREN;
+      val (p, tk3) = parse_parameters fstr tk2;
+      val tk4 = match_tk fstr tk3 TK_RPAREN;
+      val (d, tk5) = parse_declarations fstr tk4;
+      val (s, tk6) = parse_compound fstr tk5;
+   in
+      ((EXP_FN (p, d, s)), tk6)
+   end
   | parse_factor fstr (tk as (TK_NUM n)) =
       (EXP_NUM n, #2(match_num fstr tk))
   | parse_factor fstr (tk as TK_TRUE) =
@@ -265,10 +276,9 @@ and parse_arguments fstr tk =
       end
    else
       ([], tk)
-;
 
 (* statement parsing functions *)
-fun parse_statement fstr (tk as TK_LBRACE) = parse_compound fstr tk
+and parse_statement fstr (tk as TK_LBRACE) = parse_compound fstr tk
   | parse_statement fstr (tk as (TK_ID _)) = parse_assign fstr tk
   | parse_statement fstr (tk as TK_WRITE) = parse_write fstr tk
   | parse_statement fstr (tk as TK_WRITELINE) = parse_writeline fstr tk
@@ -342,10 +352,9 @@ and parse_return fstr tk =
    in
       (ST_RETURN exp, tk3)
    end
-;
 
 (* function parsing *)
-fun parse_functions fstr tk =
+and parse_functions fstr tk =
    let
    in
       parse_repetition fstr tk (fn tk => tk = TK_FN) parse_function
