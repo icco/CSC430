@@ -170,6 +170,7 @@ and initialize_formals _ [] [] state = state
          (evaluate_exp act (gbl, stk, NONE))) (* note using old stack *)
   | initialize_formals _ _ _ (state as (gbl, [], _)) =
       error_msg ("internal error: empty stack\n")
+(* Note: Evaluate a function call *)
 and evaluate_invocation id args state =
    let
       val func = lookup_state state id
