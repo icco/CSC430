@@ -11,9 +11,13 @@ test: interpreter.sml test.sml
 runall: interpreter.sml
 	./runall interpreter.sml
 
-out:  interpreter.sml
+out: interpreter.sml
 	./runall interpreter.sml > output.diff
 
 handin:
-	handin akeen hw5 README.txt *.sml && handin akeen hw6
+	handin akeen hw6 README.txt *.sml && handin akeen hw6
+
+# Experiments with clojures
+clo: closure.sml
+	echo 'use "closure.sml";' | sml
 
