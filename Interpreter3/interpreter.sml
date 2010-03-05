@@ -5,13 +5,8 @@ datatype value =
      Int_Value of int
    | Bool_Value of bool
    | Unit_Value
-   | Func_Value of (declaration list * declaration list * statement)
+   | Func_Value of (declaration list * declaration list * statement) * ((string, value) HashTable.hash_table list)
    | Invalid_Value
-;
-
-datatype clojure =
-   C_Node of value
- | C_None
 ;
 
 fun type_string (Int_Value _) = "int"
@@ -81,6 +76,7 @@ fun lookup_state (gbl, [], _) id =
       then lookup gbl id
       else raise UndefinedIdentifier
 ;
+
 fun push_frame (gbl, stk, _) = (gbl, (new_map ())::stk, NONE);
 fun pop_frame (gbl, stk, rval) = (gbl, tl stk, rval);
 fun return_value (_, _, NONE) = Unit_Value
@@ -155,7 +151,7 @@ fun evaluate_exp (EXP_ID id) state = (lookup_state state id
   | evaluate_exp (EXP_UNARY (oper, opnd)) state =
       apply_unary oper (evaluate_exp opnd state)
   | evaluate_exp (EXP_FN (ps, ds, s)) state =
-      Func_Value(ps, ds, s)
+      (Func_Value((ps, ds, s), state))
 and initialize_locals [] state = state
   | initialize_locals ((DECL id)::locs) state =
       initialize_locals locs (insert_local state id (initial_value ()))
