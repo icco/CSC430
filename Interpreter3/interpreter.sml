@@ -9,10 +9,15 @@ datatype value =
    | Invalid_Value
 ;
 
+datatype clojure =
+   C_Node of value
+ | C_None
+;
+
 fun type_string (Int_Value _) = "int"
   | type_string (Bool_Value _) = "bool"
   | type_string (Unit_Value) = "unit"
-  | type_string (Func_Value func) = "function"
+  | type_string (Func_Value func) = "<fun>"
   | type_string (Invalid_Value) = "<invalid>"
 ;
 
@@ -88,7 +93,7 @@ fun value_string (Int_Value n) =
       if n >= 0 then Int.toString n else "-" ^ (Int.toString (~n))
   | value_string (Bool_Value b) = Bool.toString b
   | value_string (Unit_Value) = "unit"
-  | value_string (Func_Value _) = "<function>"
+  | value_string (Func_Value _) = "<func>"
   | value_string Invalid_Value = "<invalid>"
 ;
 
@@ -149,6 +154,8 @@ fun evaluate_exp (EXP_ID id) state = (lookup_state state id
       apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
   | evaluate_exp (EXP_UNARY (oper, opnd)) state =
       apply_unary oper (evaluate_exp opnd state)
+  | evaluate_exp (EXP_FN (ps, ds, s)) state =
+      Func_Value(ps, ds, s)
 and initialize_locals [] state = state
   | initialize_locals ((DECL id)::locs) state =
       initialize_locals locs (insert_local state id (initial_value ()))

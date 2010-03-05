@@ -42,6 +42,7 @@ and declaration =
 
 datatype function =
    FUNCTION of string * declaration list * declaration list * statement
+   | ANON_FUNCTION of declaration list * declaration list * statement
 ;
 
 datatype program =
