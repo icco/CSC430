@@ -173,7 +173,7 @@ and evaluate_invocation id args state =
          handle UndefinedIdentifier => undeclared_function_error id;
    in
       case func of
-         Func_Value (params, locals, body) =>
+         Func_Value ((params, locals, body), _) =>
             return_value
                (pop_frame (evaluate_statement body
                   (initialize_locals locals
