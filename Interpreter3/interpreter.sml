@@ -150,8 +150,21 @@ fun evaluate_exp (EXP_ID id) state = (lookup_state state id
       apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
   | evaluate_exp (EXP_UNARY (oper, opnd)) state =
       apply_unary oper (evaluate_exp opnd state)
-  | evaluate_exp (EXP_FN (ps, ds, s)) (s1, s2, _) =
-      (Func_Value((ps, ds, s), (s1::s2)))
+  | evaluate_exp (EXP_FN (ps, ds, s)) (s1, s2, r) =
+   let
+      val lambda = (Func_Value((ps, ds, s), (s1::s2)));
+   in
+      evaluate_anon lambda r
+   end
+and evaluate_anon (f as (Func_Value((params, locals, body), state))) r =
+   let
+      val id = "anon func";
+      val lstate = new_map ();
+   in
+     (* Not working, aborting to a working state...
+      evaluate_statement body (lstate, state, r)
+     *) f
+   end
 and initialize_locals [] state = state
   | initialize_locals ((DECL id)::locs) state =
       initialize_locals locs (insert_local state id (initial_value ()))
