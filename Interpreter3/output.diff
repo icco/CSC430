@@ -59,27 +59,8 @@
 ==== tests/6_eval/eval05.df ====
 ==== tests/6_eval/eval06.df ====
 ==== tests/6_eval/eval07.df ====
-1,2c1
-< 1
-< 2
----
-> expected ')', found 'fn'
 ==== tests/6_eval/eval08.df ====
-1,4c1
-< 100
-< 200
-< 99
-< 21
----
-> expected ')', found 'fn'
 ==== tests/6_eval/eval09.df ====
-1,4c1
-< 100
-< 200
-< 2
-< 9
----
-> expected ')', found 'fn'
 ==== tests/6_eval/eval10.df ====
 1,8c1
 < 1
@@ -154,7 +135,7 @@
 1c1
 < 720
 ---
-> expected ')', found 'fn'
+> use of undeclared function 'f'
 ==== tests/7_typing/badsemantics01.df ====
 ==== tests/7_typing/badsemantics02.df ====
 ==== tests/7_typing/badsemantics03.df ====

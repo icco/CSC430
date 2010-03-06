@@ -43,6 +43,7 @@ fun isExpression TK_LPAREN = true
   | isExpression TK_FALSE = true
   | isExpression TK_UNIT = true
   | isExpression TK_NOT = true
+  | isExpression TK_FN = true
   | isExpression _ = false;
 
 fun isBoolop TK_AND = true
