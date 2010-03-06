@@ -150,8 +150,8 @@ fun evaluate_exp (EXP_ID id) state = (lookup_state state id
       apply_binary optr (evaluate_exp lft state) (evaluate_exp rht state)
   | evaluate_exp (EXP_UNARY (oper, opnd)) state =
       apply_unary oper (evaluate_exp opnd state)
-  | evaluate_exp (EXP_FN (ps, ds, s)) state =
-      (Func_Value((ps, ds, s), state))
+  | evaluate_exp (EXP_FN (ps, ds, s)) (s1, s2, _) =
+      (Func_Value((ps, ds, s), (s1::s2)))
 and initialize_locals [] state = state
   | initialize_locals ((DECL id)::locs) state =
       initialize_locals locs (insert_local state id (initial_value ()))
@@ -232,9 +232,9 @@ and evaluate_return exp (state as (gbl, stk, _)) =
 ;
 
 fun define_functions [] state = state
-  | define_functions ((FUNCTION (id, params, locals, body))::fs) state =
+  | define_functions ((FUNCTION (id, params, locals, body))::fs) (state as (s1, s2, r)) =
       define_functions fs (insert_global state id
-         (Func_Value (params, locals, body)))
+         (Func_Value ((params, locals, body), (s1::s2))))
 ;
 
 fun build_state [] gbl = (gbl, [], NONE)
