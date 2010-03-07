@@ -1,0 +1,6 @@
+var (int * int -> unit) f;
+var unit b;
+{
+   f := fn unit (int a, int b) { writeline a + b; };
+   b := f(1, 2);
+}

@@ -1,0 +1,8 @@
+fn int f()
+{
+   writeline 1;
+   return 0;
+   writeline 2;
+}
+{
+}

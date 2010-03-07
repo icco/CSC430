@@ -1,0 +1,8 @@
+var int x;
+  fn int j(int i, int k)
+  {
+      return 1;
+  }
+{
+x := j(3);
+}

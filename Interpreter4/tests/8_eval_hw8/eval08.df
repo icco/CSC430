@@ -1,0 +1,19 @@
+var unit a;
+var int b, c;
+fn unit f((-> unit) g)
+   var int b, c;
+{
+   b := 100;
+   c := 200;
+   a := g();
+   writeline b;
+   writeline c;
+}
+
+{
+   b := 1;
+   c := 2;
+   a := f(fn unit () { b := 99; c := 21;});
+   writeline b;
+   writeline c;
+}

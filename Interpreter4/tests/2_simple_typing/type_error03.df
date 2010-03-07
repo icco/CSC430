@@ -1,0 +1,16 @@
+var bool i;
+var int j;
+{
+   i := true;
+   j := 5;
+   while (i)
+   {
+      if (j < 0)
+      {
+         i := unit;
+      }
+      j := j - 1;
+      writeline j;
+   }
+}
+

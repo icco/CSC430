@@ -1,0 +1,20 @@
+var (-> int) g, h;
+fn (-> int) f()
+  var int a;
+{
+   a := 0;
+   return fn int () var int tmp; { tmp := a; a := a + 1; return tmp; };
+}
+
+{
+   g := f();
+   h := f();
+   writeline g();
+   writeline g();
+   writeline g();
+   writeline h();
+   writeline h();
+   writeline h();
+   writeline g();
+   writeline h();
+}

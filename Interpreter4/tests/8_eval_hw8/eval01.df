@@ -1,0 +1,6 @@
+var unit a;
+var (-> unit) f;
+{
+   f := fn unit () { writeline 1; };
+   a := f();
+}

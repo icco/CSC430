@@ -1,0 +1,17 @@
+fn unit f(int n)
+{
+   while (n > 0)
+   {
+      writeline n;
+      if (n <= 5)
+      {
+         return unit;
+      }
+      n := n - 1;
+   }
+}
+
+{
+   writeline f(3);
+   writeline f(10);
+}

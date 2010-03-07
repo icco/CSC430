@@ -1,0 +1,17 @@
+var int result;
+var unit x;
+  fn unit fact(int n)
+  {
+    if (n <= 0)
+    {
+	result := 1;
+    }
+    else {
+	x := fact(n - 1);
+        result := n * result;
+    }
+  }
+{
+  x := fact(5);
+  writeline result;
+}

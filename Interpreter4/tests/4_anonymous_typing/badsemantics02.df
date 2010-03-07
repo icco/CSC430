@@ -1,0 +1,5 @@
+var (int * int -> unit) f;
+{
+   f := fn unit (int x, int y) { };
+   f := f(1);
+}

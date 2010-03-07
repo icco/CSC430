@@ -1,0 +1,17 @@
+var unit y;
+  fn unit f(int i)
+   var unit x;
+  {
+    x := g(14 * 2);
+    writeline i;
+  }
+  fn unit g(int i)
+  {
+    writeline i;
+    i := 17;
+    writeline 3;
+  }
+{
+  y := f(7);
+  y := g(8);
+}

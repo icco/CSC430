@@ -1,0 +1,10 @@
+var (int -> (int -> int)) add;
+var (int -> int) add1;
+{
+   add := fn (int->int) (int x) { return fn int(int y) { return x + y; }; };
+   add1 := add(1);
+   writeline add1(2);
+   writeline add1(3);
+   writeline add1(9);
+   writeline add1(0 - 1);
+}

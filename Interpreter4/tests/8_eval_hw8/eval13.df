@@ -1,0 +1,39 @@
+var (-> int) odds;
+var (int -> bool) odd;
+fn (-> int) f(int x)
+   var int tmp;
+{
+   return fn int ()
+          {
+             tmp := x;
+             x := x + 1;
+             return tmp;
+          };
+}
+
+fn (-> int) filter((int -> bool) filt, (-> int)gen)
+{
+   return fn int ()
+   var int tmp;
+   {
+      tmp := gen();
+      while (! filt(tmp))
+      {
+         tmp := gen();
+      }
+      return tmp;
+   };
+}
+
+{
+   odd := fn bool (int x) { return (x / 2) * 2 != x; };
+   odds := filter(odd, f(1));
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+   writeline odds();
+}

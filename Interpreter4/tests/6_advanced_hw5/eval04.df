@@ -1,0 +1,22 @@
+var int  i;
+var unit y;
+  fn unit f(int n)
+    var int i;
+    var unit x;
+  {
+    i := 2;
+    writeline i;
+    x := g(8);
+    writeline i;
+  }
+  fn unit g(int n)
+  {
+    i := n;
+    writeline i;
+  }
+{
+  i := 3;
+  writeline i;
+  y := f(2);
+  writeline i;
+}

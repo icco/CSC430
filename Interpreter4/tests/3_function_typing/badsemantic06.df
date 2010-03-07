@@ -1,0 +1,8 @@
+var int x;
+  fn int f()
+  {
+    if (3) { writeline 1; }
+  }
+{
+   x := f();
+}

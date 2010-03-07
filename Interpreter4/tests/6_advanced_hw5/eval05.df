@@ -1,0 +1,29 @@
+var int i;
+var unit x;
+fn unit f(int i)
+   var unit x;
+{
+   while (i > 0)
+   {
+      x := g(i);
+      i := i - 1;
+   }
+}
+
+fn unit g(int j)
+{
+   writeline j * 2;
+   i := i - 1;
+}
+
+{
+   i := 20;
+   while (i > 0)
+   {
+      writeline i;
+      x := f(i);
+      writeline i;
+      i := i - 1;
+   }
+   writeline i;
+}

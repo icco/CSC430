@@ -1,0 +1,16 @@
+var int x;
+fn int f(int a, int b)
+{
+   x := x + 1;
+   return a + b;
+}
+{
+   x := 0;
+   writeline x;
+   writeline f(1,2);
+   writeline x;
+   writeline f(2,3);
+   writeline x;
+   writeline f(2,f(3,4));
+   writeline x;
+}

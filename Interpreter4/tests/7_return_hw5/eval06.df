@@ -1,0 +1,9 @@
+fn int foo()
+{
+   writeline 1;
+   return 2;
+   writeline 3;
+}
+{
+   writeline foo();
+}

@@ -1,0 +1,8 @@
+var int x;
+  fn int j(bool b)
+  {
+      return 1;
+  }
+{
+   x := j(true > 3);
+}

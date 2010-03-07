@@ -1,0 +1,7 @@
+fn bool f()
+{
+   return true;
+}
+{
+   writeline 1 + f();
+}

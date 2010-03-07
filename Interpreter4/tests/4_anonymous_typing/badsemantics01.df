@@ -1,0 +1,6 @@
+var (int -> int) f;
+var bool g;
+{
+   f := fn int (int x) { return x; };
+   g := f(1);
+}

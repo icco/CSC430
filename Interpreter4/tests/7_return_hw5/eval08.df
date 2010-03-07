@@ -1,0 +1,16 @@
+fn int foo()
+{
+   return 2;
+}
+
+fn int bar()
+   var int x;
+{
+   x := foo() + 1;
+   writeline x;
+   return foo() * x + foo();
+}
+
+{
+   writeline bar();
+}

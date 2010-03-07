@@ -1,0 +1,13 @@
+fn int f()
+{
+   if (true)
+   {
+      if (false)
+      {
+         return false;
+      }
+   }
+}
+{
+   writeline f() + 1;
+}

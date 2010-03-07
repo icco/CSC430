@@ -1,0 +1,5 @@
+var int x;
+fn int m() { return 1; }
+{
+x := m(2);
+}

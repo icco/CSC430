@@ -1,0 +1,99 @@
+var (bool -> (bool -> (bool -> (-> (-> unit))))) f1;
+var (bool -> (bool -> (-> (-> unit)))) f2;
+var (bool -> (-> (-> unit))) f3;
+var (-> (-> unit)) f4;
+var (-> unit) f5;
+
+var (bool -> (bool -> (-> (-> unit)))) t1;
+var (bool -> (-> (-> unit))) t2;
+var (-> (-> unit)) t3;
+var (-> unit) t4;
+var unit t5;
+
+fn (bool -> (bool -> (bool -> (-> (-> unit))))) f()
+   var int a;
+{
+   a := 1;
+   return fn (bool -> (bool -> (-> (-> unit)))) (bool x)
+      var int b;
+   {
+      b := 2;
+      if (x)
+      {
+         a := a + 1;
+      }
+      else
+      {
+         writeline a;
+      }
+      return fn (bool -> (-> (-> unit))) (bool y)
+         var int c;
+      {
+         c := 3;
+         if (y)
+         {
+            b := b + 1;
+         }
+         else
+         {
+            writeline b;
+         }
+         return fn (-> (-> unit)) (bool z)
+            var int b;
+         {
+            b := 100;
+            if (z)
+            {
+               c := c + 1;
+            }
+            else
+            {
+               writeline c;
+            }
+            return fn (-> unit) ()
+            {
+               a := a + 1;
+               b := b + 1;
+               c := c + 1;
+               return fn unit ()
+               {
+                  writeline a;
+                  writeline b;
+                  writeline c;
+               };
+            };
+         };
+      };
+   };
+}
+
+{
+   f1 := f();
+   f2 := f1(false);
+   f3 := f2(false);
+   f4 := f3(false);
+   f5 := f4();
+
+   t5 := f5();
+   t4 := f4();
+   t4 := f4();
+   t4 := f4();
+   t5 := f5();
+   t1 := f1(false);
+   t2 := f2(false);
+   t3 := f3(false);
+   t5 := f5();
+
+   t1 := f1(true);
+   t2 := f2(true);
+   t3 := f3(true);
+
+   t1 := f1(true);
+   t2 := f2(true);
+   t3 := f3(true);
+
+   t1 := f1(false);
+   t2 := f2(false);
+   t3 := f3(false);
+   t5 := f5();
+}

@@ -1,0 +1,4 @@
+var int i;
+{
+  i := f(true);
+}

@@ -1,0 +1,7 @@
+fn int f()
+{
+   return false;
+}
+{
+   writeline f() + 1;
+}

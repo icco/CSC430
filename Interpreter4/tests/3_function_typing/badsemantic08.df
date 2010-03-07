@@ -1,0 +1,9 @@
+var int i;
+  fn int f()
+   var int f;
+  {
+   i := f();
+  }
+{
+   i := f();
+}

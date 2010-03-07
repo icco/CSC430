@@ -1,0 +1,7 @@
+var int i;
+var unit j;
+var bool b;
+{
+i := 3;
+b := j > i;
+}

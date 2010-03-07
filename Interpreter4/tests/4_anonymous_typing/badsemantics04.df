@@ -1,0 +1,4 @@
+var (int -> int) f;
+{
+   f := fn int () { return true; };
+}

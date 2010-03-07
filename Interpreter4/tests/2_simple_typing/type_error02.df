@@ -1,0 +1,5 @@
+var int i,k,l;
+var bool j;
+{
+   i := 1 + 2 * j;
+}
