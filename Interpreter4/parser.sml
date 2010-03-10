@@ -69,6 +69,26 @@ fun isMultop TK_TIMES = true
 fun isUnaryop TK_NOT = true
   | isUnaryop _ = false;
 
+fun parse_type fstr (tk as (TK_INT)) =
+   let
+      val tk1 = match_tk fstr tk TK_INT;
+   in
+      TYPE tk1
+   end
+  | parse_type fstr (tk as TK_UNIT) = 
+   let
+      val tk1 = match_tk fstr tk TK_UNIT;
+   in
+      TYPE tk1
+   end
+  | parse_type fstr (tk as TK_BOOL) = 
+   let
+      val tk1 = match_tk fstr tk TK_BOOL;
+   in
+      TYPE tk1
+   end
+;
+
 fun parse_repetition fstr tk pred parse_single =
    if pred tk
    then
@@ -161,6 +181,7 @@ fun parse_addop fstr TK_PLUS =
   | parse_addop fstr tk =
    err_expect ((tkString TK_PLUS) ^ " or " ^ (tkString TK_MINUS)) (tkString tk)
 ;
+
 fun parse_multop fstr TK_TIMES =
    (OP_TIMES, match_tk fstr TK_TIMES TK_TIMES)
   | parse_multop fstr TK_DIVIDE =
@@ -169,6 +190,7 @@ fun parse_multop fstr TK_TIMES =
    err_expect
       ((tkString TK_TIMES) ^ " or " ^ (tkString TK_DIVIDE)) (tkString tk)
 ;
+
 fun parse_unaryop fstr TK_NOT =
    (OP_NOT, match_tk fstr TK_NOT TK_NOT)
   | parse_unaryop fstr tk =
