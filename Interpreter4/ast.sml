@@ -14,12 +14,18 @@ datatype operator =
    | OP_OR
 ;
 
+datatype typeA =
+   TYPE_BOOL
+   | TYPE_INT
+   | TYPE_UNIT
+;
+
 val arithmetic_operators = [OP_PLUS, OP_MINUS, OP_TIMES, OP_DIVIDE];
 val relational_operators = [OP_EQ, OP_LT, OP_GT, OP_NE, OP_LE, OP_GE];
 val boolean_operators = [OP_AND, OP_OR];
 
 datatype declaration =
-   DECL of string;
+   DECL of typeA * string;
 
 datatype expression =
    EXP_ID of string

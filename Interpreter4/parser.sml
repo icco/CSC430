@@ -73,19 +73,19 @@ fun parse_type fstr (tk as (TK_INT)) =
    let
       val tk1 = match_tk fstr tk TK_INT;
    in
-      TYPE tk1
+      TYPE_INT
    end
   | parse_type fstr (tk as TK_UNIT) = 
    let
       val tk1 = match_tk fstr tk TK_UNIT;
    in
-      TYPE tk1
+      TYPE_UNIT
    end
   | parse_type fstr (tk as TK_BOOL) = 
    let
       val tk1 = match_tk fstr tk TK_BOOL;
    in
-      TYPE tk1
+      TYPE_BOOL
    end
 ;
 
