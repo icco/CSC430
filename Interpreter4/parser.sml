@@ -69,26 +69,6 @@ fun isMultop TK_TIMES = true
 fun isUnaryop TK_NOT = true
   | isUnaryop _ = false;
 
-fun parse_type fstr (tk as (TK_INT)) =
-   let
-      val tk1 = match_tk fstr tk TK_INT;
-   in
-      TYPE_INT
-   end
-  | parse_type fstr (tk as TK_UNIT) = 
-   let
-      val tk1 = match_tk fstr tk TK_UNIT;
-   in
-      TYPE_UNIT
-   end
-  | parse_type fstr (tk as TK_BOOL) = 
-   let
-      val tk1 = match_tk fstr tk TK_BOOL;
-   in
-      TYPE_BOOL
-   end
-;
-
 fun parse_repetition fstr tk pred parse_single =
    if pred tk
    then
@@ -124,25 +104,62 @@ fun parse_separated_terms parse_sep parse_term fstr tk =
    end
 ;
 
+fun parse_type fstr (tk as (TK_INT)) =
+   let
+      val tk1 = match_tk fstr tk TK_INT;
+   in
+      (T_INT, tk1)
+   end
+  | parse_type fstr (tk as TK_UNIT) = 
+   let
+      val tk1 = match_tk fstr tk TK_UNIT;
+   in
+      (T_UNIT, tk1)
+   end
+  | parse_type fstr (tk as TK_BOOL) = 
+   let
+      val tk1 = match_tk fstr tk TK_BOOL;
+   in
+      (T_BOOL, tk1)
+   end
+  | parse_type fstr (tk as TK_LPAREN) =
+   let
+      val tk1 = match_tk fstr tk TK_LPAREN;
+      val (t1, tk2) = parse_type fstr tk1;
+      val (types, tk3) = parse_repetition fstr tk2 (fn tk => tk = TK_TIMES)
+         (parse_separated_terms
+            (fn fstr => fn tk => match_tk fstr tk TK_TIMES) parse_type);
+      val tk4 = match_tk fstr tk3 TK_ARROW;
+      val (t2, tk5) = parse_type fstr tk4;
+      val tk6 = match_tk fstr tk5 TK_RPAREN;
+   in
+      ((T_FUNC ((t1::types), t2)), tk6)
+   end
+  | parse_type fstr tk =
+   err_expect "type" (tkString tk)
+;
+
 fun parse_declarations fstr (tk as TK_VAR) =
    let
       val tk1 = match_tk fstr tk TK_VAR;
-      val (id, tk2) = match_id fstr tk1;
+      val (ty, tkt) = parse_type fstr tk1;
+      val (id, tk2) = match_id fstr tkt;
       val (decls, tk3) = parse_repetition fstr tk2 (fn tk => tk = TK_COMMA)
          (parse_separated_terms
             (fn fstr => fn tk => match_tk fstr tk TK_COMMA)
              (fn fstr => fn tk =>
                let
-                  val (id, tk1) = match_id fstr tk
+                  val (ty, tkt) = parse_type fstr tk;
+                  val (id, tk1) = match_id fstr tkt;
                in
-                  (DECL id, tk1)
+                  ((DECL (ty, id)), tk1)
                end
             )
           )
       val tk4 = match_tk fstr tk3 TK_SEMI;
       val (rest, tk5) = parse_declarations fstr tk4
    in
-      (((DECL (id))::decls)@rest, tk5)
+      (((DECL (ty, id))::decls)@rest, tk5)
    end
   | parse_declarations fstr tk = ([], tk)
 ;
@@ -210,9 +227,10 @@ fun parse_parameters fstr (tk as (TK_ID _)) =
       ([], tk)
 and parse_parameter fstr tk =
    let
-      val (id, tk1) = match_id fstr tk;
+      val (ty, tkt) = parse_type fstr tk;
+      val (id, tk1) = match_id fstr tkt;
    in
-      (DECL id, tk1)
+      ((DECL (ty, id)), tk1)
    end
 ;
 
@@ -456,7 +474,7 @@ fun operator_string OP_PLUS = "+"
   | operator_string OP_OR = "|"
 ;
 
-fun print_decl (DECL id) =
+fun print_decl (DECL (_, id)) =
    output (stdOut, id)
 ;
 

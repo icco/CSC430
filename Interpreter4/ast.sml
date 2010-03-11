@@ -15,9 +15,10 @@ datatype operator =
 ;
 
 datatype typeA =
-   TYPE_BOOL
-   | TYPE_INT
-   | TYPE_UNIT
+   T_BOOL
+   | T_INT
+   | T_UNIT
+   | T_FUNC of typeA list * typeA
 ;
 
 val arithmetic_operators = [OP_PLUS, OP_MINUS, OP_TIMES, OP_DIVIDE];
