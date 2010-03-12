@@ -142,10 +142,10 @@ fun evaluate_exp (EXP_ID id) chain = (lookup_state chain id
       apply_binary optr (evaluate_exp lft chain) (evaluate_exp rht chain)
   | evaluate_exp (EXP_UNARY (oper, opnd)) chain =
       apply_unary oper (evaluate_exp opnd chain)
-  | evaluate_exp (EXP_ANON (params, locals, body)) chain =
+  | evaluate_exp (EXP_ANON (_, params, locals, body)) chain =
       Func_Value (params, locals, body, chain)
 and initialize_locals [] chain = chain
-  | initialize_locals ((DECL id)::locs) chain =
+  | initialize_locals ((DECL (_, id))::locs) chain =
       initialize_locals locs (insert_current chain id (initial_value ()))
 and initialize_formals _ _ _ [] _ =
       error_msg ("internal error: empty environment\n")
@@ -154,7 +154,7 @@ and initialize_formals _ _ _ [] _ =
       error_msg ("too many arguments in invocation of function '" ^ fid ^ "'\n")
   | initialize_formals fid _ [] _ _ =
       error_msg ("too few arguments in invocation of function '" ^ fid ^ "'\n")
-  | initialize_formals fid ((DECL id)::forms) (act::acts) chain old_chain =
+  | initialize_formals fid ((DECL (_, id))::forms) (act::acts) chain old_chain =
       initialize_formals
          fid forms acts
          (insert_current chain id (evaluate_exp act old_chain))
@@ -232,7 +232,7 @@ fun define_functions [] state = state
 ;
 
 fun build_env [] gbl = [gbl]
-  | build_env ((DECL id)::ds) gbl =
+  | build_env ((DECL (_, id))::ds) gbl =
          build_env ds (insert gbl id (initial_value ()))
 
 fun evaluate_program (PROGRAM (decls, funcs, body)) =
