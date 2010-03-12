@@ -39,6 +39,13 @@ fun typeToString (T_BOOL) = "bool "
    end
 ;
 
+fun isPrimType TK_UNIT = true
+  | isPrimType TK_INT = true
+  | isPrimType TK_BOOL = true
+  | isPrimType TK_ARROW = true
+  | isPrimType _ = false
+;
+
 fun isStatement TK_LBRACE = true
   | isStatement (TK_ID _) = true
   | isStatement TK_WRITE = true
@@ -137,15 +144,28 @@ fun parse_type fstr (tk as (TK_INT)) =
   | parse_type fstr (tk as TK_LPAREN) =
    let
       val tk1 = match_tk fstr tk TK_LPAREN;
-      val (t1, tk2) = parse_type fstr tk1;
-      val (types, tk3) = parse_repetition fstr tk2 (fn tk => tk = TK_TIMES)
-         (parse_separated_terms
-            (fn fstr => fn tk => match_tk fstr tk TK_TIMES) parse_type);
-      val tk4 = match_tk fstr tk3 TK_ARROW;
-      val (t2, tk5) = parse_type fstr tk4;
-      val tk6 = match_tk fstr tk5 TK_RPAREN;
    in
-      ((T_FUNC ((t1::types), t2)), tk6)
+     if isPrimType tk1 then (
+       let
+          val (t1, tk2) = parse_type fstr tk1;
+          val (types, tk3) = parse_repetition fstr tk2 (fn tk => tk = TK_TIMES)
+             (parse_separated_terms
+                (fn fstr => fn tk => match_tk fstr tk TK_TIMES) parse_type);
+          val tk4 = match_tk fstr tk3 TK_ARROW;
+          val (t2, tk5) = parse_type fstr tk4;
+          val tk6 = match_tk fstr tk5 TK_RPAREN;
+       in
+          ((T_FUNC ((t1::types), t2)), tk6)
+       end
+       ) else (
+         let
+            val tk4 = match_tk fstr tk1 TK_ARROW;
+            val (t2, tk5) = parse_type fstr tk4;
+            val tk6 = match_tk fstr tk5 TK_RPAREN;
+         in
+          ((T_FUNC ([], t2)), tk6)
+         end
+       )
    end
   | parse_type fstr tk =
    err_expect "type" (tkString tk)
@@ -434,14 +454,15 @@ fun parse_functions fstr tk =
 and parse_function fstr tk =
    let
       val tk1 = match_tk fstr tk TK_FN;
-      val (id, tk2) = match_id fstr tk1;
+      val (ty, tkt) = parse_type fstr tk1;
+      val (id, tk2) = match_id fstr tkt;
       val tk3 = match_tk fstr tk2 TK_LPAREN;
       val (params, tk4) = parse_parameters fstr tk3;
       val tk5 = match_tk fstr tk4 TK_RPAREN;
       val (decls, tk6) = parse_declarations fstr tk5;
       val (body, tk7) = parse_compound fstr tk6;
    in
-      (FUNCTION (id, params, decls, body), tk7)
+      (FUNCTION (ty, id, params, decls, body), tk7)
    end
 ;
 
@@ -567,7 +588,7 @@ and print_statement (ST_COMPOUND sts) =
    (output (stdOut, "return "); print_expression e; output (stdOut, ";\n"))
 ;
 
-fun print_functions (FUNCTION (id, params, locals, body)) =
+fun print_functions (FUNCTION (ty, id, params, locals, body)) =
    (output (stdOut, "fn " ^ id ^ "(");
    print_parameters params;
    output (stdOut, ")\n");

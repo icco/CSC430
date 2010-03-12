@@ -6,7 +6,7 @@ datatype value =
    | Bool_Value of bool
    | Unit_Value
    | Func_Value of
-      (declaration list * declaration list * statement *
+      (typeA * declaration list * declaration list * statement *
          (string, value) HashTable.hash_table list)
    | Invalid_Value
 ;
@@ -142,8 +142,8 @@ fun evaluate_exp (EXP_ID id) chain = (lookup_state chain id
       apply_binary optr (evaluate_exp lft chain) (evaluate_exp rht chain)
   | evaluate_exp (EXP_UNARY (oper, opnd)) chain =
       apply_unary oper (evaluate_exp opnd chain)
-  | evaluate_exp (EXP_ANON (_, params, locals, body)) chain =
-      Func_Value (params, locals, body, chain)
+  | evaluate_exp (EXP_ANON (ty, params, locals, body)) chain =
+      Func_Value (ty, params, locals, body, chain)
 and initialize_locals [] chain = chain
   | initialize_locals ((DECL (_, id))::locs) chain =
       initialize_locals locs (insert_current chain id (initial_value ()))
@@ -165,7 +165,7 @@ and evaluate_invocation id args cur_chain =
          handle UndefinedIdentifier => undeclared_function_error id;
    in
       case func of
-         Func_Value (params, locals, body, stored_chain) =>
+         Func_Value (ty, params, locals, body, stored_chain) =>
             return_value
                (evaluate_statement body
                   ((initialize_locals locals
@@ -226,9 +226,9 @@ and evaluate_return exp (state as (chain, _)) =
 ;
 
 fun define_functions [] state = state
-  | define_functions ((FUNCTION (id, params, locals, body))::fs) chain =
+  | define_functions ((FUNCTION (ty, id, params, locals, body))::fs) chain =
       define_functions fs (insert_current chain id
-         (Func_Value (params, locals, body, chain)))
+         (Func_Value (ty, params, locals, body, chain)))
 ;
 
 fun build_env [] gbl = [gbl]

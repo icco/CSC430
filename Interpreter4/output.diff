@@ -1,23 +1,17 @@
 ==== tests/1_parse/badparse01.df ====
 ==== tests/1_parse/badparse02.df ====
 ==== tests/1_parse/badparse03.df ====
-1d0
-< expected 'type', found 'f'
 ==== tests/1_parse/badparse04.df ====
-1c1
-< expected '->', found ')'
----
-> expected 'type', found ')'
 ==== tests/1_parse/badparse05.df ====
 1c1
 < expected ')', found 'a'
 ---
-> expected 'identifier', found 'int'
+> expected 'type', found 'a'
 ==== tests/1_parse/badparse06.df ====
 1c1
 < expected 'type', found 'b'
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/1_parse/badparse07.df ====
 ==== tests/1_parse/badparse08.df ====
 1c1
@@ -74,15 +68,11 @@
 ==== tests/2_simple_typing/type_error16.df ====
 ==== tests/2_simple_typing/type_error17.df ====
 ==== tests/3_function_typing/badsemantic01.df ====
-1c1
-< too many arguments in invocation of function 'm'
----
-> expected 'identifier', found 'int'
 ==== tests/3_function_typing/badsemantic02.df ====
 1c1
 < too few arguments in invocation of function 'j'
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/3_function_typing/badsemantic03.df ====
 1c1
 < attempt to invoke non-function 'i' as a function
@@ -92,42 +82,26 @@
 1c1
 < operator '>' requires int * int, found bool * int
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'bool'
 ==== tests/3_function_typing/badsemantic05.df ====
 1c1
 < operator '>' requires int * int, found int * bool
 ---
 > expected 'type', found 'j'
 ==== tests/3_function_typing/badsemantic06.df ====
-1c1
-< boolean guard required for 'if' statement, found int
----
-> expected 'identifier', found 'int'
 ==== tests/3_function_typing/badsemantic07.df ====
-1c1
-< use of undeclared identifier 'j'
----
-> expected 'identifier', found 'int'
 ==== tests/3_function_typing/badsemantic08.df ====
 1c1
 < attempt to invoke non-function 'f' as a function
 ---
-> expected 'identifier', found 'int'
+> attempt to invoke 'unit' value as a function
 ==== tests/3_function_typing/badsemantic09.df ====
-1c1
-< operator '+' requires int * int, found int * bool
----
-> expected 'identifier', found 'bool'
 ==== tests/3_function_typing/badsemantic10.df ====
 1c1
 < type mismatch in return statement, expecting int, found bool
 ---
-> expected 'identifier', found 'int'
+> operator '+' requires int * int, found bool * int
 ==== tests/3_function_typing/badsemantic11.df ====
-1c1
-< operator '+' requires int * int, found int * bool
----
-> expected 'identifier', found 'int'
 ==== tests/3_function_typing/badsemantic12.df ====
 1c1
 < use of undeclared identifier 'f'
@@ -137,12 +111,12 @@
 1c1
 < type mismatch in return statement, expecting int, found bool
 ---
-> expected 'identifier', found 'int'
+> operator '+' requires int * int, found unit * int
 ==== tests/3_function_typing/badsemantic14.df ====
 1c1
 < argument of type 'int' passed to function 'j', expecting an argument of type 'bool'
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'bool'
 ==== tests/4_anonymous_typing/badsemantics01.df ====
 1c1
 < type mismatch in assignment, cannot assign 'int' to 'bool'
@@ -157,7 +131,7 @@
 1c1
 < type mismatch in assignment, cannot assign '(int -> int)' to '(bool -> (int -> int))'
 ---
-> expected 'identifier', found '('
+> expected ')', found 'bool'
 ==== tests/4_anonymous_typing/badsemantics04.df ====
 1d0
 < type mismatch in return statement, expecting int, found bool
@@ -165,23 +139,19 @@
 1c1
 < function may not execute a return statement
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/5_return/return02.df ====
 1c1
 < function may not execute a return statement
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/5_return/return03.df ====
-0a1
-> expected 'identifier', found 'int'
 ==== tests/5_return/return04.df ====
-0a1
-> expected 'identifier', found 'unit'
 ==== tests/6_advanced_hw5/eval01.df ====
 1c1
 < 120
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval02.df ====
 1,4c1
 < 2
@@ -189,7 +159,7 @@
 < 7
 < 7
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval03.df ====
 1,5c1
 < 28
@@ -198,7 +168,7 @@
 < 8
 < 3
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval04.df ====
 1,5c1
 < 3
@@ -207,7 +177,7 @@
 < 2
 < 8
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval05.df ====
 1,23c1
 < 20
@@ -234,7 +204,7 @@
 < 0
 < -1
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval06.df ====
 1,15c1
 < 999
@@ -253,7 +223,7 @@
 < 999
 < 3
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval07.df ====
 1,8c1
 < 3
@@ -265,7 +235,7 @@
 < 99
 < 1
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval08.df ====
 1,4c1
 < 2
@@ -273,24 +243,24 @@
 < 2
 < 3
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/7_return_hw5/eval01.df ====
 1c1
 < 120
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/7_return_hw5/eval02.df ====
 1c1
 < 120
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/7_return_hw5/eval03.df ====
 1,3c1
 < 3
 < 7
 < 10
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/7_return_hw5/eval04.df ====
 1,7c1
 < 0
@@ -301,7 +271,7 @@
 < 9
 < 4
 ---
-> expected 'identifier', found 'int'
+> expected ')', found 'int'
 ==== tests/7_return_hw5/eval05.df ====
 1,9c1
 < 3
@@ -314,24 +284,10 @@
 < 5
 < unit
 ---
-> expected 'identifier', found 'unit'
+> expected ')', found 'int'
 ==== tests/7_return_hw5/eval06.df ====
-1,2c1
-< 1
-< 2
----
-> expected 'identifier', found 'int'
 ==== tests/7_return_hw5/eval07.df ====
-1c1
-< 3
----
-> expected 'identifier', found 'int'
 ==== tests/7_return_hw5/eval08.df ====
-1,2c1
-< 3
-< 8
----
-> expected 'identifier', found 'int'
 ==== tests/8_eval_hw8/eval01.df ====
 1c1
 < 1

@@ -49,7 +49,7 @@ and statement =
 ;
 
 datatype function =
-   FUNCTION of string * declaration list * declaration list * statement;
+   FUNCTION of typeA * string * declaration list * declaration list * statement;
 
 datatype program =
    PROGRAM of declaration list * function list * statement;
