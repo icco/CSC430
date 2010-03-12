@@ -2,10 +2,10 @@
 
 all: runall
 
-verify: interpreter.sml
+verify:
 	echo 'use "interpreter.sml";' | sml
 
-test: interpreter.sml test.sml
+test: test.sml
 	echo 'use "test.sml";' | sml
 
 runall: interpreter.sml
@@ -15,9 +15,5 @@ out: interpreter.sml
 	./runall interpreter.sml > output.diff
 
 handin:
-	handin akeen hw6 README.txt *.sml && handin akeen hw6
-
-# Experiments with clojures
-clo: closure.sml
-	echo 'use "closure.sml";' | sml
+	handin akeen hw7 README.txt *.sml && handin akeen hw7
 

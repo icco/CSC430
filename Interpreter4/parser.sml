@@ -27,6 +27,18 @@ fun match_eof fstr TK_EOF = TK_EOF
   | match_eof fstr tk = err_expect (tkString TK_EOF) (tkString tk)
 ;
 
+fun typeToString (T_BOOL) = "bool "
+  | typeToString (T_INT) = "int "
+  | typeToString (T_UNIT) = "unit "
+  | typeToString (T_FUNC ((ts), te)) =
+   let
+      val b = (List.foldr (op ^) "" (List.map (fn x => ((typeToString x) ^ "-> ")) ts));
+      val c = (typeToString te);
+   in
+     (b ^ c)
+   end
+;
+
 fun isStatement TK_LBRACE = true
   | isStatement (TK_ID _) = true
   | isStatement TK_WRITE = true
@@ -313,13 +325,14 @@ and parse_factor fstr (tk as TK_LPAREN) =
   | parse_factor fstr (tk as TK_FN) =
    let
       val tk1 = match_tk fstr tk TK_FN;
-      val tk2 = match_tk fstr tk1 TK_LPAREN;
+      val (ty, tkt) = parse_type fstr tk1;
+      val tk2 = match_tk fstr tkt TK_LPAREN;
       val (params, tk3) = parse_parameters fstr tk2;
       val tk4 = match_tk fstr tk3 TK_RPAREN;
       val (decls, tk5) = parse_declarations fstr tk4;
       val (body, tk6) = parse_compound fstr tk5;
    in
-      (EXP_ANON (params, decls, body), tk6)
+      (EXP_ANON (ty, params, decls, body), tk6)
    end
   | parse_factor fstr tk = err_expect "id or value" (tkString tk)
 and parse_arguments fstr tk =
@@ -492,6 +505,8 @@ fun print_parameters [] = ()
    )
 ;
 
+fun print_type ty = (output (stdOut, (typeToString ty)));
+
 fun print_expression (EXP_ID id) =
    output (stdOut, id)
   | print_expression (EXP_NUM n) =
@@ -520,8 +535,9 @@ fun print_expression (EXP_ID id) =
    print_expression rht;
    output (stdOut, ")")
    )
-   | print_expression (EXP_ANON (params, locals, body)) =
-    (output (stdOut, "fn (");
+   | print_expression (EXP_ANON (ty, params, locals, body)) =
+    (print_type ty;
+    output (stdOut, "fn (");
     print_parameters params;
     output (stdOut, ")");
     print_decls locals;

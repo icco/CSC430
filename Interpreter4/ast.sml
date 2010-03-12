@@ -37,7 +37,7 @@ datatype expression =
    | EXP_INVOC of string * expression list
    | EXP_BINARY of operator * expression * expression
    | EXP_UNARY of operator * expression
-   | EXP_ANON of declaration list * declaration list * statement
+   | EXP_ANON of typeA * declaration list * declaration list * statement
 and statement =
    ST_COMPOUND of statement list
    | ST_ASSIGN of string * expression
