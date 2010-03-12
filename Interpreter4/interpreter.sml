@@ -1,5 +1,6 @@
 use "parser.sml";
 use "map.sml";
+use "type.sml";
 
 datatype value =
      Int_Value of int
@@ -63,6 +64,7 @@ fun insert_state chain id v =
       (insert_state chain id v; chain)
    end
 ;
+
 fun lookup_state [] _ =
       raise UndefinedIdentifier
   | lookup_state (env::envs) id =
@@ -70,7 +72,9 @@ fun lookup_state [] _ =
       then lookup env id
       else lookup_state envs id
 ;
+
 fun push_frame chain = (new_map ())::chain;
+
 fun return_value (_, NONE) = Unit_Value
   | return_value (_, SOME v) = v
 ;
@@ -154,7 +158,7 @@ and initialize_formals _ _ _ [] _ =
       error_msg ("too many arguments in invocation of function '" ^ fid ^ "'\n")
   | initialize_formals fid _ [] _ _ =
       error_msg ("too few arguments in invocation of function '" ^ fid ^ "'\n")
-  | initialize_formals fid ((DECL (_, id))::forms) (act::acts) chain old_chain =
+  | initialize_formals fid ((DECL (ty, id))::forms) (act::acts) chain old_chain =
       initialize_formals
          fid forms acts
          (insert_current chain id (evaluate_exp act old_chain))
@@ -243,8 +247,10 @@ fun evaluate_program (PROGRAM (decls, funcs, body)) =
 fun interpret file =
    let
       val ast = parse file
-   in
-      (evaluate_program ast; ())
-   end
+   in (
+      type_check ast;
+      evaluate_program ast; 
+      ()
+   ) end
 ;
 
