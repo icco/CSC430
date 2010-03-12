@@ -1,6 +1,5 @@
 use "parser.sml";
 use "map.sml";
-use "type.sml";
 
 datatype value =
      Int_Value of int
@@ -236,13 +235,15 @@ fun define_functions [] state = state
 ;
 
 fun build_env [] gbl = [gbl]
-  | build_env ((DECL (_, id))::ds) gbl =
+  | build_env ((DECL (ty, id))::ds) gbl =
          build_env ds (insert gbl id (initial_value ()))
 
 fun evaluate_program (PROGRAM (decls, funcs, body)) =
    evaluate_statement body
       (define_functions funcs (build_env decls (new_map ())), NONE)
 ;
+
+use "type.sml";
 
 fun interpret file =
    let

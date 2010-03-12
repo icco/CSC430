@@ -19,6 +19,7 @@ datatype typeA =
    | T_INT
    | T_UNIT
    | T_FUNC of typeA list * typeA
+   | T_ERROR
 ;
 
 val arithmetic_operators = [OP_PLUS, OP_MINUS, OP_TIMES, OP_DIVIDE];
