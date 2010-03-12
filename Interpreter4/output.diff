@@ -3,26 +3,10 @@
 ==== tests/1_parse/badparse03.df ====
 ==== tests/1_parse/badparse04.df ====
 ==== tests/1_parse/badparse05.df ====
-1c1
-< expected ')', found 'a'
----
-> expected 'type', found 'a'
 ==== tests/1_parse/badparse06.df ====
-1c1
-< expected 'type', found 'b'
----
-> expected ')', found 'int'
 ==== tests/1_parse/badparse07.df ====
 ==== tests/1_parse/badparse08.df ====
-1c1
-< expected 'identifier', found ','
----
-> expected ')', found 'int'
 ==== tests/1_parse/badparse09.df ====
-1c1
-< expected 'type', found 'b'
----
-> expected ')', found '('
 ==== tests/2_simple_typing/type_error01.df ====
 ==== tests/2_simple_typing/type_error02.df ====
 1c1
@@ -69,20 +53,12 @@
 ==== tests/2_simple_typing/type_error17.df ====
 ==== tests/3_function_typing/badsemantic01.df ====
 ==== tests/3_function_typing/badsemantic02.df ====
-1c1
-< too few arguments in invocation of function 'j'
----
-> expected ')', found 'int'
 ==== tests/3_function_typing/badsemantic03.df ====
 1c1
 < attempt to invoke non-function 'i' as a function
 ---
 > attempt to invoke 'unit' value as a function
 ==== tests/3_function_typing/badsemantic04.df ====
-1c1
-< operator '>' requires int * int, found bool * int
----
-> expected ')', found 'bool'
 ==== tests/3_function_typing/badsemantic05.df ====
 1c1
 < operator '>' requires int * int, found int * bool
@@ -113,208 +89,50 @@
 ---
 > operator '+' requires int * int, found unit * int
 ==== tests/3_function_typing/badsemantic14.df ====
-1c1
+1d0
 < argument of type 'int' passed to function 'j', expecting an argument of type 'bool'
----
-> expected ')', found 'bool'
 ==== tests/4_anonymous_typing/badsemantics01.df ====
-1c1
+1d0
 < type mismatch in assignment, cannot assign 'int' to 'bool'
----
-> expected ')', found 'int'
 ==== tests/4_anonymous_typing/badsemantics02.df ====
-1c1
-< too few arguments in invocation of function 'f'
----
-> expected ')', found 'int'
 ==== tests/4_anonymous_typing/badsemantics03.df ====
-1c1
+1c1,2
 < type mismatch in assignment, cannot assign '(int -> int)' to '(bool -> (int -> int))'
 ---
-> expected ')', found 'bool'
+> <fun>
+> <fun>
 ==== tests/4_anonymous_typing/badsemantics04.df ====
 1d0
 < type mismatch in return statement, expecting int, found bool
 ==== tests/5_return/return01.df ====
-1c1
+1d0
 < function may not execute a return statement
----
-> expected ')', found 'int'
 ==== tests/5_return/return02.df ====
-1c1
+1d0
 < function may not execute a return statement
----
-> expected ')', found 'int'
 ==== tests/5_return/return03.df ====
 ==== tests/5_return/return04.df ====
 ==== tests/6_advanced_hw5/eval01.df ====
-1c1
-< 120
----
-> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval02.df ====
-1,4c1
-< 2
-< 3
-< 7
-< 7
----
-> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval03.df ====
-1,5c1
-< 28
-< 3
-< 7
-< 8
-< 3
----
-> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval04.df ====
-1,5c1
-< 3
-< 2
-< 8
-< 2
-< 8
----
-> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval05.df ====
-1,23c1
-< 20
-< 40
-< 38
-< 36
-< 34
-< 32
-< 30
-< 28
-< 26
-< 24
-< 22
-< 20
-< 18
-< 16
-< 14
-< 12
-< 10
-< 8
-< 6
-< 4
-< 2
-< 0
-< -1
----
-> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval06.df ====
-1,15c1
-< 999
-< 3
-< 999
-< 3
-< 999
-< 3
-< 999
-< 999
-< 17
-< 999
-< 17
-< 999
-< 17
-< 999
-< 3
----
-> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval07.df ====
-1,8c1
-< 3
-< 2
-< 1
-< 99
-< 2
-< 1
-< 99
-< 1
----
-> expected ')', found 'int'
 ==== tests/6_advanced_hw5/eval08.df ====
-1,4c1
-< 2
-< 3
-< 2
-< 3
----
-> expected ')', found 'int'
 ==== tests/7_return_hw5/eval01.df ====
-1c1
-< 120
----
-> expected ')', found 'int'
 ==== tests/7_return_hw5/eval02.df ====
-1c1
-< 120
----
-> expected ')', found 'int'
 ==== tests/7_return_hw5/eval03.df ====
-1,3c1
-< 3
-< 7
-< 10
----
-> expected ')', found 'int'
 ==== tests/7_return_hw5/eval04.df ====
-1,7c1
-< 0
-< 3
-< 1
-< 5
-< 2
-< 9
-< 4
----
-> expected ')', found 'int'
 ==== tests/7_return_hw5/eval05.df ====
-1,9c1
-< 3
-< unit
-< 10
-< 9
-< 8
-< 7
-< 6
-< 5
-< unit
----
-> expected ')', found 'int'
 ==== tests/7_return_hw5/eval06.df ====
 ==== tests/7_return_hw5/eval07.df ====
 ==== tests/7_return_hw5/eval08.df ====
 ==== tests/8_eval_hw8/eval01.df ====
-1c1
-< 1
----
-> expected 'type', found '->'
 ==== tests/8_eval_hw8/eval02.df ====
-1c1
-< 7
----
-> expected 'type', found '->'
 ==== tests/8_eval_hw8/eval03.df ====
-1,2c1
-< 2
-< 7
----
-> expected ')', found 'int'
 ==== tests/8_eval_hw8/eval04.df ====
-1c1
-< 3
----
-> expected ')', found 'int'
 ==== tests/8_eval_hw8/eval05.df ====
-1,2c1
-< 2
-< unit
----
-> expected ')', found 'int'
 ==== tests/8_eval_hw8/eval06.df ====
 1,2c1
 < 3
@@ -354,7 +172,7 @@
 < 4
 < 4
 ---
-> expected 'type', found '->'
+> expected 'type', found 'h'
 ==== tests/8_eval_hw8/eval11.df ====
 1,8c1
 < 0
@@ -366,54 +184,8 @@
 < 3
 < 3
 ---
-> expected 'type', found '->'
+> expected 'type', found 'h'
 ==== tests/8_eval_hw8/eval12.df ====
-1,4c1
-< 3
-< 4
-< 10
-< 0
----
-> expected ')', found 'int'
 ==== tests/8_eval_hw8/eval13.df ====
-1,8c1
-< 1
-< 3
-< 5
-< 7
-< 9
-< 11
-< 13
-< 15
----
-> expected 'type', found '->'
 ==== tests/8_eval_hw8/eval14.df ====
-1c1
-< 120
----
-> expected ')', found 'int'
 ==== tests/8_eval_hw8/eval15.df ====
-1,21c1
-< 1
-< 2
-< 3
-< 2
-< 101
-< 4
-< 5
-< 104
-< 7
-< 5
-< 2
-< 7
-< 5
-< 104
-< 7
-< 7
-< 4
-< 9
-< 7
-< 104
-< 9
----
-> expected 'type', found '->'

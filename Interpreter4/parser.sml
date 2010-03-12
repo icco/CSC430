@@ -42,7 +42,8 @@ fun typeToString (T_BOOL) = "bool "
 fun isPrimType TK_UNIT = true
   | isPrimType TK_INT = true
   | isPrimType TK_BOOL = true
-  | isPrimType TK_ARROW = true
+  | isPrimType TK_LPAREN = true
+  | isPrimType TK_ARROW = false
   | isPrimType _ = false
 ;
 
@@ -124,23 +125,11 @@ fun parse_separated_terms parse_sep parse_term fstr tk =
 ;
 
 fun parse_type fstr (tk as (TK_INT)) =
-   let
-      val tk1 = match_tk fstr tk TK_INT;
-   in
-      (T_INT, tk1)
-   end
+   (T_INT, (match_tk fstr tk TK_INT))
   | parse_type fstr (tk as TK_UNIT) = 
-   let
-      val tk1 = match_tk fstr tk TK_UNIT;
-   in
-      (T_UNIT, tk1)
-   end
+   (T_UNIT, (match_tk fstr tk TK_UNIT))
   | parse_type fstr (tk as TK_BOOL) = 
-   let
-      val tk1 = match_tk fstr tk TK_BOOL;
-   in
-      (T_BOOL, tk1)
-   end
+   (T_BOOL, (match_tk fstr tk TK_BOOL))
   | parse_type fstr (tk as TK_LPAREN) =
    let
       val tk1 = match_tk fstr tk TK_LPAREN;
@@ -157,7 +146,7 @@ fun parse_type fstr (tk as (TK_INT)) =
        in
           ((T_FUNC ((t1::types), t2)), tk6)
        end
-       ) else (
+     ) else (
          let
             val tk4 = match_tk fstr tk1 TK_ARROW;
             val (t2, tk5) = parse_type fstr tk4;
@@ -165,7 +154,7 @@ fun parse_type fstr (tk as (TK_INT)) =
          in
           ((T_FUNC ([], t2)), tk6)
          end
-       )
+     )
    end
   | parse_type fstr tk =
    err_expect "type" (tkString tk)
@@ -223,6 +212,7 @@ fun parse_relop fstr TK_EQ =
       ^ ", " ^ (tkString TK_NE) ^ ", " ^ (tkString TK_LE) ^ ", or "
       ^ (tkString TK_GE)) (tkString tk)
 ;
+
 fun parse_addop fstr TK_PLUS =
    (OP_PLUS, match_tk fstr TK_PLUS TK_PLUS)
   | parse_addop fstr TK_MINUS =
@@ -246,7 +236,8 @@ fun parse_unaryop fstr TK_NOT =
    err_expect (tkString TK_NOT) (tkString tk)
 ;
 
-fun parse_parameters fstr (tk as (TK_ID _)) =
+fun parse_parameters fstr (tk) =
+  if isPrimType tk then (
    let
       val (param, tk1) = parse_parameter fstr tk;
       val (params, tk2) = parse_repetition fstr tk1 (fn tk => tk = TK_COMMA)
@@ -255,8 +246,9 @@ fun parse_parameters fstr (tk as (TK_ID _)) =
    in
       (param::params, tk2)
    end
-  | parse_parameters fstr tk =
+   ) else (
       ([], tk)
+      )
 and parse_parameter fstr tk =
    let
       val (ty, tkt) = parse_type fstr tk;
