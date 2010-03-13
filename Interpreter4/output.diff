@@ -9,10 +9,6 @@
 ==== tests/1_parse/badparse09.df ====
 ==== tests/2_simple_typing/type_error01.df ====
 ==== tests/2_simple_typing/type_error02.df ====
-1c1
-< operator '*' requires int * int, found int * bool
----
-> expected 'type', found 'k'
 ==== tests/2_simple_typing/type_error03.df ====
 ==== tests/2_simple_typing/type_error04.df ====
 ==== tests/2_simple_typing/type_error05.df ====
@@ -20,15 +16,7 @@
 ==== tests/2_simple_typing/type_error07.df ====
 ==== tests/2_simple_typing/type_error08.df ====
 ==== tests/2_simple_typing/type_error09.df ====
-1c1
-< operator '&' requires bool * bool, found int * int
----
-> expected 'type', found 'j'
 ==== tests/2_simple_typing/type_error10.df ====
-1c1
-< operator '|' requires bool * bool, found int * int
----
-> expected 'type', found 'j'
 ==== tests/2_simple_typing/type_error11.df ====
 ==== tests/2_simple_typing/type_error12.df ====
 ==== tests/2_simple_typing/type_error13.df ====
@@ -60,7 +48,7 @@
 1c1
 < operator '>' requires int * int, found int * bool
 ---
-> expected 'type', found 'j'
+> functions not supported
 ==== tests/3_function_typing/badsemantic06.df ====
 1c1
 < boolean guard required for 'if' statement, found int
@@ -267,13 +255,13 @@
 < 3
 < 4
 ---
-> expected 'type', found 'b'
+> anon functions not supported
 ==== tests/8_eval_hw8/eval07.df ====
 1,2c1
 < 1
 < 2
 ---
-> expected 'type', found 'c'
+> functions not supported
 ==== tests/8_eval_hw8/eval08.df ====
 1,4c1
 < 100
@@ -281,7 +269,7 @@
 < 99
 < 21
 ---
-> expected 'type', found 'c'
+> functions not supported
 ==== tests/8_eval_hw8/eval09.df ====
 1,4c1
 < 100
@@ -289,7 +277,7 @@
 < 2
 < 9
 ---
-> expected 'type', found 'c'
+> functions not supported
 ==== tests/8_eval_hw8/eval10.df ====
 1,8c1
 < 1
@@ -301,7 +289,7 @@
 < 4
 < 4
 ---
-> expected 'type', found 'h'
+> functions not supported
 ==== tests/8_eval_hw8/eval11.df ====
 1,8c1
 < 0
@@ -313,7 +301,7 @@
 < 3
 < 3
 ---
-> expected 'type', found 'h'
+> functions not supported
 ==== tests/8_eval_hw8/eval12.df ====
 1,4c1
 < 3

@@ -4,7 +4,7 @@ fun die_death msg =
 ;
 
 fun binary_type_check_error elft erht flft frht oper =
-   error_msg ("operator '" ^ (operator_string oper) ^ "' requires " ^
+   die_death ("operator '" ^ (operator_string oper) ^ "' requires " ^
       (typeToString elft) ^ " * " ^ (typeToString erht) ^ ", found " ^
       (typeToString flft) ^ " * " ^ (typeToString frht) ^ "\n")
 ;

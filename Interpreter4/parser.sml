@@ -170,8 +170,7 @@ fun parse_declarations fstr (tk as TK_VAR) =
             (fn fstr => fn tk => match_tk fstr tk TK_COMMA)
              (fn fstr => fn tk =>
                let
-                  val (ty, tkt) = parse_type fstr tk;
-                  val (id, tk1) = match_id fstr tkt;
+                  val (id, tk1) = match_id fstr tk;
                in
                   ((DECL (ty, id)), tk1)
                end
