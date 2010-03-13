@@ -24,6 +24,7 @@ fun while_type_check_error found =
    error_msg ("boolean guard required for 'while' statement, found " ^
       (typeToString found) ^ "\n")
 ;
+
 fun check_binary OP_PLUS   (T_INT) (T_INT) =
       T_INT
   | check_binary OP_MINUS  (T_INT) (T_INT) =
@@ -58,43 +59,44 @@ fun check_binary OP_PLUS   (T_INT) (T_INT) =
       else die_death ""
 ;
 
-fun apply_unary OP_NOT (T_BOOL) = T_BOOL
-  | apply_unary OP_NOT opnd = negation_type_check_error opnd
-  | apply_unary _ _ = T_ERROR
+fun type_ap_unary OP_NOT (T_BOOL) = T_BOOL
+  | type_ap_unary OP_NOT opnd = negation_type_check_error opnd
+  | type_ap_unary _ _ = T_ERROR
 ;
 
-fun evaluate_exp (EXP_ID id) chain = (lookup_state chain id
+fun check_exp (EXP_ID id) chain = (lookup_state chain id
    handle UndefinedIdentifier => undeclared_identifier_error id)
-  | evaluate_exp (EXP_NUM n) chain = T_INT
-  | evaluate_exp EXP_TRUE chain = T_BOOL
-  | evaluate_exp EXP_FALSE chain = T_BOOL
-  | evaluate_exp EXP_UNIT chain = T_UNIT
-  | evaluate_exp (EXP_INVOC (id, args)) chain =
-    (*  evaluate_invocation id args chain *)
+  | check_exp (EXP_NUM n) chain = T_INT
+  | check_exp EXP_TRUE chain = T_BOOL
+  | check_exp EXP_FALSE chain = T_BOOL
+  | check_exp EXP_UNIT chain = T_UNIT
+  | check_exp (EXP_INVOC (id, args)) chain =
+    (*  check_invocation id args chain *)
     die_death "functions not supported"
-  | evaluate_exp (EXP_BINARY (optr, lft, rht)) chain =
-      check_binary optr (evaluate_exp lft chain) (evaluate_exp rht chain)
-  | evaluate_exp (EXP_UNARY (oper, opnd)) chain =
-      apply_unary oper (evaluate_exp opnd chain)
-  | evaluate_exp (EXP_ANON (ty, params, locals, body)) chain =
+  | check_exp (EXP_BINARY (optr, lft, rht)) chain =
+      check_binary optr (check_exp lft chain) (check_exp rht chain)
+  | check_exp (EXP_UNARY (oper, opnd)) chain =
+      type_ap_unary oper (check_exp opnd chain)
+  | check_exp (EXP_ANON (ty, params, locals, body)) chain =
       (*Func_Value (ty, params, locals, body, chain) *)
       die_death "anon functions not supported"
-and initialize_locals [] chain = chain
-  | initialize_locals ((DECL (ty, id))::locs) chain =
-      initialize_locals locs (insert_current chain id ty)
-and initialize_formals _ _ _ [] _ =
+and init_type_locals [] chain = chain
+  | init_type_locals ((DECL (ty, id))::locs) chain =
+      init_type_locals locs (insert_current chain id ty)
+and init_type_formals _ _ _ [] _ =
       error_msg ("internal error: empty environment\n")
-  | initialize_formals _ [] [] chain cur_chain = chain
-  | initialize_formals fid [] _ _ _ =
+  | init_type_formals _ [] [] chain cur_chain = chain
+  | init_type_formals fid [] _ _ _ =
       error_msg ("too many arguments in invocation of function '" ^ fid ^ "'\n")
-  | initialize_formals fid _ [] _ _ =
+  | init_type_formals fid _ [] _ _ =
       error_msg ("too few arguments in invocation of function '" ^ fid ^ "'\n")
-  | initialize_formals fid ((DECL (ty, id))::forms) (act::acts) chain old_chain =
-      initialize_formals
+  | init_type_formals fid ((DECL (ty, id))::forms) (act::acts) chain old_chain =
+      init_type_formals
          fid forms acts
-         (insert_current chain id (evaluate_exp act old_chain))
+         (insert_current chain id (check_exp act old_chain))
          old_chain
-and evaluate_invocation id args cur_chain =
+and check_invocation id args cur_chain =
+(*
    let
       val func = lookup_state cur_chain id
          handle UndefinedIdentifier => undeclared_function_error id;
@@ -102,64 +104,65 @@ and evaluate_invocation id args cur_chain =
       case func of
          Func_Value (ty, params, locals, body, stored_chain) =>
             return_value
-               (evaluate_statement body
-                  ((initialize_locals locals
-                     (initialize_formals id params args
+               (check_statement body
+                  ((init_type_locals locals
+                     (init_type_formals id params args
                         (push_frame stored_chain) cur_chain)), NONE))
        | _ =>
          error_msg ("attempt to invoke '" ^ type_string(func) ^ "' value as a function\n")
 
    end
-and evaluate_statement _ (state as (_, SOME _)) =
+   *) T_ERROR
+and check_statement _ (state as (_, SOME _)) =
       state
-  | evaluate_statement (ST_COMPOUND c) state =
-      evaluate_compound c state
-  | evaluate_statement (ST_ASSIGN (id, exp)) state =
-      evaluate_assignment id exp state
-  | evaluate_statement (ST_WRITE exp) state =
-      evaluate_print exp state
-  | evaluate_statement (ST_WRITELINE exp) state =
-      evaluate_println exp state
-  | evaluate_statement (ST_IF (exp, th, el)) state =
-      evaluate_conditional exp th el state
-  | evaluate_statement (ST_WHILE (exp, body)) state =
-      evaluate_while exp body state
-  | evaluate_statement (ST_RETURN exp) state =
-      evaluate_return exp state
-and evaluate_compound [] state = state
-  | evaluate_compound (s::ss) state =
-      evaluate_compound ss (evaluate_statement s state)
-and evaluate_conditional exp th el (state as (chain, _)) =
+  | check_statement (ST_COMPOUND c) state =
+      check_compound c state
+  | check_statement (ST_ASSIGN (id, exp)) state =
+      check_assignment id exp state
+  | check_statement (ST_WRITE exp) state =
+      check_print exp state
+  | check_statement (ST_WRITELINE exp) state =
+      check_println exp state
+  | check_statement (ST_IF (exp, th, el)) state =
+      check_conditional exp th el state
+  | check_statement (ST_WHILE (exp, body)) state =
+      check_while exp body state
+  | check_statement (ST_RETURN exp) state =
+      check_return exp state
+and check_compound [] state = state
+  | check_compound (s::ss) state =
+      check_compound ss (check_statement s state)
+and check_conditional exp th el (state as (chain, _)) =
       let
-         val guard = evaluate_exp exp chain
+         val guard = check_exp exp chain
       in
          case guard of
-            (T_BOOL) => evaluate_statement th state
- (*         | (T_BOOL) => evaluate_statement el state *)
+            (T_BOOL) => check_statement th state
+ (*         | (T_BOOL) => check_statement el state *)
           | _ => if_type_check_error guard
       end
-and evaluate_while exp body (state as (chain, _)) =
+and check_while exp body (state as (chain, _)) =
       let
-         val guard = evaluate_exp exp chain
+         val guard = check_exp exp chain
       in
          case guard of
               (*
-            (Bool_Value true) => evaluate_statement (ST_WHILE (exp, body))
-               (evaluate_statement body state)
+            (Bool_Value true) => check_statement (ST_WHILE (exp, body))
+               (check_statement body state)
                *)
             (T_BOOL) => state
           | _ => while_type_check_error guard
       end
-and evaluate_assignment id exp (chain, rval) =
+and check_assignment id exp (chain, rval) =
    ((lookup_state chain id
       handle UndefinedIdentifier => undeclared_identifier_error id);
-      (insert_state chain id (evaluate_exp exp chain), rval))
-and evaluate_print exp (state as (chain, _)) =
+      (insert_state chain id (check_exp exp chain), rval))
+and check_print exp (state as (chain, _)) =
       (state)
-and evaluate_println exp (state as (chain, _)) =
+and check_println exp (state as (chain, _)) =
       (state)
-and evaluate_return exp (state as (chain, _)) =
-      (chain, SOME (evaluate_exp exp chain)) 
+and check_return exp (state as (chain, _)) =
+      (chain, SOME (check_exp exp chain)) 
 ;
 
 fun define_functions [] state = state
@@ -172,19 +175,13 @@ fun build_env [] gbl = [gbl]
   | build_env ((DECL (ty, id))::ds) gbl =
          build_env ds (insert gbl id (ty))
 
-fun evaluate_program (PROGRAM (decls, funcs, body)) =
-   evaluate_statement body
+fun check_program (PROGRAM (decls, funcs, body)) =
+   check_statement body
       (*(define_functions funcs (build_env decls (new_map ())), NONE)*)
       ((build_env decls (new_map ())), NONE)
 ;
 
-fun interpret file =
-   let
-      val ast = parse file
-   in (
-      type_check ast;
-      evaluate_program ast;
-      ()
-   ) end
+fun type_check ast =
+   check_program ast
 ;
 

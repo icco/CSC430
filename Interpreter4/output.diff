@@ -29,10 +29,6 @@
 ==== tests/2_simple_typing/type_error05.df ====
 ==== tests/2_simple_typing/type_error06.df ====
 ==== tests/2_simple_typing/type_error07.df ====
-1c1
-< boolean guard required for 'if' statement, found int
----
-> operator '+' requires int * int, found unit * unit
 ==== tests/2_simple_typing/type_error08.df ====
 ==== tests/2_simple_typing/type_error09.df ====
 1c1
@@ -52,25 +48,45 @@
 ==== tests/2_simple_typing/type_error16.df ====
 ==== tests/2_simple_typing/type_error17.df ====
 ==== tests/3_function_typing/badsemantic01.df ====
+1c1
+< too many arguments in invocation of function 'm'
+---
+> functions not supported
 ==== tests/3_function_typing/badsemantic02.df ====
+1c1
+< too few arguments in invocation of function 'j'
+---
+> functions not supported
 ==== tests/3_function_typing/badsemantic03.df ====
 1c1
 < attempt to invoke non-function 'i' as a function
 ---
-> attempt to invoke 'unit' value as a function
+> functions not supported
 ==== tests/3_function_typing/badsemantic04.df ====
+1c1
+< operator '>' requires int * int, found bool * int
+---
+> functions not supported
 ==== tests/3_function_typing/badsemantic05.df ====
 1c1
 < operator '>' requires int * int, found int * bool
 ---
 > expected 'type', found 'j'
 ==== tests/3_function_typing/badsemantic06.df ====
+1c1
+< boolean guard required for 'if' statement, found int
+---
+> functions not supported
 ==== tests/3_function_typing/badsemantic07.df ====
+1c1
+< use of undeclared identifier 'j'
+---
+> functions not supported
 ==== tests/3_function_typing/badsemantic08.df ====
 1c1
 < attempt to invoke non-function 'f' as a function
 ---
-> attempt to invoke 'unit' value as a function
+> functions not supported
 ==== tests/3_function_typing/badsemantic09.df ====
 ==== tests/3_function_typing/badsemantic10.df ====
 1c1
@@ -82,28 +98,37 @@
 1c1
 < use of undeclared identifier 'f'
 ---
-> use of undeclared function 'f'
+> functions not supported
 ==== tests/3_function_typing/badsemantic13.df ====
 1c1
 < type mismatch in return statement, expecting int, found bool
 ---
 > operator '+' requires int * int, found unit * int
 ==== tests/3_function_typing/badsemantic14.df ====
-1d0
+1c1
 < argument of type 'int' passed to function 'j', expecting an argument of type 'bool'
+---
+> functions not supported
 ==== tests/4_anonymous_typing/badsemantics01.df ====
-1d0
+1c1
 < type mismatch in assignment, cannot assign 'int' to 'bool'
+---
+> anon functions not supported
 ==== tests/4_anonymous_typing/badsemantics02.df ====
+1c1
+< too few arguments in invocation of function 'f'
+---
+> anon functions not supported
 ==== tests/4_anonymous_typing/badsemantics03.df ====
-1c1,2
+1c1
 < type mismatch in assignment, cannot assign '(int -> int)' to '(bool -> (int -> int))'
 ---
-> <fun>
-> <fun>
+> functions not supported
 ==== tests/4_anonymous_typing/badsemantics04.df ====
-1d0
+1c1
 < type mismatch in return statement, expecting int, found bool
+---
+> anon functions not supported
 ==== tests/5_return/return01.df ====
 1d0
 < function may not execute a return statement
@@ -113,14 +138,81 @@
 ==== tests/5_return/return03.df ====
 ==== tests/5_return/return04.df ====
 ==== tests/6_advanced_hw5/eval01.df ====
+1c1
+< 120
+---
+> functions not supported
 ==== tests/6_advanced_hw5/eval02.df ====
+1,4c1
+< 2
+< 3
+< 7
+< 7
+---
+> functions not supported
 ==== tests/6_advanced_hw5/eval03.df ====
+1,5c1
+< 28
+< 3
+< 7
+< 8
+< 3
+---
+> functions not supported
 ==== tests/6_advanced_hw5/eval04.df ====
+1,5c1
+< 3
+< 2
+< 8
+< 2
+< 8
+---
+> functions not supported
 ==== tests/6_advanced_hw5/eval05.df ====
 ==== tests/6_advanced_hw5/eval06.df ====
+1,15c1
+< 999
+< 3
+< 999
+< 3
+< 999
+< 3
+< 999
+< 999
+< 17
+< 999
+< 17
+< 999
+< 17
+< 999
+< 3
+---
+> functions not supported
 ==== tests/6_advanced_hw5/eval07.df ====
+1,8c1
+< 3
+< 2
+< 1
+< 99
+< 2
+< 1
+< 99
+< 1
+---
+> functions not supported
 ==== tests/6_advanced_hw5/eval08.df ====
+1,4c1
+< 2
+< 3
+< 2
+< 3
+---
+> functions not supported
 ==== tests/7_return_hw5/eval01.df ====
+1c1
+< 120
+---
+> functions not supported
 ==== tests/7_return_hw5/eval02.df ====
 ==== tests/7_return_hw5/eval03.df ====
 ==== tests/7_return_hw5/eval04.df ====
@@ -129,10 +221,32 @@
 ==== tests/7_return_hw5/eval07.df ====
 ==== tests/7_return_hw5/eval08.df ====
 ==== tests/8_eval_hw8/eval01.df ====
+1c1
+< 1
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval02.df ====
+1c1
+< 7
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval03.df ====
+1,2c1
+< 2
+< 7
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval04.df ====
+1c1
+< 3
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval05.df ====
+1,2c1
+< 2
+< unit
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval06.df ====
 1,2c1
 < 3
@@ -186,6 +300,52 @@
 ---
 > expected 'type', found 'h'
 ==== tests/8_eval_hw8/eval12.df ====
+1,4c1
+< 3
+< 4
+< 10
+< 0
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval13.df ====
+1,8c1
+< 1
+< 3
+< 5
+< 7
+< 9
+< 11
+< 13
+< 15
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval14.df ====
+1c1
+< 120
+---
+> anon functions not supported
 ==== tests/8_eval_hw8/eval15.df ====
+1,21c1
+< 1
+< 2
+< 3
+< 2
+< 101
+< 4
+< 5
+< 104
+< 7
+< 5
+< 2
+< 7
+< 5
+< 104
+< 7
+< 7
+< 4
+< 9
+< 7
+< 104
+< 9
+---
+> functions not supported

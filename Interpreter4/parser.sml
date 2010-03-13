@@ -27,9 +27,9 @@ fun match_eof fstr TK_EOF = TK_EOF
   | match_eof fstr tk = err_expect (tkString TK_EOF) (tkString tk)
 ;
 
-fun typeToString (T_BOOL) = "bool "
-  | typeToString (T_INT) = "int "
-  | typeToString (T_UNIT) = "unit "
+fun typeToString (T_BOOL) = "bool"
+  | typeToString (T_INT) = "int"
+  | typeToString (T_UNIT) = "unit"
   | typeToString (T_FUNC ((ts), te)) =
    let
       val b = (List.foldr (op ^) "" (List.map (fn x => ((typeToString x) ^ "-> ")) ts));
