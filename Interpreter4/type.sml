@@ -29,30 +29,25 @@ fun while_type_check_error found =
       (typeToString found) ^ "\n")
 ;
 
-fun check_binary OP_PLUS   (T_INT) (T_INT) =
-      T_INT
-  | check_binary OP_MINUS  (T_INT) (T_INT) =
-      T_INT
-  | check_binary OP_TIMES  (T_INT) (T_INT) =
-      T_INT
-  | check_binary OP_DIVIDE (T_INT) (T_INT) =
-      T_INT
-  | check_binary OP_EQ     (T_INT) (T_INT) =
-      T_BOOL
-  | check_binary OP_LT     (T_INT) (T_INT) =
-      T_BOOL
-  | check_binary OP_GT     (T_INT) (T_INT) =
-      T_BOOL
-  | check_binary OP_NE     (T_INT) (T_INT) =
-      T_BOOL
-  | check_binary OP_LE     (T_INT) (T_INT) =
-      T_BOOL
-  | check_binary OP_GE     (T_INT) (T_INT) =
-      T_BOOL
-  | check_binary OP_AND    (T_BOOL) (T_BOOL) =
-      T_BOOL
-  | check_binary OP_OR     (T_BOOL) (T_BOOL) =
-      T_BOOL
+fun type_compare (T_INT) (T_INT) = true
+  | type_compare (T_BOOL) (T_BOOL) = true
+  | type_compare (T_UNIT) (T_UNIT) = true
+  | type_compare (T_F_V _) (T_F_V _) = true
+  | type_compare (T_FUNC _) (T_FUNC _) = true
+  | type_compare  _ _ = false
+
+fun check_binary OP_PLUS   (T_INT) (T_INT) = T_INT
+  | check_binary OP_MINUS  (T_INT) (T_INT) = T_INT
+  | check_binary OP_TIMES  (T_INT) (T_INT) = T_INT
+  | check_binary OP_DIVIDE (T_INT) (T_INT) = T_INT
+  | check_binary OP_EQ     (T_INT) (T_INT) = T_BOOL
+  | check_binary OP_LT     (T_INT) (T_INT) = T_BOOL
+  | check_binary OP_GT     (T_INT) (T_INT) = T_BOOL
+  | check_binary OP_NE     (T_INT) (T_INT) = T_BOOL
+  | check_binary OP_LE     (T_INT) (T_INT) = T_BOOL
+  | check_binary OP_GE     (T_INT) (T_INT) = T_BOOL
+  | check_binary OP_AND    (T_BOOL) (T_BOOL) = T_BOOL
+  | check_binary OP_OR     (T_BOOL) (T_BOOL) = T_BOOL
   | check_binary oper lft rht =
       if arithmetic_operator oper
       then binary_type_check_error (T_INT) (T_INT) lft rht oper
@@ -68,6 +63,10 @@ fun type_ap_unary OP_NOT (T_BOOL) = T_BOOL
   | type_ap_unary _ _ = T_ERROR
 ;
 
+fun check_return_value (_, NONE) = T_UNIT
+  | check_return_value (_, SOME v) = v
+;
+
 fun check_exp (EXP_ID id) chain = (lookup_state chain id
    handle UndefinedIdentifier => undeclared_identifier_error id)
   | check_exp (EXP_NUM n) chain = T_INT
@@ -75,14 +74,13 @@ fun check_exp (EXP_ID id) chain = (lookup_state chain id
   | check_exp EXP_FALSE chain = T_BOOL
   | check_exp EXP_UNIT chain = T_UNIT
   | check_exp (EXP_INVOC (id, args)) chain =
-    (*  check_invocation id args chain *)
-    die_death "functions not supported"
+      check_invocation id args chain 
   | check_exp (EXP_BINARY (optr, lft, rht)) chain =
       check_binary optr (check_exp lft chain) (check_exp rht chain)
   | check_exp (EXP_UNARY (oper, opnd)) chain =
       type_ap_unary oper (check_exp opnd chain)
   | check_exp (EXP_ANON (ty, params, locals, body)) chain =
-      (*Func_Value (ty, params, locals, body, chain) *)
+      (*T_F_V (ty, params, locals, body, chain) *)
       die_death "anon functions not supported"
 and init_type_locals [] chain = chain
   | init_type_locals ((DECL (ty, id))::locs) chain =
@@ -100,23 +98,21 @@ and init_type_formals _ _ _ [] _ =
          (insert_current chain id (check_exp act old_chain))
          old_chain
 and check_invocation id args cur_chain =
-(*
    let
       val func = lookup_state cur_chain id
          handle UndefinedIdentifier => undeclared_function_error id;
    in
       case func of
-         Func_Value (ty, params, locals, body, stored_chain) =>
-            return_value
+         T_F_V (ty, params, locals, body, stored_chain) =>
+            check_return_value
                (check_statement body
                   ((init_type_locals locals
                      (init_type_formals id params args
                         (push_frame stored_chain) cur_chain)), NONE))
        | _ =>
-         error_msg ("attempt to invoke '" ^ type_string(func) ^ "' value as a function\n")
+         error_msg ("attempt to invoke '" ^ typeToString(func) ^ "' value as a function\n")
 
    end
-   *) T_ERROR
 and check_statement _ (state as (_, SOME _)) =
       state
   | check_statement (ST_COMPOUND c) state =
@@ -161,7 +157,7 @@ and check_assignment id exp (chain, rval) =
       val ty = (lookup_state chain id handle UndefinedIdentifier => undeclared_identifier_error id);
       val nty = (check_exp exp chain);
    in
-     if ty = nty then
+     if (type_compare ty nty) then
         (insert_state chain id ty, rval)
      else
          type_assignment_error ty nty
@@ -174,20 +170,20 @@ and check_return exp (state as (chain, _)) =
       (chain, SOME (check_exp exp chain)) 
 ;
 
-fun define_functions [] state = state
-  | define_functions ((FUNCTION (ty, id, params, locals, body))::fs) chain =
-      define_functions fs (insert_current chain id ty)
-        (* (Func_Value (ty, params, locals, body, chain))) *)
-;
-
 fun build_env [] gbl = [gbl]
   | build_env ((DECL (ty, id))::ds) gbl =
-         build_env ds (insert gbl id (ty))
+         build_env ds (insert gbl id ty)
+;
+
+fun def_functions [] state = state
+  | def_functions ((FUNCTION (ty, id, params, locals, body))::fs) chain =
+      def_functions fs (insert_current chain id
+         (T_F_V (ty, params, locals, body, chain)))
+;
 
 fun check_program (PROGRAM (decls, funcs, body)) =
    check_statement body
-      (*(define_functions funcs (build_env decls (new_map ())), NONE)*)
-      ((build_env decls (new_map ())), NONE)
+      (def_functions funcs (build_env decls (new_map ())), NONE)
 ;
 
 fun type_check ast =

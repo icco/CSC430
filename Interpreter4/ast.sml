@@ -14,22 +14,22 @@ datatype operator =
    | OP_OR
 ;
 
+val arithmetic_operators = [OP_PLUS, OP_MINUS, OP_TIMES, OP_DIVIDE];
+val relational_operators = [OP_EQ, OP_LT, OP_GT, OP_NE, OP_LE, OP_GE];
+val boolean_operators = [OP_AND, OP_OR];
+
 datatype typeA =
    T_BOOL
    | T_INT
    | T_UNIT
    | T_FUNC of typeA list * typeA
+   | T_F_V of 
+      (typeA * declaration list * declaration list * statement *
+         (string, typeA) HashTable.hash_table list)
    | T_ERROR
-;
-
-val arithmetic_operators = [OP_PLUS, OP_MINUS, OP_TIMES, OP_DIVIDE];
-val relational_operators = [OP_EQ, OP_LT, OP_GT, OP_NE, OP_LE, OP_GE];
-val boolean_operators = [OP_AND, OP_OR];
-
-datatype declaration =
-   DECL of typeA * string;
-
-datatype expression =
+and declaration =
+   DECL of typeA * string
+and expression =
    EXP_ID of string
    | EXP_NUM of int
    | EXP_TRUE
@@ -54,4 +54,14 @@ datatype function =
 
 datatype program =
    PROGRAM of declaration list * function list * statement;
+
+datatype value =
+     Int_Value of int
+   | Bool_Value of bool
+   | Unit_Value
+   | Func_Value of
+      (typeA * declaration list * declaration list * statement *
+         (string, value) HashTable.hash_table list)
+   | Invalid_Value
+;
 

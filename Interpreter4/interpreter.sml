@@ -1,16 +1,6 @@
 use "parser.sml";
 use "map.sml";
 
-datatype value =
-     Int_Value of int
-   | Bool_Value of bool
-   | Unit_Value
-   | Func_Value of
-      (typeA * declaration list * declaration list * statement *
-         (string, value) HashTable.hash_table list)
-   | Invalid_Value
-;
-
 fun type_string (Int_Value _) = "int"
   | type_string (Bool_Value _) = "bool"
   | type_string (Unit_Value) = "unit"
