@@ -14,6 +14,10 @@ fun negation_type_check_error found =
       (operator_string OP_NOT) ^ "', found " ^ (typeToString found) ^ "\n")
 ;
 
+fun type_assignment_error b a =
+  error_msg ("type mismatch in assignment, cannot assign '" ^ (typeToString a) ^
+  "' to '" ^ (typeToString b) ^ "'\n")
+;
 
 fun if_type_check_error found =
    error_msg ("boolean guard required for 'if' statement, found " ^
@@ -137,8 +141,7 @@ and check_conditional exp th el (state as (chain, _)) =
          val guard = check_exp exp chain
       in
          case guard of
-            (T_BOOL) => check_statement th state
- (*         | (T_BOOL) => check_statement el state *)
+            (T_BOOL) => ((check_statement th state; check_statement el state))
           | _ => if_type_check_error guard
       end
 and check_while exp body (state as (chain, _)) =
@@ -150,13 +153,19 @@ and check_while exp body (state as (chain, _)) =
             (Bool_Value true) => check_statement (ST_WHILE (exp, body))
                (check_statement body state)
                *)
-            (T_BOOL) => state
+            (T_BOOL) => (check_statement body state)
           | _ => while_type_check_error guard
       end
 and check_assignment id exp (chain, rval) =
-   ((lookup_state chain id
-      handle UndefinedIdentifier => undeclared_identifier_error id);
-      (insert_state chain id (check_exp exp chain), rval))
+   let
+      val ty = (lookup_state chain id handle UndefinedIdentifier => undeclared_identifier_error id);
+      val nty = (check_exp exp chain);
+   in
+     if ty = nty then
+        (insert_state chain id ty, rval)
+     else
+         type_assignment_error ty nty
+   end
 and check_print exp (state as (chain, _)) =
       (state)
 and check_println exp (state as (chain, _)) =

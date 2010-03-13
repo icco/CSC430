@@ -14,17 +14,6 @@
 ---
 > expected 'type', found 'k'
 ==== tests/2_simple_typing/type_error03.df ====
-1c1,8
-< type mismatch in assignment, cannot assign 'unit' to 'bool'
----
-> boolean guard required for 'while' statement, found unit
-> 4
-> 3
-> 2
-> 1
-> 0
-> -1
-> -2
 ==== tests/2_simple_typing/type_error04.df ====
 ==== tests/2_simple_typing/type_error05.df ====
 ==== tests/2_simple_typing/type_error06.df ====
@@ -169,6 +158,32 @@
 ---
 > functions not supported
 ==== tests/6_advanced_hw5/eval05.df ====
+1,23c1
+< 20
+< 40
+< 38
+< 36
+< 34
+< 32
+< 30
+< 28
+< 26
+< 24
+< 22
+< 20
+< 18
+< 16
+< 14
+< 12
+< 10
+< 8
+< 6
+< 4
+< 2
+< 0
+< -1
+---
+> functions not supported
 ==== tests/6_advanced_hw5/eval06.df ====
 1,15c1
 < 999
