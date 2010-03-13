@@ -19,6 +19,16 @@ fun type_assignment_error b a =
   "' to '" ^ (typeToString b) ^ "'\n")
 ;
 
+fun argument_type_error f b a =
+  error_msg ("argument of type '" ^ (typeToString a) ^ "' passed to function '" ^ f ^ 
+  "', expecting an argument of type '" ^ (typeToString b) ^ "'\n")
+;
+
+fun return_check_value_error b a =
+  error_msg ("type mismatch in return statement, expecting " ^ (typeToString a) ^
+  ", found " ^ (typeToString b) ^ "'\n")
+;
+
 fun if_type_check_error found =
    error_msg ("boolean guard required for 'if' statement, found " ^
       (typeToString found) ^ "\n")
@@ -93,26 +103,37 @@ and init_type_formals _ _ _ [] _ =
   | init_type_formals fid _ [] _ _ =
       error_msg ("too few arguments in invocation of function '" ^ fid ^ "'\n")
   | init_type_formals fid ((DECL (ty, id))::forms) (act::acts) chain old_chain =
-      init_type_formals
-         fid forms acts
-         (insert_current chain id (check_exp act old_chain))
-         old_chain
+      let
+        val acte = (check_exp act old_chain);
+      in
+        if type_compare ty acte then
+          init_type_formals fid forms acts (insert_current chain id acte) old_chain
+        else
+          argument_type_error fid ty acte
+      end
 and check_invocation id args cur_chain =
    let
       val func = lookup_state cur_chain id
          handle UndefinedIdentifier => undeclared_function_error id;
-   in
-      case func of
-         T_F_V (ty, params, locals, body, stored_chain) =>
-            check_return_value
-               (check_statement body
-                  ((init_type_locals locals
-                     (init_type_formals id params args
-                        (push_frame stored_chain) cur_chain)), NONE))
-       | _ =>
-         error_msg ("attempt to invoke '" ^ typeToString(func) ^ "' value as a function\n")
-
-   end
+   in (
+     let 
+       val (ret, typ) = (
+        case func of
+           T_F_V (ty, params, locals, body, stored_chain) =>
+              (check_return_value
+                 (check_statement body
+                    ((init_type_locals locals
+                       (init_type_formals id params args
+                          (push_frame stored_chain) cur_chain)), NONE)), ty)
+         | _ => error_msg ("attempt to invoke '" ^ typeToString(func) ^ "' value as a function\n")
+       )
+     in
+       if (type_compare ret typ) then
+         ret
+       else
+         return_check_value_error ret typ
+     end
+ ) end
 and check_statement _ (state as (_, SOME _)) =
       state
   | check_statement (ST_COMPOUND c) state =
@@ -145,10 +166,6 @@ and check_while exp body (state as (chain, _)) =
          val guard = check_exp exp chain
       in
          case guard of
-              (*
-            (Bool_Value true) => check_statement (ST_WHILE (exp, body))
-               (check_statement body state)
-               *)
             (T_BOOL) => (check_statement body state)
           | _ => while_type_check_error guard
       end

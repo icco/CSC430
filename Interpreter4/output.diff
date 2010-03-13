@@ -58,8 +58,6 @@
 ---
 > operator '+' requires int * int, found unit * int
 ==== tests/3_function_typing/badsemantic14.df ====
-1d0
-< argument of type 'int' passed to function 'j', expecting an argument of type 'bool'
 ==== tests/4_anonymous_typing/badsemantics01.df ====
 1c1
 < type mismatch in assignment, cannot assign 'int' to 'bool'
